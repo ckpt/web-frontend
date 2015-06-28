@@ -2,7 +2,7 @@
   "name": "ckpt-react-site",
   "version": "0.0.1",
   "description": "CKPT Web frontend in React+Flux+Immutable",
-  "repository": "https://github.com/knumor/ckpt-frontend",
+  "repository": "https://github.com/ckpt/web-frontend",
   "main": "js/app.js",
   "dependencies": {
     "flux": "^2.0.3",
@@ -26,7 +26,7 @@
     "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > js/bundle.min.js",
     "test": "jest"
   },
-  "author": "Bill Fisher",
+  "author": "Morten Knutsen",
   "browserify": {
     "transform": [
       "reactify",
