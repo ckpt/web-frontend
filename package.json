@@ -1,0 +1,39 @@
+{
+  "name": "ckpt-react-site",
+  "version": "0.0.1",
+  "description": "CKPT Web frontend in React+Flux+Immutable",
+  "repository": "https://github.com/knumor/ckpt-frontend",
+  "main": "js/app.js",
+  "dependencies": {
+    "flux": "^2.0.3",
+    "react": "^0.13.3",
+    "react-router": "^0.13.3",
+    "moment": "^2.10.3",
+    "superagent": "^1.2.0",
+    "object-assign": "^3.0.0",
+    "keymirror": "^0.1.1"
+  },
+  "devDependencies": {
+    "browserify": "^6.2.0",
+    "envify": "^3.0.0",
+    "jest-cli": "^0.4.3",
+    "reactify": "^0.15.2",
+    "uglify-js": "~2.4.15",
+    "watchify": "^2.1.1"
+  },
+  "scripts": {
+    "start": "watchify -o js/bundle.js -v -d js/app.js",
+    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > js/bundle.min.js",
+    "test": "jest"
+  },
+  "author": "Bill Fisher",
+  "browserify": {
+    "transform": [
+      "reactify",
+      "envify"
+    ]
+  },
+  "jest": {
+    "rootDir": "./js"
+  }
+}
