@@ -42,7 +42,7 @@ var CKPTApp = React.createClass({
     var authLayout = (
       <div id="wrapper">
         <Navbar />
-        <RouteHandler/>
+        <RouteHandler username={this.state.user} />
       </div>
     );
 
