@@ -27,14 +27,16 @@ module.exports = {
     //REDIRECT: null,
 
     // Tasks
+    LOAD_TASKS: null,
+    LOAD_TASK: null,
     RECIEVE_TASKS: null,
-    RECIEVE_TASK: null
-    //    LOAD_STORIES: null,
-    //    RECEIVE_STORIES: null,
-    //    LOAD_STORY: null,
-    //    RECEIVE_STORY: null,
-    //    CREATE_STORY: null,
-    //    RECEIVE_CREATED_STORY: null
+    RECIEVE_TASK: null,
+
+    // Players
+    LOAD_PLAYERS: null,
+    RECIEVE_PLAYERS: null,
+    RECIEVE_PLAYER: null
+
   })
 
 };

@@ -30,10 +30,16 @@ var PlayerStore = assign({}, EventEmitter.prototype, {
     return _players;
   },
 
-  getLoggedIn: function() {
+  getFromUser: function(username) {
     return _players.filter(function(item) {
-      return item.loggedIn;
-    });
+      return item.user.username === username;
+    }).pop() || null;
+  },
+
+  getFromUUID: function(uuid) {
+    return _players.filter(function(item) {
+      return item.uuid === uuid;
+    }).pop() || null;
   },
 
   getPlayer: function() {
@@ -51,7 +57,7 @@ PlayerStore.dispatchToken = CKPTDispatcher.register(function(payload) {
 
   switch(action.type) {
 
-    case ActionTypes.RECEIVE_PLAYER:
+    case ActionTypes.RECIEVE_PLAYER:
       if (action.json) {
         _player = action.json.player;
       }
@@ -61,9 +67,10 @@ PlayerStore.dispatchToken = CKPTDispatcher.register(function(payload) {
       PlayerStore.emitChange();
       break;
 
-    case ActionTypes.RECEIVE_PLAYERS:
+    case ActionTypes.RECIEVE_PLAYERS:
       if (action.json) {
-        _players = action.json.players;
+        var recievedPlayers = JSON.parse(action.json);
+        _players = recievedPlayers;
         _errors = [];
       }
       if (action.errors) {

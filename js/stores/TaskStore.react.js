@@ -30,6 +30,10 @@ var TaskStore = assign({}, EventEmitter.prototype, {
     return _tasks;
   },
 
+  numTasks: function() {
+    return _tasks.length;
+  },
+
   getTask: function() {
     return _task;
   },
@@ -46,8 +50,6 @@ TaskStore.dispatchToken = CKPTDispatcher.register(function(payload) {
   switch(action.type) {
 
     case ActionTypes.RECIEVE_TASKS:
-      console.log("Got action RECIEVE_TASKS with data:");
-      console.log(action);
       if (action.json) {
         var recievedTasks = JSON.parse(action.json);
         _tasks = recievedTasks;

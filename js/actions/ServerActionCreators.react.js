@@ -15,6 +15,14 @@ module.exports = {
     });
   },
 
+  receivePlayers: function(json, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.RECIEVE_PLAYERS,
+      json: json,
+      errors: errors
+    });
+  },
+
   receiveLogin: function(json, errors) {
     CKPTDispatcher.handleServerAction({
       type: ActionTypes.LOGIN_RESPONSE,

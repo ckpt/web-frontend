@@ -4,7 +4,9 @@ var React = require("react");
 var OverviewSection = require("./OverviewSection.react");
 var TimelineSection = require("./TimelineSection.react");
 var TaskStore = require("../stores/TaskStore.react");
+var PlayerStore = require("../stores/PlayerStore.react");
 var TaskActionCreators = require("../actions/TaskActionCreators.react");
+var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 var Authentication = require("../utils/Authentication");
 
 var Dashboard = React.createClass({
@@ -14,27 +16,49 @@ var Dashboard = React.createClass({
 
   getInitialState: function() {
     return {
-      tasks: TaskStore.getTasks(),
-      standings: [],
-      tournaments: [],
+      tasks: TaskStore.numTasks(),
+      currentStandings: [ { uuid: "312312-44123-31213-3213", sum: -400 } ],
+      nextTournament: null,
       errors: []
     };
   },
 
   componentDidMount: function() {
-    TaskStore.addChangeListener(this._onTasksChange);
+    TaskStore.addChangeListener(this._onChange);
+    PlayerStore.addChangeListener(this._onChange);
     TaskActionCreators.loadTasks();
+    PlayerActionCreators.loadPlayers();
   },
 
   componentWillUnmount: function() {
-    TaskStore.removeChangeListener(this._onTasksChange);
+    TaskStore.removeChangeListener(this._onChange);
+    PlayerStore.removeChangeListener(this._onChange);
   },
 
-  _onTasksChange: function() {
+  _onChange: function() {
     this.setState({
-      tasks: TaskStore.getTasks(),
-      errors: TaskStore.getErrors()
+      tasks: TaskStore.numTasks(),
+      errors: [
+        TaskStore.getErrors() +
+        PlayerStore.getErrors()
+      ]
     });
+  },
+
+  _userWinnings: function(season) {
+    var player = PlayerStore.getFromUser(this.props.username);
+    if (!player) {
+      return null;
+    }
+    var playerUUID = player.uuid;
+    var playerStanding = this.state.currentStandings.filter(function(item) {
+      return item.uuid === playerUUID;
+    }).pop() || null;
+    if (playerStanding) {
+      return playerStanding.sum;
+    } else {
+      return null;
+    }
   },
 
   _makeOverviewItem: function(icon, maintext, subtext, color, link) {
@@ -48,10 +72,17 @@ var Dashboard = React.createClass({
   },
 
   _makeOverviewItems: function() {
-    var tasksItem = this._makeOverviewItem("tasks", this.state.tasks.length,
-                                           "Uløste oppgaver!", "success",
+    var currentSeason = 2015;
+    var userWinnings = this._userWinnings(currentSeason);
+    var tasksItem = this._makeOverviewItem("tasks", this.state.tasks,
+                                           "Uløste oppgaver!",
+                                           this.state.tasks > 0 ? "info" : "success",
                                            { target: "#", text: "Se hvilke" });
-    return [tasksItem];
+    var playerItem = this._makeOverviewItem("money", userWinnings,
+                                            "Gevinst i " + currentSeason,
+                                            userWinnings < 0 ? "red" : "success",
+                                            { target: "#", text: "Se årets resultater" });
+    return [playerItem, tasksItem];
   },
 
   render: function() {
