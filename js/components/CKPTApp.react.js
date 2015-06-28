@@ -41,8 +41,8 @@ var CKPTApp = React.createClass({
   render: function() {
     var authLayout = (
       <div id="wrapper">
-        <Navbar />
-        <RouteHandler username={this.state.user} />
+        <Navbar username={this.state.user} />
+        <RouteHandler isAdmin={this.state.isAdmin} username={this.state.user} />
       </div>
     );
 

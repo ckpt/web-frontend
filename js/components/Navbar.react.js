@@ -3,10 +3,42 @@
 var React = require("react");
 var Link = require("react-router").Link;
 var Authentication = require("../utils/Authentication");
+var PlayerStore = require("../stores/PlayerStore.react");
+var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
+
 var Navbar = React.createClass({
 
   displayName: "Navigation and sidebar",
   mixins: [Authentication],
+
+  getInitialState: function() {
+    return {
+      myNick: null
+    };
+  },
+
+  componentDidMount: function() {
+    PlayerStore.addChangeListener(this._onChange);
+    PlayerActionCreators.loadPlayers();
+  },
+
+  componentWillUnmount: function() {
+    PlayerStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    this.setState({
+      myNick: this._getNickFromUser()
+    });
+  },
+
+  _getNickFromUser: function() {
+    var player = PlayerStore.getFromUser(this.props.username);
+    if (player) {
+      return player.nick;
+    }
+    return null;
+  },
 
   render: function() {
     return (
@@ -57,7 +89,7 @@ var Navbar = React.createClass({
 
           <li className="dropdown">
             <a className="dropdown-toggle" data-toggle="dropdown" href="#">
-              <i className="fa fa-user fa-fw"></i> Panzer <i className="fa fa-caret-down"></i>
+              <i className="fa fa-user fa-fw"></i> {this.state.myNick} <i className="fa fa-caret-down"></i>
             </a>
             <ul className="dropdown-menu dropdown-user">
               <li><a href="#"><i className="fa fa-bookmark fa-fw"></i> Min side</a>
