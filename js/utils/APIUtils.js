@@ -32,8 +32,61 @@ var _dummyplayers = [
     user: {
       username: "mortenk"
     }
+  },
+  {
+    uuid: "1111",
+    nick: "Lars Vegas",
+    user: {
+      username: "lars"
+    }
+
+  },
+  {
+    uuid: "2222",
+    nick: "Syntax Error",
+    user: {
+      username: "frodein"
+    }
+
+  },
+  {
+    uuid: "3333",
+    nick: "Pæra",
+    user: {
+      username: "frodes"
+    }
+
   }
 ];
+
+var _dummystandings = {
+  byWinnings: [
+    { uuid: "1111",
+      played: 6,
+      winnings: 1200,
+      wins: 2
+    },
+    { uuid: "2222",
+      played: 8,
+      winnings: 800,
+      wins: 2
+    },
+    { uuid: "3333",
+      played: 8,
+      winnings: 800,
+      wins: 2
+    },
+    { uuid: "312312-44123-31213-3213",
+      played: 8,
+      winnings: -400,
+      wins: 0
+    }
+  ],
+  byAvgRank: [],
+  byPoints: [],
+  byHeadsUp: []
+};
+var _dummyseason = 2015;
 
 module.exports = {
 
@@ -46,6 +99,17 @@ module.exports = {
   loadPlayers: function() {
     var json = JSON.stringify(_dummyplayers);
     ServerActionCreators.receivePlayers(json, null);
+  },
+
+  loadSeason: function(season) {
+    if (season) {
+      _dummyseason = season;
+    }
+    var json = JSON.stringify({
+      standings: _dummystandings,
+      season: _dummyseason
+    });
+    ServerActionCreators.receiveStandings(json, null);
   },
 
   login: function(username, password) {

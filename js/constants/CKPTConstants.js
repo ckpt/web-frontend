@@ -35,7 +35,13 @@ module.exports = {
     // Players
     LOAD_PLAYERS: null,
     RECIEVE_PLAYERS: null,
-    RECIEVE_PLAYER: null
+    RECIEVE_PLAYER: null,
+
+    // Standings
+    LOAD_CURRENT_SEASON_STANDINGS: null,
+    LOAD_OLD_SEASON_STANDINGS: null,
+    LOAD_ALLTIME_STANDINGS: null,
+    RECIEVE_STANDINGS: null
 
   })
 

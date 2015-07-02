@@ -5,8 +5,10 @@ var OverviewSection = require("./OverviewSection.react");
 var TimelineSection = require("./TimelineSection.react");
 var TaskStore = require("../stores/TaskStore.react");
 var PlayerStore = require("../stores/PlayerStore.react");
+var StandingsStore = require("../stores/StandingsStore.react");
 var TaskActionCreators = require("../actions/TaskActionCreators.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
+var StandingsActionCreators = require("../actions/StandingsActionCreators.react");
 var Authentication = require("../utils/Authentication");
 
 var Dashboard = React.createClass({
@@ -17,7 +19,10 @@ var Dashboard = React.createClass({
   getInitialState: function() {
     return {
       tasks: TaskStore.numTasks(),
-      currentStandings: [ { uuid: "312312-44123-31213-3213", sum: -400 } ],
+      currentStandings: StandingsStore.getStandings(),
+      currentSeason: StandingsStore.getSeason(),
+      currentLeaderNick: this._getLeaderNick(),
+      currentPlayer: PlayerStore.getFromUser(this.props.username),
       nextTournament: null,
       errors: []
     };
@@ -26,38 +31,55 @@ var Dashboard = React.createClass({
   componentDidMount: function() {
     TaskStore.addChangeListener(this._onChange);
     PlayerStore.addChangeListener(this._onChange);
-    TaskActionCreators.loadTasks();
+    StandingsStore.addChangeListener(this._onChange);
     PlayerActionCreators.loadPlayers();
+    TaskActionCreators.loadTasks();
+    StandingsActionCreators.loadCurrentSeason();
   },
 
   componentWillUnmount: function() {
     TaskStore.removeChangeListener(this._onChange);
     PlayerStore.removeChangeListener(this._onChange);
+    StandingsStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {
     this.setState({
       tasks: TaskStore.numTasks(),
+      currentStandings: StandingsStore.getStandings(),
+      currentSeason: StandingsStore.getSeason(),
+      currentLeaderNick: this._getLeaderNick(),
+      currentPlayer: PlayerStore.getFromUser(this.props.username),
       errors: [
         TaskStore.getErrors() +
-        PlayerStore.getErrors()
+        PlayerStore.getErrors() +
+        StandingsStore.getErrors()
       ]
     });
   },
 
-  _userWinnings: function(season) {
-    var player = PlayerStore.getFromUser(this.props.username);
+  _userWinnings: function() {
+    var player = this.state.currentPlayer;
     if (!player) {
       return null;
     }
-    var playerUUID = player.uuid;
-    var playerStanding = this.state.currentStandings.filter(function(item) {
-      return item.uuid === playerUUID;
-    }).pop() || null;
+
+    var playerStanding = StandingsStore.getForPlayer(player.uuid);
     if (playerStanding) {
-      return playerStanding.sum;
+      return playerStanding.winnings;
     } else {
       return null;
+    }
+  },
+
+  _getLeaderNick: function() {
+    var leader = StandingsStore.getLeader();
+    if (leader && leader.uuid) {
+      var player = PlayerStore.getFromUUID(leader.uuid);
+      if (player) {
+        return player.nick;
+      }
+    return null;
     }
   },
 
@@ -72,17 +94,20 @@ var Dashboard = React.createClass({
   },
 
   _makeOverviewItems: function() {
-    var currentSeason = 2015;
-    var userWinnings = this._userWinnings(currentSeason);
+    var userWinnings = this._userWinnings();
     var tasksItem = this._makeOverviewItem("tasks", this.state.tasks,
                                            "Uløste oppgaver!",
                                            this.state.tasks > 0 ? "info" : "success",
                                            { target: "#", text: "Se hvilke" });
     var playerItem = this._makeOverviewItem("money", userWinnings,
-                                            "Gevinst i " + currentSeason,
+                                            "Gevinst i " + this.state.currentSeason,
                                             userWinnings < 0 ? "red" : "success",
                                             { target: "#", text: "Se årets resultater" });
-    return [playerItem, tasksItem];
+    var leaderItem = this._makeOverviewItem("trophy", this.state.currentLeaderNick,
+                                            "Leder årets sesong", "yellow",
+                                            { target: "#", text: "Se sammenlagtoversikt" });
+
+    return [playerItem, tasksItem, leaderItem];
   },
 
   render: function() {
