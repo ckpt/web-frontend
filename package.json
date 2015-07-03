@@ -11,7 +11,8 @@
     "moment": "^2.10.3",
     "superagent": "^1.2.0",
     "object-assign": "^3.0.0",
-    "keymirror": "^0.1.1"
+    "keymirror": "^0.1.1",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "browserify": "^6.2.0",

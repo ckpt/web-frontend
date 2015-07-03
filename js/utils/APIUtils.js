@@ -25,7 +25,7 @@ var _dummyplayers = [
       description: "Dummy user"
     },
     active: true,
-    quotes: [],
+    quotes: ["Blinde høns kan også finne korn!"],
     gossip: {},
     complaints: [],
     nick: "Panzer",
@@ -44,6 +44,7 @@ var _dummyplayers = [
   {
     uuid: "2222",
     nick: "Syntax Error",
+    quotes: ["Nå skal det spilles tight!"],
     user: {
       username: "frodein"
     }
@@ -63,21 +64,25 @@ var _dummystandings = {
   byWinnings: [
     { uuid: "1111",
       played: 6,
+      playedEnough: false,
       winnings: 1200,
       wins: 2
     },
     { uuid: "2222",
       played: 8,
+      playedEnough: true,
       winnings: 800,
       wins: 2
     },
     { uuid: "3333",
       played: 8,
+      playedEnough: true,
       winnings: 800,
       wins: 2
     },
     { uuid: "312312-44123-31213-3213",
       played: 8,
+      playedEnough: true,
       winnings: -400,
       wins: 0
     }

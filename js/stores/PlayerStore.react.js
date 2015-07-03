@@ -4,6 +4,7 @@ var CKPTDispatcher = require("../dispatcher/CKPTDispatcher.js");
 var CKPTConstants = require("../constants/CKPTConstants.js");
 var EventEmitter = require("events").EventEmitter;
 var assign = require("object-assign");
+var _ = require("underscore");
 
 var ActionTypes = CKPTConstants.ActionTypes;
 var CHANGE_EVENT = "change";
@@ -37,13 +38,28 @@ var PlayerStore = assign({}, EventEmitter.prototype, {
   },
 
   getFromUUID: function(uuid) {
-    return _players.filter(function(item) {
-      return item.uuid === uuid;
-    }).pop() || null;
+    return _.findWhere(_players, {uuid: uuid});
   },
 
   getPlayer: function() {
     return _player;
+  },
+
+  getQuotes: function() {
+    var withQuotes = _.filter(_players, function(p) {
+      return p.quotes && p.quotes.length;
+    });
+    var quotes = _.flatten(_.map(withQuotes, function(p) {
+      return _.map(p.quotes, function(q) {
+        var quoteObj = _.pick(p, "uuid", "nick");
+        quoteObj.quote = q;
+        return quoteObj;
+      });
+    }));
+    if (quotes.length) {
+      return quotes;
+    }
+    return [{uuid: null, quote: null, nick: null}];
   },
 
   getErrors: function() {
