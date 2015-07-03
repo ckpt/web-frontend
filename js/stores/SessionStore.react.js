@@ -12,7 +12,7 @@ var CHANGE_EVENT = "change";
 // a "remember me" using localSgorage
 var _accessToken = sessionStorage.getItem("accessToken");
 var _username = sessionStorage.getItem("username");
-var _admin = false;
+var _admin = sessionStorage.getItem("isAdminToken");
 var _errors = [];
 
 var SessionStore = assign({}, EventEmitter.prototype, {
@@ -61,14 +61,13 @@ SessionStore.dispatchToken = CKPTDispatcher.register(function(payload) {
       console.log(action);
       if (action.json) {
         var userdata = JSON.parse(action.json);
-        _accessToken = userdata.apitoken;
+        _accessToken = userdata.apikey;
         _username = userdata.username;
         _admin = userdata.admin;
         // Token will always live in the session, so that the API can grab it with no hassle
         sessionStorage.setItem("accessToken", _accessToken);
-        console.log("Set accessToken: " + sessionStorage.getItem("accessToken"));
         sessionStorage.setItem("username", _username);
-        console.log("Set username: " + sessionStorage.getItem("username"));
+        sessionStorage.setItem("isAdminToken", _admin);
       }
       if (action.errors) {
         _errors = action.errors;
@@ -85,8 +84,6 @@ SessionStore.dispatchToken = CKPTDispatcher.register(function(payload) {
       sessionStorage.removeItem("username");
       SessionStore.emitChange();
       break;
-
-    default:
   }
 
   return true;

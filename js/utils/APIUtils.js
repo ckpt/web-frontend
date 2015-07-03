@@ -3,31 +3,21 @@
 var ServerActionCreators = require("../actions/ServerActionCreators.react.js");
 var request = require("superagent");
 
-var endpoints = {
-  players: "http://localhost:8000/players"
+var _endpoints = {
+  players: "http://localhost:8000/players",
+  login: "http://localhost:8000/login"
 };
 
 var _dummytasks = ["foo"];
-var _dummyuser = {
-  username: "mortenk",
-  admin: false,
-  locked: false,
-  apitoken: "8a3452fd412ee483cd449",
-  settings: {
-    optionA: true,
-    optionB: false
-  }
-};
-
 var _dummystandings = {
   byWinnings: [
-    { uuid: "39572f8d-eb2d-4e9c-9384-0c42c40f5eb0",
+    { uuid: "27b5c391-8126-418e-b50e-73e6636e5493",
       played: 6,
       playedEnough: false,
       winnings: 1200,
       wins: 2
     },
-    { uuid: "11c79fab-bb3f-4d5a-8f33-4f5bd9f0419e",
+    { uuid: "e5f0fa05-6c81-46bf-833b-b2511b315b63",
       played: 8,
       playedEnough: true,
       winnings: -400,
@@ -50,7 +40,7 @@ module.exports = {
 
   loadPlayers: function() {
 
-    request.get(endpoints.players)
+    request.get(_endpoints.players)
       .accept("json")
       .end(function(err, res) {
         if (err) { throw err; }
@@ -58,7 +48,7 @@ module.exports = {
         ServerActionCreators.receivePlayers(json, null);
       });
 
-    request.get(endpoints.players + "/quotes")
+    request.get(_endpoints.players + "/quotes")
       .accept("json")
       .end(function(err, res) {
         if (err) { throw err; }
@@ -79,25 +69,20 @@ module.exports = {
   },
 
   login: function(username, password) {
-    if (username === "mortenk" && password === "testing123") {
-      ServerActionCreators.receiveLogin(JSON.stringify(_dummyuser), null);
-    } else {
-      ServerActionCreators.receiveLogin(null, ["Invalid username and/or password"]);
-    }
-    // request.post("http://localhost:3002/v1/login")
-    //   .send({ username: email, password: password, grantType: "password" })
-    //   .set("Accept", "application/json")
-    //   .end(function(error, res){
-    //     if (res) {
-    //       if (res.error) {
-    //         return;
-    //         //var errorMsgs = _getErrors(res);
-    //         //ServerActionCreators.receiveLogin(null, errorMsgs);
-    //       } else {
-    //         var json = JSON.parse(res.text);
-    //         ServerActionCreators.receiveLogin(json, null);
-    //       }
-    //     }
-    //   });
+    request.post(_endpoints.login)
+      .accept("json")
+      .send({username: username, password: password})
+      .end(function(err, res) {
+        if (res.ok) {
+          var json = JSON.stringify(res.body);
+          ServerActionCreators.receiveLogin(json, null);
+        } else {
+          if (res.forbidden) {
+            ServerActionCreators.receiveLogin(null, ["Forbidden"]);
+          } else if (err) {
+            ServerActionCreators.receiveLogin(null, [err.status + " - Unknown error"]);
+          }
+        }
+      });
   }
 };
