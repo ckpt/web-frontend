@@ -23,6 +23,14 @@ module.exports = {
     });
   },
 
+  receiveQuotes: function(json, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.RECIEVE_QUOTES,
+      json: json,
+      errors: errors
+    });
+  },
+
   receiveStandings: function(json, errors) {
     CKPTDispatcher.handleServerAction({
       type: ActionTypes.RECIEVE_STANDINGS,

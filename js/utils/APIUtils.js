@@ -1,7 +1,11 @@
 "use strict";
 
 var ServerActionCreators = require("../actions/ServerActionCreators.react.js");
-//var request = require("superagent");
+var request = require("superagent");
+
+var endpoints = {
+  players: "http://localhost:8000/players"
+};
 
 var _dummytasks = ["foo"];
 var _dummyuser = {
@@ -14,73 +18,16 @@ var _dummyuser = {
     optionB: false
   }
 };
-var _dummyplayers = [
-  {
-    uuid: "312312-44123-31213-3213",
-    profile: {
-      name: "Morten Knutsen",
-      picture: null,
-      birthday: null,
-      email: "knumor@gmail.com",
-      description: "Dummy user"
-    },
-    active: true,
-    quotes: ["Blinde høns kan også finne korn!"],
-    gossip: {},
-    complaints: [],
-    nick: "Panzer",
-    user: {
-      username: "mortenk"
-    }
-  },
-  {
-    uuid: "1111",
-    nick: "Lars Vegas",
-    user: {
-      username: "lars"
-    }
-
-  },
-  {
-    uuid: "2222",
-    nick: "Syntax Error",
-    quotes: ["Nå skal det spilles tight!"],
-    user: {
-      username: "frodein"
-    }
-
-  },
-  {
-    uuid: "3333",
-    nick: "Pæra",
-    user: {
-      username: "frodes"
-    }
-
-  }
-];
 
 var _dummystandings = {
   byWinnings: [
-    { uuid: "1111",
+    { uuid: "39572f8d-eb2d-4e9c-9384-0c42c40f5eb0",
       played: 6,
       playedEnough: false,
       winnings: 1200,
       wins: 2
     },
-    { uuid: "2222",
-      played: 8,
-      playedEnough: true,
-      winnings: 800,
-      wins: 2
-    },
-    { uuid: "3333",
-      played: 8,
-      playedEnough: true,
-      winnings: 800,
-      wins: 2
-    },
-    { uuid: "312312-44123-31213-3213",
+    { uuid: "11c79fab-bb3f-4d5a-8f33-4f5bd9f0419e",
       played: 8,
       playedEnough: true,
       winnings: -400,
@@ -102,8 +49,22 @@ module.exports = {
   },
 
   loadPlayers: function() {
-    var json = JSON.stringify(_dummyplayers);
-    ServerActionCreators.receivePlayers(json, null);
+
+    request.get(endpoints.players)
+      .accept("json")
+      .end(function(err, res) {
+        if (err) { throw err; }
+        var json = JSON.stringify(res.body);
+        ServerActionCreators.receivePlayers(json, null);
+      });
+
+    request.get(endpoints.players + "/quotes")
+      .accept("json")
+      .end(function(err, res) {
+        if (err) { throw err; }
+        var json = JSON.stringify(res.body);
+        ServerActionCreators.receiveQuotes(json, null);
+      });
   },
 
   loadSeason: function(season) {

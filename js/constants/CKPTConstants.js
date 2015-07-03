@@ -35,6 +35,7 @@ module.exports = {
     // Players
     LOAD_PLAYERS: null,
     RECIEVE_PLAYERS: null,
+    RECIEVE_QUOTES: null,
     RECIEVE_PLAYER: null,
 
     // Standings

@@ -96,7 +96,9 @@ var Dashboard = React.createClass({
       return ret;
     }
     standings.forEach(function (entry) {
-      var nick = PlayerStore.getFromUUID(entry.uuid).nick;
+      var player = PlayerStore.getFromUUID(entry.uuid);
+      if (!player) { return [null, null]; }
+      var nick = player.nick;
       if (!entry.playedEnough) {
         nick += " *";
       }

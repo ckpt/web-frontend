@@ -12,6 +12,7 @@ var CHANGE_EVENT = "change";
 var _players = [];
 var _errors = [];
 var _player = { uuid: "", name: "", nick: "", user: { username: "" }, loggedIn: false };
+var _quotes = null;
 
 var PlayerStore = assign({}, EventEmitter.prototype, {
 
@@ -32,9 +33,12 @@ var PlayerStore = assign({}, EventEmitter.prototype, {
   },
 
   getFromUser: function(username) {
-    return _players.filter(function(item) {
-      return item.user.username === username;
-    }).pop() || null;
+    for (var i = 0; i < _players.length; i++) {
+      if (_players[i].user && _players[i].user.username === username) {
+        return _players[i];
+      }
+    }
+    return null;
   },
 
   getFromUUID: function(uuid) {
@@ -46,18 +50,17 @@ var PlayerStore = assign({}, EventEmitter.prototype, {
   },
 
   getQuotes: function() {
-    var withQuotes = _.filter(_players, function(p) {
-      return p.quotes && p.quotes.length;
+    var retquotes = [];
+    _players.forEach(function (p) {
+      if (_.has(_quotes, p.uuid)) {
+        _quotes[p.uuid].forEach(function (q) {
+          retquotes.push({uuid: p.uuid, nick: p.nick, quote: q});
+        });
+      }
     });
-    var quotes = _.flatten(_.map(withQuotes, function(p) {
-      return _.map(p.quotes, function(q) {
-        var quoteObj = _.pick(p, "uuid", "nick");
-        quoteObj.quote = q;
-        return quoteObj;
-      });
-    }));
-    if (quotes.length) {
-      return quotes;
+
+    if (retquotes.length) {
+      return retquotes;
     }
     return [{uuid: null, quote: null, nick: null}];
   },
@@ -73,16 +76,6 @@ PlayerStore.dispatchToken = CKPTDispatcher.register(function(payload) {
 
   switch(action.type) {
 
-    case ActionTypes.RECIEVE_PLAYER:
-      if (action.json) {
-        _player = action.json.player;
-      }
-      if (action.errors) {
-        _errors = action.errors;
-      }
-      PlayerStore.emitChange();
-      break;
-
     case ActionTypes.RECIEVE_PLAYERS:
       if (action.json) {
         var recievedPlayers = JSON.parse(action.json);
@@ -94,6 +87,19 @@ PlayerStore.dispatchToken = CKPTDispatcher.register(function(payload) {
       }
       PlayerStore.emitChange();
       break;
+
+    case ActionTypes.RECIEVE_QUOTES:
+      if (action.json) {
+        var recievedQuotes = JSON.parse(action.json);
+        _quotes = recievedQuotes;
+        _errors = [];
+      }
+      if (action.errors) {
+        _errors = action.errors;
+      }
+      PlayerStore.emitChange();
+      break;
+
   }
 
   return true;
