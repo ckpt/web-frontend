@@ -4,7 +4,6 @@ var React = require("react");
 var Link = require("react-router").Link;
 var Authentication = require("../utils/Authentication");
 var PlayerStore = require("../stores/PlayerStore.react");
-var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 
 var Navbar = React.createClass({
 
@@ -19,7 +18,6 @@ var Navbar = React.createClass({
 
   componentDidMount: function() {
     PlayerStore.addChangeListener(this._onChange);
-    PlayerActionCreators.loadPlayers();
   },
 
   componentWillUnmount: function() {
