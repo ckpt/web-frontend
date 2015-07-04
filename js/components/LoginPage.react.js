@@ -32,7 +32,7 @@ var LoginPage = React.createClass({
       if (nextPath) {
         this.replaceWith(nextPath);
       } else {
-        this.replaceWith("dashboard");
+        this.replaceWith("home");
       }
     }
   },

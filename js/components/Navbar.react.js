@@ -1,5 +1,6 @@
 "use strict";
 
+/* eslint-env jquery */
 var React = require("react");
 var Link = require("react-router").Link;
 var Authentication = require("../utils/Authentication");
@@ -18,6 +19,7 @@ var Navbar = React.createClass({
 
   componentDidMount: function() {
     PlayerStore.addChangeListener(this._onChange);
+    $(React.findDOMNode(this)).find("#side-menu").metisMenu();
   },
 
   componentWillUnmount: function() {
@@ -107,7 +109,7 @@ var Navbar = React.createClass({
 
         <div className="navbar-default sidebar" role="navigation">
           <div className="sidebar-nav navbar-collapse">
-            <ul className="nav" id="side-menu">
+            <ul className="nav metismenu" id="side-menu" ref="sideMenu">
               <li>
                 <a href="index.html"><i className="fa fa-dashboard fa-fw"></i> Oversikt</a>
               </li>

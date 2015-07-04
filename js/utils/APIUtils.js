@@ -41,6 +41,7 @@ module.exports = {
   loadPlayers: function() {
 
     request.get(_endpoints.players)
+      .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
       .accept("json")
       .end(function(err, res) {
         if (err) { throw err; }
@@ -49,6 +50,7 @@ module.exports = {
       });
 
     request.get(_endpoints.players + "/quotes")
+      .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
       .accept("json")
       .end(function(err, res) {
         if (err) { throw err; }
