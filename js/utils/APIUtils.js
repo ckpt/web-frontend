@@ -5,7 +5,9 @@ var request = require("superagent");
 
 var _endpoints = {
   players: "http://localhost:8000/players",
-  login: "http://localhost:8000/login"
+  login: "http://localhost:8000/login",
+  locations: "http://localhost:8000/locations",
+  tournaments: "http://localhost:8000/tournaments"
 };
 
 var _dummytasks = ["foo"];
@@ -56,6 +58,30 @@ module.exports = {
         if (err) { throw err; }
         var json = JSON.stringify(res.body);
         ServerActionCreators.receiveQuotes(json, null);
+      });
+  },
+
+  loadLocations: function() {
+
+    request.get(_endpoints.locations)
+      .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
+      .accept("json")
+      .end(function(err, res) {
+        if (err) { throw err; }
+        var json = JSON.stringify(res.body);
+        ServerActionCreators.receiveLocations(json, null);
+      });
+  },
+
+  loadTournaments: function() {
+
+    request.get(_endpoints.tournaments)
+      .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
+      .accept("json")
+      .end(function(err, res) {
+        if (err) { throw err; }
+        var json = JSON.stringify(res.body);
+        ServerActionCreators.receiveTournaments(json, null);
       });
   },
 

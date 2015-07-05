@@ -45,5 +45,22 @@ module.exports = {
       json: json,
       errors: errors
     });
+  },
+
+  receiveLocations: function(json, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.RECIEVE_LOCATIONS,
+      json: json,
+      errors: errors
+    });
+  },
+
+  receiveTournaments: function(json, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.RECIEVE_TOURNAMENTS,
+      json: json,
+      errors: errors
+    });
   }
+
 };

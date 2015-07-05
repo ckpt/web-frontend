@@ -9,10 +9,18 @@ var QuotePanel = require("./QuotePanel.react");
 var TaskStore = require("../stores/TaskStore.react");
 var PlayerStore = require("../stores/PlayerStore.react");
 var StandingsStore = require("../stores/StandingsStore.react");
+var LocationStore = require("../stores/LocationStore.react");
+var TournamentStore = require("../stores/TournamentStore.react");
 var TaskActionCreators = require("../actions/TaskActionCreators.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 var StandingsActionCreators = require("../actions/StandingsActionCreators.react");
+var LocationActionCreators = require("../actions/LocationActionCreators.react");
+var TournamentActionCreators = require("../actions/TournamentActionCreators.react");
 var Authentication = require("../utils/Authentication");
+
+var moment = require("moment");
+var momentLocale = require("moment/locale/nb.js");
+moment.locale("nb", momentLocale);
 
 var Dashboard = React.createClass({
 
@@ -26,7 +34,7 @@ var Dashboard = React.createClass({
       currentSeason: StandingsStore.getSeason(),
       currentLeaderNick: this._getLeaderNick(),
       currentPlayer: PlayerStore.getFromUser(this.props.username),
-      nextTournament: null,
+      nextTournament: this._nextTournamentDetails(),
       quotes: PlayerStore.getQuotes(),
       errors: []
     };
@@ -36,7 +44,12 @@ var Dashboard = React.createClass({
     TaskStore.addChangeListener(this._onChange);
     PlayerStore.addChangeListener(this._onChange);
     StandingsStore.addChangeListener(this._onChange);
+    LocationStore.addChangeListener(this._onChange);
+    TournamentStore.addChangeListener(this._onChange);
+
     PlayerActionCreators.loadPlayers();
+    LocationActionCreators.loadLocations();
+    TournamentActionCreators.loadTournaments();
     TaskActionCreators.loadTasks();
     StandingsActionCreators.loadCurrentSeason();
   },
@@ -45,6 +58,8 @@ var Dashboard = React.createClass({
     TaskStore.removeChangeListener(this._onChange);
     PlayerStore.removeChangeListener(this._onChange);
     StandingsStore.removeChangeListener(this._onChange);
+    LocationStore.removeChangeListener(this._onChange);
+    TournamentStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {
@@ -54,11 +69,14 @@ var Dashboard = React.createClass({
       currentSeason: StandingsStore.getSeason(),
       currentLeaderNick: this._getLeaderNick(),
       currentPlayer: PlayerStore.getFromUser(this.props.username),
+      nextTournament: this._nextTournamentDetails(),
       quotes: PlayerStore.getQuotes(),
       errors: [
         TaskStore.getErrors() +
         PlayerStore.getErrors() +
-        StandingsStore.getErrors()
+        StandingsStore.getErrors() +
+        LocationStore.getErrors() +
+        TournamentStore.getErrors()
       ]
     });
   },
@@ -108,6 +126,19 @@ var Dashboard = React.createClass({
     return ret;
   },
 
+  _nextTournamentDetails: function() {
+    var tournament = TournamentStore.getNext();
+    if (!tournament || !tournament.info) {
+      return { where: "Ukjent", when: "ikke fastlagt" };
+    }
+    var when = moment(tournament.info.scheduled).format("DD.MM");
+    var location = LocationStore.getFromUUID(tournament.info.location);
+    if (!location || !location.profile || !location.profile.name) {
+      return { where: "Ukjent", when: when};
+    }
+    return { where: location.profile.name, when: when };
+  },
+
   _makeOverviewItem: function(icon, maintext, subtext, color, link) {
     return {
       icon: icon,
@@ -131,8 +162,11 @@ var Dashboard = React.createClass({
     var leaderItem = this._makeOverviewItem("trophy", this.state.currentLeaderNick,
                                             "Leder årets sesong", "yellow",
                                             { target: "#", text: "Se sammenlagtoversikt" });
+    var tournamentItem = this._makeOverviewItem("home", this.state.nextTournament.where,
+                                            "Neste turnering er " + this.state.nextTournament.when,
+                                            "info", { target: "#", text: "Mer informasjon" });
 
-    return [playerItem, tasksItem, leaderItem];
+    return [playerItem, tasksItem, leaderItem, tournamentItem];
   },
 
   render: function() {

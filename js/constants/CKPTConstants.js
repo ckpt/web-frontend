@@ -42,7 +42,15 @@ module.exports = {
     LOAD_CURRENT_SEASON_STANDINGS: null,
     LOAD_OLD_SEASON_STANDINGS: null,
     LOAD_ALLTIME_STANDINGS: null,
-    RECIEVE_STANDINGS: null
+    RECIEVE_STANDINGS: null,
+
+    // Locations
+    LOAD_LOCATIONS: null,
+    RECIEVE_LOCATIONS: null,
+
+    // Tournaments
+    LOAD_TOURNAMENTS: null,
+    RECIEVE_TOURNAMENTS: null
 
   })
 
