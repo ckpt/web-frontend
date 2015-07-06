@@ -16,7 +16,7 @@ var Sidebar = React.createClass({
         {
           title: "Oversikt",
           icon: "dashboard",
-          route: "home",
+          route: "dashboard",
           subitems: []
         },
         {

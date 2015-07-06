@@ -28,7 +28,8 @@ var CKPTApp = React.createClass({
       loggedIn: SessionStore.isLoggedIn(),
       user: SessionStore.getUsername(),
       isAdmin: SessionStore.isAdmin(),
-      errors: SessionStore.getErrors()
+      errors: SessionStore.getErrors(),
+      currentSeason: new Date().getFullYear()
     };
     console.log(_state);
     return _state;
@@ -41,8 +42,8 @@ var CKPTApp = React.createClass({
   render: function() {
     var authLayout = (
       <div id="wrapper">
-        <Navbar username={this.state.user} />
-        <RouteHandler isAdmin={this.state.isAdmin} username={this.state.user} />
+        <Navbar isAdmin={this.state.isAdmin} username={this.state.user} currentSeason={this.state.currentSeason}/>
+        <RouteHandler isAdmin={this.state.isAdmin} username={this.state.user} currentSeason={this.state.currentSeason} />
       </div>
     );
 

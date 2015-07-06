@@ -49,6 +49,10 @@ var TournamentStore = assign({}, EventEmitter.prototype, {
     return _.findWhere(_tournaments, {uuid: uuid});
   },
 
+  getFromLocation: function(uuid) {
+    return _.findWhere(_tournaments, {location: uuid});
+  },
+
   getErrors: function() {
     return _errors;
   }
