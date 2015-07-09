@@ -53,7 +53,9 @@ var Navbar = React.createClass({
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <a className="navbar-brand" href="index.html">Casino Kopperud Poker Tour</a>
+          <div className="navbar-brand">
+            <a href="index.html"><img style={{marginTop: -10, marginLeft: -5}} height="40px" src="images/ckpt-trans.png" /> CKPT {this.props.currentSeason}</a>
+          </div>
         </div>
 
         <ul className="nav navbar-top-links navbar-right">

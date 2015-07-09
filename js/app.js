@@ -5,6 +5,7 @@
 var CKPTApp = require("./components/CKPTApp.react");
 var Dashboard = require("./components/Dashboard.react");
 var LocationsPage = require("./components/LocationsPage.react");
+var RulesPage = require("./components/RulesPage.react");
 var LoginPage = require("./components/LoginPage.react");
 var LogoutPage = require("./components/LogoutPage.react");
 
@@ -23,7 +24,7 @@ var routes = (
 
       <Route name="dashboard" path="dashboard" handler={Dashboard}/>
 
-      <Route name="rules" path="rules" handler={Dashboard}/>
+      <Route name="rules" path="rules" handler={RulesPage}/>
       <Route name="locations" path="locations" handler={LocationsPage}/>
 
       <Route name="players" path="players" handler={Dashboard}/>

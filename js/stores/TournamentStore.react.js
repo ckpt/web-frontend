@@ -50,7 +50,7 @@ var TournamentStore = assign({}, EventEmitter.prototype, {
   },
 
   getFromLocation: function(uuid) {
-    return _.findWhere(_tournaments, {location: uuid});
+    return _.filter(_tournaments, function (t) { return t.info.location === uuid; });
   },
 
   getErrors: function() {

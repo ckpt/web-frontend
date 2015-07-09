@@ -52,10 +52,26 @@ var LocationsPage = React.createClass({
     });
   },
 
+  _nextTournament: function(uuid) {
+    var tournaments = TournamentStore.getFromLocation(uuid);
+    var upcoming = _.sortBy(tournaments, function (t) { return t.info.scheduled; });
+    var candidates = _.reject(upcoming, function (t) {
+      // FIXME: add t.played when it is bool
+      return moment().isAfter(t.info.scheduled);
+    });
+
+    if (!candidates.length) {
+      return null;
+    }
+
+    return candidates[0];
+  },
+
   _hostedTournaments: function(uuid) {
     var tournaments = TournamentStore.getFromLocation(uuid);
+    var season = this.props.currentSeason;
     return _.reject(tournaments, function(t) {
-      return !t.played || t.season !== this.props.currentSeason || moment().isBefore(t.info.scheduled);
+      return !t.played || t.season !== season || moment().isBefore(t.info.scheduled);
     });
   },
 
@@ -70,29 +86,27 @@ var LocationsPage = React.createClass({
   _makeRows: function(items) {
     var rows = [];
     var currentrow = [];
-    if (items.length === 1) {
-      // FIXME
-      var firstnick = this._lookupHostPlayerNick(items[0].host);
-      var firsthosted = this._hostedTournaments(items[0].uuid);
-      return [<LocationPanel location={items[0]} hostNick={firstnick} hosted={firsthosted} />];
-    }
 
     for (var i = 0; i < items.length; i++) {
       var nick = this._lookupHostPlayerNick(items[i].host);
-      var hosted = this._hostedTournaments(items[0].uuid);
-      var loc = <LocationPanel location={items[i]} hostNick={nick} hosted={hosted} />;
+      var hosted = this._hostedTournaments(items[i].uuid);
+      var next = this._nextTournament(items[i].uuid);
+      var loc = <LocationPanel location={items[i]} hostNick={nick} hosted={hosted} next={next} key={"locationpanel-" + i} />;
       currentrow.push(loc);
       if ( (i + 1) % 2 === 0 ) {
-        rows.push(_.copy(currentrow));
+        rows.push(_.clone(currentrow));
         currentrow = [];
       }
     }
 
+    if (currentrow.length) {
+      rows.push(_.clone(currentrow));
+    }
     return rows;
   },
 
   render: function() {
-    var locationrows = this._makeRows(this.state.locations);
+    var locationrows = this._makeRows(_.sortBy(this.state.locations, function(l) { return l.profile.name; }));
 
     return (
       <div id="page-wrapper">
