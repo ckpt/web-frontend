@@ -1,6 +1,7 @@
 "use strict";
 
 var React = require("react");
+var Router = require("react-router");
 
 var Sidebar = require("./Sidebar.react.js");
 var NotificationsDropdown = require("./NotificationsDropdown.react.js");
@@ -12,11 +13,11 @@ var PlayerStore = require("../stores/PlayerStore.react");
 var Navbar = React.createClass({
 
   displayName: "Navigation and sidebar",
-  mixins: [Authentication],
+  mixins: [Authentication, Router.State],
 
   getInitialState: function() {
     return {
-      myNick: null
+      myPlayer: null
     };
   },
 
@@ -30,14 +31,14 @@ var Navbar = React.createClass({
 
   _onChange: function() {
     this.setState({
-      myNick: this._getNickFromUser()
+      myPlayer: this._getPlayerFromUser()
     });
   },
 
-  _getNickFromUser: function() {
+  _getPlayerFromUser: function() {
     var player = PlayerStore.getFromUser(this.props.username);
     if (player) {
-      return player.nick;
+      return player;
     }
     return null;
   },
@@ -60,7 +61,7 @@ var Navbar = React.createClass({
 
         <ul className="nav navbar-top-links navbar-right">
           <NotificationsDropdown />
-          <ProfileDropdown name={this.state.myNick} />
+          <ProfileDropdown currentPath={this.getPath()} player={this.state.myPlayer} />
         </ul>
 
         <Sidebar />

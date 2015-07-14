@@ -37,6 +37,7 @@ module.exports = {
     RECIEVE_PLAYERS: null,
     RECIEVE_QUOTES: null,
     RECIEVE_PLAYER: null,
+    SAVE_PLAYER_PROFILE: null,
 
     // Standings
     LOAD_CURRENT_SEASON_STANDINGS: null,

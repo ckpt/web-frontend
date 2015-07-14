@@ -88,6 +88,21 @@ PlayerStore.dispatchToken = CKPTDispatcher.register(function(payload) {
       PlayerStore.emitChange();
       break;
 
+    case ActionTypes.SAVE_PLAYER_PROFILE:
+      var updated = false;
+      if (action.uuid) {
+        for (var i = 0; i < _players.length; i++) {
+          if (_players[i].uuid === action.uuid) {
+            _players[i].profile = action.profile;
+          }
+        }
+      }
+      if (!updated) {
+        break;
+      }
+      PlayerStore.emitChange();
+      break;
+
     case ActionTypes.RECIEVE_QUOTES:
       if (action.json) {
         var recievedQuotes = JSON.parse(action.json);

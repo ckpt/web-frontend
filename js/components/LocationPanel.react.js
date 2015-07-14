@@ -31,15 +31,15 @@ var LocationPanel = React.createClass({
           </div>
           <div className="panel-footer">
             <dl className={"dl-horizontal text-" + color}>
-              <dt>Vertskap <i className="fa fa-user"></i></dt>
+              <dt>Vertskap <i className="fa fa-user fa-fw"></i></dt>
               <dd>{this.props.hostNick}</dd>
-              <dt>Fasiliteter <i className="fa fa-info-circle"></i></dt>
+              <dt>Fasiliteter <i className="fa fa-info-circle fa-fw"></i></dt>
               <dd>{this.props.location.profile.facilities.join(", ")}</dd>
-              <dt>Beliggenhet <i className="fa fa-map-marker"></i></dt>
+              <dt>Beliggenhet <i className="fa fa-map-marker fa-fw"></i></dt>
               <dd><a href={this.props.location.profile.url}>Se i kart</a></dd>
-              <dt>Turneringer i år <i className="fa fa-list"></i></dt>
+              <dt>Turneringer i år <i className="fa fa-list fa-fw"></i></dt>
               <dd>{this.props.hosted.length}</dd>
-              <dt>Neste turnering <i className="fa fa-calendar"></i></dt>
+              <dt>Neste turnering <i className="fa fa-calendar fa-fw"></i></dt>
               <dd>{next}</dd>
             </dl>
           </div>

@@ -90,7 +90,7 @@ var RulesPage = React.createClass({
               <div className="col-lg-12">
                 <div className="panel panel-info">
                    <div className="panel-heading">
-                      <h4><i className={"fa fa-" + section.icon}></i> {section.section}</h4>
+                      <h4><i className={"fa fa-" + section.icon + " fa-2x"}></i> {section.section}</h4>
                    </div>
                    <div className="panel-body">
                       {_renderSection(section.rules, i)}

@@ -13,6 +13,16 @@ module.exports = {
       type: ActionTypes.LOAD_PLAYERS
     });
     APIUtils.loadPlayers();
+  },
+
+  savePlayerProfile: function(uuid, profile) {
+    CKPTDispatcher.handleViewAction({
+      type: ActionTypes.SAVE_PLAYER_PROFILE,
+      uuid: uuid,
+      profile: profile
+    });
+
+    APIUtils.savePlayerProfile(uuid, profile);
   }
 
 };

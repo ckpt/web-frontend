@@ -61,6 +61,18 @@ module.exports = {
       });
   },
 
+  savePlayerProfile: function(uuid, profile) {
+
+    request.put(_endpoints.players + "/" + uuid + "/profile")
+      .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
+      .accept("json")
+      .send(profile)
+      .end(function(err, res) {
+        if (err) { throw err; }
+        // TODO: Propagate error action? This should probably result in another action fetching all players again, if the store cannot rollback on its own. Also, spawn a notification via some generic error propagation in the UI.
+      });
+  },
+
   loadLocations: function() {
 
     request.get(_endpoints.locations)
