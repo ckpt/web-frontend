@@ -56,8 +56,7 @@ var LocationsPage = React.createClass({
     var tournaments = TournamentStore.getFromLocation(uuid);
     var upcoming = _.sortBy(tournaments, function (t) { return t.info.scheduled; });
     var candidates = _.reject(upcoming, function (t) {
-      // FIXME: add t.played when it is bool
-      return moment().isAfter(t.info.scheduled);
+      return t.played || moment().isAfter(t.info.scheduled);
     });
 
     if (!candidates.length) {
