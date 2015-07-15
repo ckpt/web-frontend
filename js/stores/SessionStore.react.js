@@ -12,7 +12,7 @@ var CHANGE_EVENT = "change";
 // a "remember me" using localSgorage
 var _accessToken = sessionStorage.getItem("accessToken");
 var _username = sessionStorage.getItem("username");
-var _admin = sessionStorage.getItem("isAdminToken");
+var _admin = (sessionStorage.getItem("isAdminToken") === "true");
 var _errors = [];
 
 var SessionStore = assign({}, EventEmitter.prototype, {
