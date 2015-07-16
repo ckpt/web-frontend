@@ -73,6 +73,23 @@ module.exports = {
       });
   },
 
+  saveUserSettings: function(uuid, settings, password) {
+
+    if (password) {
+      request.put(_endpoints.players + "/" + uuid + "/user/password")
+        .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
+        .accept("json")
+        .send({"password": password})
+        .end(function(err, res) {
+          if (err) { throw err; }
+          // TODO: Propagate error action? This should probably result in another action fetching all players again, if the store cannot rollback on its own. Also, spawn a notification via some generic error propagation in the UI.
+          // TODO: Propagate action USER_SETTINGS_SAVED on success, which can be used by notification store.
+      });
+    }
+
+  },
+
+
   loadLocations: function() {
 
     request.get(_endpoints.locations)

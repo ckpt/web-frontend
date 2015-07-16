@@ -61,7 +61,7 @@ var Navbar = React.createClass({
 
         <ul className="nav navbar-top-links navbar-right">
           <NotificationsDropdown />
-          <ProfileDropdown currentPath={this.getPath()} player={this.state.myPlayer} />
+          <ProfileDropdown currentPath={this.getPath()} player={this.state.myPlayer} username={this.props.username}/>
         </ul>
 
         <Sidebar />

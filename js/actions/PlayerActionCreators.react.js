@@ -23,6 +23,17 @@ module.exports = {
     });
 
     APIUtils.savePlayerProfile(uuid, profile);
+  },
+
+  saveUserSettings: function(uuid, settings, password) {
+    CKPTDispatcher.handleViewAction({
+      type: ActionTypes.SAVE_USER_SETTINGS,
+      uuid: uuid,
+      settings: settings,
+      password: password
+    });
+
+    APIUtils.saveUserSettings(uuid, settings, password);
   }
 
 };
