@@ -70,7 +70,7 @@ var LocationsPage = React.createClass({
     var tournaments = TournamentStore.getFromLocation(uuid);
     var season = this.props.currentSeason;
     return _.reject(tournaments, function(t) {
-      return !t.played || t.season !== season || moment().isBefore(t.info.scheduled);
+      return !t.played || t.info.season !== season || moment().isBefore(t.info.scheduled);
     });
   },
 
