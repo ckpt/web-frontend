@@ -12,26 +12,6 @@ var _endpoints = {
 };
 
 var _dummytasks = ["foo"];
-var _dummystandings = {
-  byWinnings: [
-    { uuid: "27b5c391-8126-418e-b50e-73e6636e5493",
-      played: 6,
-      playedEnough: false,
-      winnings: 1200,
-      wins: 2
-    },
-    { uuid: "e5f0fa05-6c81-46bf-833b-b2511b315b63",
-      played: 8,
-      playedEnough: true,
-      winnings: -400,
-      wins: 0
-    }
-  ],
-  byAvgRank: [],
-  byPoints: [],
-  byHeadsUp: []
-};
-var _dummyseason = 2015;
 
 module.exports = {
 
