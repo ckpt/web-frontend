@@ -11,7 +11,7 @@ var CHANGE_EVENT = "change";
 var _season = null;
 var _standings = {
   byWinnings: [],
-  byAvgRank: [],
+  byAvgPlace: [],
   byPoints: [],
   byHeadsUp: []
 };
@@ -54,7 +54,7 @@ var StandingsStore = assign({}, EventEmitter.prototype, {
   getForPlayer: function(uuid, all) {
     var _ret = {
       byWinnings: null,
-      byAvgRank: null,
+      byAvgPlace: null,
       byPoints: null,
       byHeadsUp: null
     };

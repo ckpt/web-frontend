@@ -8,11 +8,12 @@ var ActionTypes = CKPTConstants.ActionTypes;
 
 module.exports = {
 
-  loadCurrentSeason: function() {
+  loadSeason: function(season) {
     CKPTDispatcher.handleViewAction({
-      type: ActionTypes.LOAD_CURRENT_SEASON_STANDINGS
+      type: ActionTypes.LOAD_CURRENT_SEASON_STANDINGS,
+      season: season
     });
-    APIUtils.loadSeason();
+    APIUtils.loadSeason(season);
   }
 
 };

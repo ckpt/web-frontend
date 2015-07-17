@@ -7,7 +7,8 @@ var _endpoints = {
   players: "http://localhost:8000/players",
   login: "http://localhost:8000/login",
   locations: "http://localhost:8000/locations",
-  tournaments: "http://localhost:8000/tournaments"
+  tournaments: "http://localhost:8000/tournaments",
+  seasons: "http://localhost:8000/seasons"
 };
 
 var _dummytasks = ["foo"];
@@ -115,14 +116,18 @@ module.exports = {
   },
 
   loadSeason: function(season) {
-    if (season) {
-      _dummyseason = season;
-    }
-    var json = JSON.stringify({
-      standings: _dummystandings,
-      season: _dummyseason
-    });
-    ServerActionCreators.receiveStandings(json, null);
+
+    request.get(_endpoints.seasons + "/" + season + "/standings")
+      .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
+      .accept("json")
+      .end(function(err, res) {
+        if (err) { throw err; }
+        var json = JSON.stringify({
+          standings: res.body,
+          season: season
+        });
+        ServerActionCreators.receiveStandings(json, null);
+      });
   },
 
   login: function(username, password) {

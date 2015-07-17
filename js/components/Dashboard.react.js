@@ -51,7 +51,7 @@ var Dashboard = React.createClass({
     LocationActionCreators.loadLocations();
     TournamentActionCreators.loadTournaments();
     TaskActionCreators.loadTasks();
-    StandingsActionCreators.loadCurrentSeason();
+    StandingsActionCreators.loadSeason(this.props.currentSeason);
   },
 
   componentWillUnmount: function() {
