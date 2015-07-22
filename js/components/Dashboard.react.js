@@ -161,7 +161,7 @@ var Dashboard = React.createClass({
                                             { target: "#", text: "Se årets resultater" });
     var leaderItem = this._makeOverviewItem("trophy", this.state.currentLeaderNick,
                                             "Leder årets sesong", "yellow",
-                                            { target: "#", text: "Se sammenlagtoversikt" });
+                                            { target: "#/overview", text: "Se sammenlagtoversikt" });
     var tournamentItem = this._makeOverviewItem("home", this.state.nextTournament.where,
                                             "Neste turnering er " + this.state.nextTournament.when,
                                             "info", { target: "#", text: "Mer informasjon" });

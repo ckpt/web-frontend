@@ -40,10 +40,15 @@ module.exports = {
     SAVE_PLAYER_PROFILE: null,
 
     // Standings
-    LOAD_CURRENT_SEASON_STANDINGS: null,
-    LOAD_OLD_SEASON_STANDINGS: null,
+    LOAD_SEASON_STANDINGS: null,
     LOAD_ALLTIME_STANDINGS: null,
     RECIEVE_STANDINGS: null,
+
+    // Stats
+    LOAD_SEASON_STATS: null,
+    LOAD_ALLTIME_STATS: null,
+    RECIEVE_STATS: null,
+    RECIEVE_TITLES: null,
 
     // Locations
     LOAD_LOCATIONS: null,

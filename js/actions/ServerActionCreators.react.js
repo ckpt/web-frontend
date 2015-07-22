@@ -39,6 +39,22 @@ module.exports = {
     });
   },
 
+  receiveStats: function(json, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.RECIEVE_STATS,
+      json: json,
+      errors: errors
+    });
+  },
+
+  receiveTitles: function(json, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.RECIEVE_TITLES,
+      json: json,
+      errors: errors
+    });
+  },
+
   receiveLogin: function(json, errors) {
     CKPTDispatcher.handleServerAction({
       type: ActionTypes.LOGIN_RESPONSE,

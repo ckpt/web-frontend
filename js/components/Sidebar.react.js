@@ -40,7 +40,7 @@ var Sidebar = React.createClass({
           route: null,
           subitems: [
             {
-              title: "Hvem er vi",
+              title: "Oversikt",
               route: "players"
             },
             {

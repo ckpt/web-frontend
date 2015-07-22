@@ -13,6 +13,12 @@ var PlayerSummaryPanel = React.createClass({
 
   render: function() {
 
+    //console.log(this.props.winnings);
+    var winnings = this.props.winnings ? this.props.winnings.winnings : "";
+    var numPlayed = this.props.winnings ? this.props.winnings.played : "";
+    var numWins = this.props.winnings ? this.props.winnings.wins : "";
+    var numSeconds = this.props.winnings ? (this.props.winnings.headsUp - this.props.winnings.wins) : "";
+
     var color = this.props.player.active ? "info" : "danger";
     var img = this.props.player.profile.picture ? <img style={{marginRight: "1em", boxShadow: "5px 5px 15px #aaaaaa"}} className="pull-left" height="120px" src={"data:image/png;base64," + this.props.player.profile.picture} /> : "";
 
@@ -32,8 +38,8 @@ var PlayerSummaryPanel = React.createClass({
             {this.props.player.profile.description}
           </div>
           <div className={"panel-footer text-" + color}>
-            Så langt i år:&nbsp;&nbsp;&nbsp;
-              <i className="fa fa-money" title="Gevinst"></i> -800 &nbsp;<i title="Antall turneringer" className="fa fa-calendar"></i> 8 &nbsp;<i title="Seire" className="fa fa-star"></i> 0 &nbsp;<i title="2.plasser" className="fa fa-star-half-o"></i> 0
+            {this.props.footer}&nbsp;&nbsp;&nbsp;
+              <i className="fa fa-money" title="Gevinst"></i> {winnings} &nbsp;<i title="Antall turneringer" className="fa fa-calendar"></i> {numPlayed} &nbsp;<i title="Seire" className="fa fa-star"></i> {numWins} &nbsp;<i title="2.plasser" className="fa fa-star-half-o"></i> {numSeconds}
           </div>
         </div>
       </div>

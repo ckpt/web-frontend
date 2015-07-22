@@ -11,7 +11,7 @@ var QuotePanel = React.createClass({
 
   getInitialState: function() {
     return {
-      quote: this._getRandomQuote(),
+      quote: null,
       timer: null
     };
   },
@@ -25,6 +25,12 @@ var QuotePanel = React.createClass({
       clearInterval(this.state.timer);
       this.state.timer = null;
     }
+  },
+
+  componentWillRecieveProps: function(nextProps) {
+    this.setState({
+      quote: _.sample(nextProps.quotes)
+    });
   },
 
   _onChange: function() {
@@ -46,8 +52,8 @@ var QuotePanel = React.createClass({
         </div>
         <div className="panel-body">
           <blockquote>
-            <p>{this.state.quote.quote}</p>
-            <h4 className="pull-right text-muted">--{this.state.quote.nick}</h4>
+            <p>{this.state.quote ? this.state.quote.quote : "Laster sitater..."}</p>
+            <h4 className="pull-right text-muted">--{this.state.quote ? this.state.quote.nick : ""}</h4>
           </blockquote>
         </div>
       </div>

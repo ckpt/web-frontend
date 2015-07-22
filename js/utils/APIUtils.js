@@ -97,7 +97,12 @@ module.exports = {
 
   loadSeason: function(season) {
 
-    request.get(_endpoints.seasons + "/" + season + "/standings")
+    var path = "";
+    if (season != "all") {
+      path = "/" + season;
+    }
+
+    request.get(_endpoints.seasons + path + "/standings")
       .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
       .accept("json")
       .end(function(err, res) {
@@ -108,6 +113,39 @@ module.exports = {
         });
         ServerActionCreators.receiveStandings(json, null);
       });
+  },
+
+  loadStats: function(season) {
+
+    var path = "";
+    if (season != "all") {
+      path = "/" + season;
+    }
+
+    request.get(_endpoints.seasons + path + "/stats")
+      .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
+      .accept("json")
+      .end(function(err, res) {
+        if (err) { throw err; }
+        var json = JSON.stringify({
+          stats: res.body,
+          season: season
+        });
+        ServerActionCreators.receiveStats(json, null);
+      });
+
+    request.get(_endpoints.seasons + path + "/titles")
+      .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
+      .accept("json")
+      .end(function(err, res) {
+        if (err) { throw err; }
+        var json = JSON.stringify({
+          titles: res.body,
+          season: season
+        });
+        ServerActionCreators.receiveTitles(json, null);
+      });
+
   },
 
   login: function(username, password) {
