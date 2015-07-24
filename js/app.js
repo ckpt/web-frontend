@@ -8,6 +8,7 @@ var LocationsPage = require("./components/LocationsPage.react");
 var PlayersPage = require("./components/PlayersPage.react");
 var RulesPage = require("./components/RulesPage.react");
 var AwardsPage = require("./components/AwardsPage.react");
+var StandingsPage = require("./components/StandingsPage.react");
 var StandingsSummaryPage = require("./components/StandingsSummary.react");
 var LoginPage = require("./components/LoginPage.react");
 var LogoutPage = require("./components/LogoutPage.react");
@@ -39,7 +40,7 @@ var routes = (
       <Route name="noshow" path="noshow" handler={Dashboard}/>
       <Route name="betting" path="betting" handler={Dashboard}/>
 
-      <Route name="standings" path="standings" handler={Dashboard}/>
+      <Route name="standings" path="standings" handler={StandingsPage}/>
       <Route name="overview" path="overview" handler={StandingsSummaryPage}/>
       <Route name="awards" path="awards" handler={AwardsPage}/>
       <Route name="pvp" path="pvp" handler={Dashboard}/>
