@@ -5,6 +5,13 @@ var CKPTConstants = require("../constants/CKPTConstants.js");
 var EventEmitter = require("events").EventEmitter;
 var assign = require("object-assign");
 
+var moment = require("moment");
+var momentLocale = require("moment/locale/nb.js");
+moment.locale("nb", momentLocale);
+
+var _ = require("underscore");
+
+
 var ActionTypes = CKPTConstants.ActionTypes;
 var CHANGE_EVENT = "change";
 
@@ -44,10 +51,35 @@ var StatsStore = assign({}, EventEmitter.prototype, {
     return _season;
   },
 
+  getNumBestMonths: function() {
+    var bestByPlayer = _.pairs(_.countBy(_stats.monthStats, function(month) {
+      return month.best;
+    }));
+    var sorted = _.sortBy(bestByPlayer, function(p) {
+      return -p[1];
+    });
+    return sorted;
+  },
+
+  getNumWorstMonths: function() {
+    var bestByPlayer = _.pairs(_.countBy(_stats.monthStats, function(month) {
+      return month.worst;
+    }));
+    var sorted = _.sortBy(bestByPlayer, function(p) {
+      return p[1];
+    });
+    return sorted;
+  },
+
+  getLongestYellowPeriods: function() {
+    return _.sortBy(_stats.yellowPeriods, function(p) {
+      return -moment(p.to).diff(moment(p.from));
+    });
+  },
+
   getErrors: function() {
     return _errors;
   }
-
 });
 
 StatsStore.dispatchToken = CKPTDispatcher.register(function(payload) {

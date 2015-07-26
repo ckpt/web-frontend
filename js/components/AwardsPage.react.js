@@ -76,7 +76,7 @@ var AwardsPage = React.createClass({
     var items = [];
     var pics = [
 //"https://farm8.staticflickr.com/7301/15862125374_c8fb1f34d6_c.jpg",
-"https://farm6.staticflickr.com/5491/12244464226_b679b70a52_c.jpg"
+"images/cash_pile.jpg"
     ];
 
     for (var i = 0; i < titles.length; i++) {

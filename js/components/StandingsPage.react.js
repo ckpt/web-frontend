@@ -8,9 +8,11 @@ var ResultsTable = require("./ResultsTable.react");
 
 var PlayerStore = require("../stores/PlayerStore.react");
 var StandingsStore = require("../stores/StandingsStore.react");
+var StatsStore = require("../stores/StatsStore.react");
 var TournamentStore = require("../stores/TournamentStore.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 var StandingsActionCreators = require("../actions/StandingsActionCreators.react");
+var StatsActionCreators = require("../actions/StatsActionCreators.react");
 var TournamentActionCreators = require("../actions/TournamentActionCreators.react");
 var Authentication = require("../utils/Authentication");
 
@@ -26,8 +28,23 @@ var StandingsPage = React.createClass({
   mixins: [ Authentication ],
 
   getInitialState: function() {
+    var ret = {
+      byWinnings: [],
+      byAvgPlace: [],
+      byPoints: [],
+      byHeadsUp: [],
+      byWinRatio: [],
+      byWinRatioTotal: [],
+      byDaysSinceHeadsUp: [],
+      byForm: [],
+      byDaysInYellow: [],
+      byPlayerOfTheMonth: [],
+      byLoserOfTheMonth: [],
+      byAbsence: []
+    };
+
     return {
-      currentStandings: this._getCurrentStandings(),
+      currentStandings: ret,
       currentResults: [],
       currentSeason: null,
       currentLeaderNick: this._getLeaderNick(),
@@ -39,16 +56,19 @@ var StandingsPage = React.createClass({
   componentDidMount: function() {
     PlayerStore.addChangeListener(this._onChange);
     StandingsStore.addChangeListener(this._onChange);
+    StatsStore.addChangeListener(this._onChange);
     TournamentStore.addChangeListener(this._onChange);
 
     PlayerActionCreators.loadPlayers();
     TournamentActionCreators.loadTournaments();
     StandingsActionCreators.loadSeason(this.state.currentSeason || this.props.currentSeason);
+    StatsActionCreators.loadSeason(this.state.currentSeason || this.props.currentSeason);
   },
 
   componentWillUnmount: function() {
     PlayerStore.removeChangeListener(this._onChange);
     StandingsStore.removeChangeListener(this._onChange);
+    StatsStore.removeChangeListener(this._onChange);
     TournamentStore.removeChangeListener(this._onChange);
   },
 
@@ -63,6 +83,7 @@ var StandingsPage = React.createClass({
       errors: [
         PlayerStore.getErrors() +
         StandingsStore.getErrors() +
+        StatsStore.getErrors() +
         TournamentStore.getErrors()
       ]
     });
@@ -110,13 +131,27 @@ var StandingsPage = React.createClass({
       byWinnings: [],
       byAvgPlace: [],
       byPoints: [],
-      byHeadsUp: []
+      byHeadsUp: [],
+      byWinRatio: [],
+      byWinRatioTotal: [],
+      byDaysSinceHeadsUp: [],
+      byForm: [],
+      byDaysInYellow: [],
+      byPlayerOfTheMonth: [],
+      byLoserOfTheMonth: [],
+      byAbsence: []
     };
     var standings = StandingsStore.getStandings(true);
+    var yellowPeriods = StatsStore.getLongestYellowPeriods();
+    var bestByPlayer = StatsStore.getNumBestMonths();
+    var worstByPlayer = StatsStore.getNumWorstMonths();
+    var currentForm = StandingsStore.getCurrentForm();
+    var lastHeadsUp = StandingsStore.getLastHeadsUp();
 
     if (!standings) {
       return ret;
     }
+
     standings.byWinnings.forEach(function (entry) {
       var player = PlayerStore.getFromUUID(entry.uuid);
       if (!player) { return [null, null]; }
@@ -142,7 +177,58 @@ var StandingsPage = React.createClass({
       var player = PlayerStore.getFromUUID(entry.uuid);
       if (!player) { return [null, null]; }
       var nick = player.nick;
-      ret.byHeadsUp.push([nick, entry.headsUp, entry.wins]);
+      ret.byHeadsUp.push([nick, ((entry.headsUp / entry.played) * 100).toFixed(1) + "%",
+                          ((entry.wins / entry.headsUp) * 100).toFixed(1) + "%"]);
+    });
+    standings.byWinRatio.forEach(function (entry) {
+      var player = PlayerStore.getFromUUID(entry.uuid);
+      if (!player) { return [null, null]; }
+      var nick = player.nick;
+      ret.byWinRatio.push([nick, ((entry.wins / entry.played) * 100).toFixed(1) + "%"]);
+    });
+    standings.byWinRatioTotal.forEach(function (entry) {
+      var player = PlayerStore.getFromUUID(entry.uuid);
+      if (!player) { return [null, null]; }
+      var nick = player.nick;
+      ret.byWinRatioTotal.push([nick, ((entry.wins / entry.numTotal) * 100).toFixed(1) + "%"]);
+    });
+    yellowPeriods.forEach(function (entry) {
+      var player = PlayerStore.getFromUUID(entry.uuid);
+      if (!player) { return [null, null]; }
+      var nick = player.nick;
+      var days = moment(entry.to).diff(moment(entry.from), "days");
+      ret.byDaysInYellow.push([nick, days + " dager"]);
+    });
+    bestByPlayer.forEach(function (entry) {
+      var player = PlayerStore.getFromUUID(entry[0]);
+      if (!player) { return [null, null]; }
+      var nick = player.nick;
+      ret.byPlayerOfTheMonth.push([nick, entry[1]]);
+    });
+    worstByPlayer.forEach(function (entry) {
+      var player = PlayerStore.getFromUUID(entry[0]);
+      if (!player) { return [null, null]; }
+      var nick = player.nick;
+      ret.byLoserOfTheMonth.push([nick, entry[1]]);
+    });
+    standings.byNumPlayed.forEach(function (entry) {
+      var player = PlayerStore.getFromUUID(entry.uuid);
+      if (!player) { return [null, null]; }
+      var nick = player.nick;
+      ret.byAbsence.push([nick, (entry.numTotal - entry.played) + " turneringer",
+                                (((entry.numTotal - entry.played) / entry.numTotal) * 100).toFixed(1) + "%"]);
+    });
+    currentForm.forEach(function (entry) {
+      var player = PlayerStore.getFromUUID(entry.uuid);
+      if (!player) { return [null, null]; }
+      var nick = player.nick;
+      ret.byForm.push([nick, _.pluck(entry.form, "place").join(" - ")]);
+    });
+    lastHeadsUp.forEach(function (entry) {
+      var player = PlayerStore.getFromUUID(entry.uuid);
+      if (!player) { return [null, null]; }
+      var nick = player.nick;
+      ret.byDaysSinceHeadsUp.push([nick, moment().diff(moment(entry.last), "days") + " dager (" + moment(entry.last).format("DD.MM.YYYY") + ")"]);
     });
 
     return ret;
@@ -150,6 +236,7 @@ var StandingsPage = React.createClass({
 
   _changeSeason: function(season) {
     StandingsActionCreators.loadSeason(season);
+    StatsActionCreators.loadSeason(season);
     this.setState({
       currentSeason: season
     });
@@ -213,6 +300,54 @@ var StandingsPage = React.createClass({
                                 headings={["Nick", "Poeng"]}
                                 title="Lavpoeng" />
               </div>
+              <div className="col-lg-4 col-md-6 col-sm-12">
+                <StandingsTable entries={this.state.currentStandings.byWinRatio}
+                                headings={["Nick", "Andel seiere"]}
+                                title="Antall seiere basert på antall spilte turneringer" />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-12">
+                <StandingsTable entries={this.state.currentStandings.byWinRatioTotal}
+                                headings={["Nick", "Andel seiere"]}
+                                title="Antall seiere basert på alle turneringer" />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-12">
+                <StandingsTable entries={this.state.currentStandings.byHeadsUp}
+                                headings={["Nick", "Heads Up", "Vunnet"]}
+                                title="Heads Up" />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-12">
+                <StandingsTable entries={this.state.currentStandings.byAbsence}
+                                headings={["Nick", "Turneringer", "Prosent"]}
+                                title="Fraværstabell" />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-12">
+                <StandingsTable entries={this.state.currentStandings.byForm}
+                                headings={["Nick", "Form"]}
+                                title="Formtabell" />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-lg-4 col-md-6 col-sm-12">
+                <StandingsTable entries={this.state.currentStandings.byDaysInYellow}
+                                headings={["Nick", "Dager med ledertrøya"]}
+                                title="Lengste periode med ledertrøya" />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-12">
+                <StandingsTable entries={this.state.currentStandings.byPlayerOfTheMonth}
+                                headings={["Nick", "Antall ganger"]}
+                                title="Månedens spiller" />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-12">
+                <StandingsTable entries={this.state.currentStandings.byLoserOfTheMonth}
+                                headings={["Nick", "Antall ganger"]}
+                                title="Månedens krill" />
+              </div>
+              <div className="col-lg-4 col-md-6 col-sm-12">
+                <StandingsTable entries={this.state.currentStandings.byDaysSinceHeadsUp}
+                                headings={["Nick", "Sist heads up"]}
+                                title="Sist spilleren var heads up" />
+              </div>
+
             </div>
           </div>
         </div>

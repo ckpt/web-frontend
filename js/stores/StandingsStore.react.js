@@ -5,6 +5,11 @@ var CKPTConstants = require("../constants/CKPTConstants.js");
 var EventEmitter = require("events").EventEmitter;
 var assign = require("object-assign");
 
+var moment = require("moment");
+var momentLocale = require("moment/locale/nb.js");
+moment.locale("nb", momentLocale);
+
+var _ = require("underscore");
 var ActionTypes = CKPTConstants.ActionTypes;
 var CHANGE_EVENT = "change";
 
@@ -13,7 +18,10 @@ var _standings = {
   byWinnings: [],
   byAvgPlace: [],
   byPoints: [],
-  byHeadsUp: []
+  byHeadsUp: [],
+  byWinRatio: [],
+  byWinRatioTotal: [],
+  byNumPlayed: []
 };
 
 var _errors = [];
@@ -78,6 +86,31 @@ var StandingsStore = assign({}, EventEmitter.prototype, {
 
   getLeader: function() {
     return _standings.byWinnings[0];
+  },
+
+  getCurrentForm: function() {
+    var playerForm = [];
+    var s = _standings.byWinnings;
+    _.each(s, function(entry) {
+      var sortedResults = _.sortBy(entry.results, function(r) { return r.when; });
+      playerForm.push({uuid: entry.uuid, form: _.last(sortedResults, 4).reverse()});
+    });
+    return _.sortBy(playerForm, function(pf) {
+      return pf.form.reduce(function(a, b){ return {place: a.place + b.place}; }).place / pf.form.length;
+    });
+  },
+
+  getLastHeadsUp: function() {
+    var playerLastHeadsUp = [];
+    var s = _standings.byWinnings;
+    _.each(s, function(entry) {
+      var sortedResults = _.sortBy(entry.results, function(r) { return r.when; }).reverse();
+      var last = _.find(sortedResults, function(r) { return r.place === 1 || r.place === 2; });
+      if (last) {
+        playerLastHeadsUp.push({uuid: entry.uuid, last: last.when});
+      }
+    });
+    return _.sortBy(playerLastHeadsUp, function (phu) { return phu.last; }).reverse();
   },
 
   getErrors: function() {
