@@ -167,13 +167,14 @@ var Sidebar = React.createClass({
   },
 
   render: function() {
+    var isAdmin = this.props.isAdmin;
     return (
         <div className="navbar-default sidebar" role="navigation">
           <div className="sidebar-nav navbar-collapse">
             <ul className="nav metismenu" id="side-menu" ref="sideMenu">
               {this.props.menuitems.map(function(item, i) {
                 return (
-                  <SidebarItem item={item} key={"sidebaritem-" + i} />
+                  <SidebarItem isAdmin={isAdmin} item={item} key={"sidebaritem-" + i} />
                 );
                 })}
             </ul>

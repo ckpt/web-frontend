@@ -64,7 +64,7 @@ var Navbar = React.createClass({
           <ProfileDropdown currentPath={this.getPath()} player={this.state.myPlayer} username={this.props.username}/>
         </ul>
 
-        <Sidebar />
+        <Sidebar isAdmin={this.props.isAdmin}/>
       </nav>
     );
   }

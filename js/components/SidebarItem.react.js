@@ -8,9 +8,12 @@ var SidebarItem = React.createClass({
 
   displayName: "Sidebar menu item",
 
-  _makeChildren: function(items) {
+  _makeChildren: function(items, isAdmin) {
     var _makeChild = function(item, i) {
       var params = _.has(item, "query") ? item.query : null;
+      if (item.admin && !isAdmin) {
+        return "";
+      }
       return (
         <li key={"sidebar-child-" + i}>
           <Link to={item.route} query={params}>{item.title}</Link>
@@ -29,7 +32,11 @@ var SidebarItem = React.createClass({
 
   render: function() {
     var item = this.props.item;
+    var isAdmin = this.props.isAdmin;
     if (item.route) {
+      if (item.admin && !isAdmin) {
+        return "";
+      }
       var params = _.has(item, "query") ? item.query : null;
       return (
         <li>
@@ -37,7 +44,7 @@ var SidebarItem = React.createClass({
         </li>
       );
     } else {
-      var children = this._makeChildren(item.subitems);
+      var children = this._makeChildren(item.subitems, isAdmin);
       return (
         <li>
           <a href="#submenu">
