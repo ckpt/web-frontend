@@ -4,11 +4,11 @@ var ServerActionCreators = require("../actions/ServerActionCreators.react.js");
 var request = require("superagent");
 
 var _endpoints = {
-  players: "http://localhost:8000/players",
-  login: "http://localhost:8000/login",
-  locations: "http://localhost:8000/locations",
-  tournaments: "http://localhost:8000/tournaments",
-  seasons: "http://localhost:8000/seasons"
+  players: "http://api.ckpt.no:8000/players",
+  login: "http://api.ckpt.no:8000/login",
+  locations: "http://api.ckpt.no:8000/locations",
+  tournaments: "http://api.ckpt.no:8000/tournaments",
+  seasons: "http://api.ckpt.no:8000/seasons"
 };
 
 var _dummytasks = ["foo"];
