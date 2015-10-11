@@ -13,6 +13,13 @@ module.exports = {
       type: ActionTypes.LOAD_TOURNAMENTS
     });
     APIUtils.loadTournaments();
-  }
+  },
+
+  saveResults: function(tournamentID, results) {
+    CKPTDispatcher.handleViewAction({
+      type: ActionTypes.SAVE_RESULTS
+    });
+    APIUtils.saveTournamentResults(tournamentID, results);
+  },
 
 };

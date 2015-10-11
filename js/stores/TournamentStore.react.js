@@ -62,6 +62,18 @@ var TournamentStore = assign({}, EventEmitter.prototype, {
     });
   },
 
+  getUnplayedTournamentsBySeason: function(season) {
+    var candidates = _.reject(_tournaments, function(t) {
+      return t.info.season !== season || t.played;
+    });
+    if (!candidates.length) {
+      return null;
+    }
+    return _.sortBy(candidates, function(c) {
+      return c.info.scheduled;
+    });
+  },
+
   getFromUUID: function(uuid) {
     return _.findWhere(_tournaments, {uuid: uuid});
   },

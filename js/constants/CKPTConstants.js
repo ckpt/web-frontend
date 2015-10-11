@@ -56,7 +56,8 @@ module.exports = {
 
     // Tournaments
     LOAD_TOURNAMENTS: null,
-    RECIEVE_TOURNAMENTS: null
+    RECIEVE_TOURNAMENTS: null,
+    SAVE_RESULTS: null
 
   })
 

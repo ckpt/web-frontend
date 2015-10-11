@@ -70,6 +70,19 @@ module.exports = {
 
   },
 
+  saveTournamentResults: function(uuid, results) {
+
+    request.put(_endpoints.tournaments + "/" + uuid + "/result")
+      .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
+      .accept("json")
+      .send({result: results})
+      .end(function(err, res) {
+        if (err) { throw err; }
+        // TODO: Propagate error action? This should probably result in another action fetching all players again, if the store cannot rollback on its own. Also, spawn a notification via some generic error propagation in the UI.
+        // TODO: Propagate RESULTS_SAVED on success, which can be used by some store.
+      });
+  },
+
 
   loadLocations: function() {
 

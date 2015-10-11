@@ -7,7 +7,7 @@
   "dependencies": {
     "flux": "^2.0.3",
     "react": "^0.13.3",
-    "react-bootstrap": "latest",
+    "react-bootstrap": "^0.25",
     "react-router": "^0.13.3",
     "moment": "^2.10.3",
     "superagent": "^1.2.0",
