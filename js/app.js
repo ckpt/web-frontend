@@ -11,6 +11,7 @@ var AwardsPage = require("./components/AwardsPage.react");
 var StandingsPage = require("./components/StandingsPage.react");
 var StandingsSummaryPage = require("./components/StandingsSummary.react");
 var ResultRegistrationPage = require("./components/ResultRegistrationPage.react");
+var CalendarPage = require("./components/CalendarPage.react");
 var LoginPage = require("./components/LoginPage.react");
 var LogoutPage = require("./components/LogoutPage.react");
 
@@ -36,7 +37,7 @@ var routes = (
       <Route name="gossip" path="gossip" handler={Dashboard}/>
       <Route name="debt" path="debt" handler={Dashboard}/>
 
-      <Route name="calendar" path="calendar" handler={Dashboard}/>
+      <Route name="calendar" path="calendar" handler={CalendarPage}/>
       <Route name="host" path="host" handler={Dashboard}/>
       <Route name="noshow" path="noshow" handler={Dashboard}/>
       <Route name="betting" path="betting" handler={Dashboard}/>

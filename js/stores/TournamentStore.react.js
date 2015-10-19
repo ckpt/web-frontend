@@ -50,6 +50,18 @@ var TournamentStore = assign({}, EventEmitter.prototype, {
     return _.keys(seasons);
   },
 
+  getTournamentsBySeason: function(season) {
+    var candidates = _.reject(_tournaments, function(t) {
+      return t.info.season !== season;
+    });
+    if (!candidates.length) {
+      return null;
+    }
+    return _.sortBy(candidates, function(c) {
+      return c.info.scheduled;
+    });
+  },
+
   getPlayedTournamentsBySeason: function(season) {
     var candidates = _.reject(_tournaments, function(t) {
       return t.info.season !== season || !t.played;
