@@ -19,7 +19,8 @@ var PlayerSummaryPanel = React.createClass({
     var numWins = this.props.winnings ? this.props.winnings.wins : "";
     var numSeconds = this.props.winnings ? (this.props.winnings.headsUp - this.props.winnings.wins) : "";
 
-    var color = this.props.player.active ? "info" : "danger";
+    var color = this.props.player.active ?
+                (winnings < 0 ? "danger" : "success") : "default";
     var img = this.props.player.profile.picture ? <img style={{marginRight: "1em", boxShadow: "5px 5px 15px #aaaaaa"}} className="pull-left" height="120px" src={"data:image/png;base64," + this.props.player.profile.picture} /> : "";
 
     var nick = this.props.player.nick;

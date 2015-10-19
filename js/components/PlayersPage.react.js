@@ -67,17 +67,17 @@ var PlayersPage = React.createClass({
 
     for (var i = 0; i < items.length; i++) {
       var badges = [];
-      if (items[i].nick === "Bjøro") {
-        badges.push({ desc: "Spillernes taper", icon: "thumbs-down" });
-      }
-      if (items[i].nick === "Lars Vegas") {
-        badges.push({ desc: "Spillernes favoritt", icon: "thumbs-up" });
-        badges.push({ desc: "Månedens krill", icon: "frown-o" });
-      }
-      if (items[i].nick === "Pæra") {
-        badges.push({ desc: "Har ledertrøya", icon: "trophy"});
-        badges.push({ desc: "Månedens spiller", icon: "rocket"});
-      }
+      // if (items[i].nick === "Bjøro") {
+      //   badges.push({ desc: "Spillernes taper", icon: "thumbs-down" });
+      // }
+      // if (items[i].nick === "Lars Vegas") {
+      //   badges.push({ desc: "Spillernes favoritt", icon: "thumbs-up" });
+      //   badges.push({ desc: "Månedens krill", icon: "frown-o" });
+      // }
+      // if (items[i].nick === "Pæra") {
+      //   badges.push({ desc: "Har ledertrøya", icon: "trophy"});
+      //   badges.push({ desc: "Månedens spiller", icon: "rocket"});
+      // }
 
       var playerWinnings = _.findWhere(winnings, {uuid: items[i].uuid});
       var player = <PlayerSummaryPanel footer={this.props.footer} player={items[i]} winnings={playerWinnings} xtraicons={badges} key={"playersummary-" + i} />;
