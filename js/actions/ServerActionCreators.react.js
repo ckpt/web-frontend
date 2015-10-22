@@ -77,6 +77,14 @@ module.exports = {
       json: json,
       errors: errors
     });
-  }
+  },
+
+  receiveNewsItems: function(json, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.RECIEVE_NEWS_ITEMS,
+      json: json,
+      errors: errors
+    });
+  },
 
 };

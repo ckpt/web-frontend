@@ -12,6 +12,8 @@ var StandingsPage = require("./components/StandingsPage.react");
 var StandingsSummaryPage = require("./components/StandingsSummary.react");
 var ResultRegistrationPage = require("./components/ResultRegistrationPage.react");
 var CalendarPage = require("./components/CalendarPage.react");
+var NewsPage = require("./components/NewsPage.react");
+var NewsItemPage = require("./components/NewsItemPage.react");
 var LoginPage = require("./components/LoginPage.react");
 var LogoutPage = require("./components/LogoutPage.react");
 
@@ -48,7 +50,8 @@ var routes = (
       <Route name="pvp" path="pvp" handler={Dashboard}/>
       <Route name="register" path="register" handler={ResultRegistrationPage}/>
 
-      <Route name="news" path="news" handler={Dashboard}/>
+      <Route name="news" path="news" handler={NewsPage}/>
+      <Route name="newsDetail" path="news/:newsId" handler={NewsItemPage}/>
 
       <Route name="michelin" path="michelin" handler={Dashboard}/>
       <Route name="pictures" path="pictures" handler={Dashboard}/>

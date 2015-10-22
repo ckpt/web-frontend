@@ -18,18 +18,28 @@ var TimelineItem = React.createClass({
     if (this.props.item.author) {
       authorLine = (
         <small className="text-muted">
-          <i className="fa fa-user"></i>
-          {this.props.item.author}&nbsp;
+          <i className="fa fa-user"></i> {this.props.item.authorNick}&nbsp;&nbsp;
         </small>
       );
     }
-    var tsString = this.props.item.createdAt.fromNow();
+    var tsString = moment(this.props.item.created).fromNow();
     var inverted = (this.props.order % 2 === 0) ? false : true;
+
+    var tagToIcon = {
+      0: "pencil",
+      1: "graduation-cap"
+    };
+    var tagToClass = {
+      0: "info",
+      1: "info"
+    };
+    var icon = tagToIcon[this.props.item.tag];
+    var color = tagToClass[this.props.item.tag];
 
     return (
       <li className={inverted ? "timeline-inverted" : ""}>
-        <div className={"timeline-badge " + this.props.item.color}>
-          <i className={"fa fa-" + this.props.item.icon}></i>
+        <div className={"timeline-badge " + color}>
+          <i className={"fa fa-" + icon}></i>
         </div>
         <div className="timeline-panel">
           <div className="timeline-heading">
@@ -40,7 +50,11 @@ var TimelineItem = React.createClass({
             </p>
           </div>
           <div className="timeline-body">
-            <p>{this.props.item.content}</p>
+            {this.props.item.leadin.split('\\n').map(function(p, i) {
+              return (
+              <p key={"para-" + i}>{p}</p>
+              );
+            })}
           </div>
         </div>
       </li>

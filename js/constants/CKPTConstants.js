@@ -2,9 +2,12 @@
 
 var keyMirror = require("keymirror");
 
-// var APIRoot = "http://localhost:3002";
+// var APIRoot = "https://backend-services-knumor-1.c9.io";
+var APIRoot = "http://api.ckpt.no:8000";
 
 module.exports = {
+
+  API_ROOT: APIRoot,
 
   //  APIEndpoints: {
   //    LOGIN:          APIRoot + "/v1/login",
@@ -57,7 +60,14 @@ module.exports = {
     // Tournaments
     LOAD_TOURNAMENTS: null,
     RECIEVE_TOURNAMENTS: null,
-    SAVE_RESULTS: null
+    SAVE_RESULTS: null,
+
+    // News
+    LOAD_NEWS_ITEMS: null,
+    RECIEVE_NEWS_ITEMS: null,
+    SAVE_NEWS_ITEM: null,
+    ADD_COMMENT: null,
+    REMOVE_COMMENT: null
 
   })
 

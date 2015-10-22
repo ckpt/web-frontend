@@ -20,7 +20,7 @@ var TimelineSection = React.createClass({
           icon: "th-list",
           title: "Nye turneringsresultater!",
           content: "Resultatene fra **mai** er lagt ut",
-          createdAt: moment().startOf("hour"),
+          created: moment().startOf("hour"),
           color: "info"
         },
         {
@@ -28,7 +28,7 @@ var TimelineSection = React.createClass({
           title: "Annen nyhet!",
           content: "Og mer tekst",
           author: "Panzer",
-          createdAt: moment().startOf("hour"),
+          created: moment().startOf("hour"),
           color: "info"
         }
 

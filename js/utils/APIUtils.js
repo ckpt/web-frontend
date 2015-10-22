@@ -2,13 +2,15 @@
 
 var ServerActionCreators = require("../actions/ServerActionCreators.react.js");
 var request = require("superagent");
+var APIRoot = require("../constants/CKPTConstants").API_ROOT;
 
 var _endpoints = {
-  players: "http://api.ckpt.no:8000/players",
-  login: "http://api.ckpt.no:8000/login",
-  locations: "http://api.ckpt.no:8000/locations",
-  tournaments: "http://api.ckpt.no:8000/tournaments",
-  seasons: "http://api.ckpt.no:8000/seasons"
+  players: APIRoot + "/players",
+  login: APIRoot + "/login",
+  locations: APIRoot + "/locations",
+  news: APIRoot + "/news",
+  tournaments: APIRoot + "/tournaments",
+  seasons: APIRoot + "/seasons"
 };
 
 var _dummytasks = ["foo"];
@@ -93,6 +95,18 @@ module.exports = {
         if (err) { throw err; }
         var json = JSON.stringify(res.body);
         ServerActionCreators.receiveLocations(json, null);
+      });
+  },
+
+  loadNewsItems: function() {
+
+    request.get(_endpoints.news)
+      .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
+      .accept("json")
+      .end(function(err, res) {
+        if (err) { throw err; }
+        var json = JSON.stringify(res.body);
+        ServerActionCreators.receiveNewsItems(json, null);
       });
   },
 

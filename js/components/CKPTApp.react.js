@@ -23,7 +23,7 @@ var CKPTApp = React.createClass({
   },
 
   _getLoginState: function() {
-    console.log("Fetching login state in main component: ");
+    //console.log("Fetching login state in main component: ");
     var _state = {
       loggedIn: SessionStore.isLoggedIn(),
       user: SessionStore.getUsername(),
@@ -31,7 +31,7 @@ var CKPTApp = React.createClass({
       errors: SessionStore.getErrors(),
       currentSeason: new Date().getFullYear()
     };
-    console.log(_state);
+    //console.log(_state);
     return _state;
   },
 

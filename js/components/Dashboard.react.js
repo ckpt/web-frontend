@@ -11,11 +11,13 @@ var PlayerStore = require("../stores/PlayerStore.react");
 var StandingsStore = require("../stores/StandingsStore.react");
 var LocationStore = require("../stores/LocationStore.react");
 var TournamentStore = require("../stores/TournamentStore.react");
+var NewsStore = require("../stores/NewsStore.react");
 var TaskActionCreators = require("../actions/TaskActionCreators.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 var StandingsActionCreators = require("../actions/StandingsActionCreators.react");
 var LocationActionCreators = require("../actions/LocationActionCreators.react");
 var TournamentActionCreators = require("../actions/TournamentActionCreators.react");
+var NewsActionCreators = require("../actions/NewsActionCreators.react");
 var Authentication = require("../utils/Authentication");
 
 var moment = require("moment");
@@ -36,6 +38,7 @@ var Dashboard = React.createClass({
       currentPlayer: PlayerStore.getFromUser(this.props.username),
       nextTournament: this._nextTournamentDetails(),
       quotes: PlayerStore.getQuotes(),
+      news: NewsStore.getNewsItems(),
       errors: []
     };
   },
@@ -46,10 +49,12 @@ var Dashboard = React.createClass({
     StandingsStore.addChangeListener(this._onChange);
     LocationStore.addChangeListener(this._onChange);
     TournamentStore.addChangeListener(this._onChange);
+    NewsStore.addChangeListener(this._onChange);
 
     PlayerActionCreators.loadPlayers();
     LocationActionCreators.loadLocations();
     TournamentActionCreators.loadTournaments();
+    NewsActionCreators.loadNewsItems();
     TaskActionCreators.loadTasks();
     StandingsActionCreators.loadSeason(this.props.currentSeason);
   },
@@ -60,6 +65,7 @@ var Dashboard = React.createClass({
     StandingsStore.removeChangeListener(this._onChange);
     LocationStore.removeChangeListener(this._onChange);
     TournamentStore.removeChangeListener(this._onChange);
+    NewsStore.removeChangeListener(this._onChange);
   },
 
   _onChange: function() {
@@ -71,6 +77,7 @@ var Dashboard = React.createClass({
       currentPlayer: PlayerStore.getFromUser(this.props.username),
       nextTournament: this._nextTournamentDetails(),
       quotes: PlayerStore.getQuotes(),
+      news: NewsStore.getNewsItems(),
       errors: [
         TaskStore.getErrors() +
         PlayerStore.getErrors() +
@@ -158,19 +165,32 @@ var Dashboard = React.createClass({
     var playerItem = this._makeOverviewItem("money", userWinnings,
                                             "Gevinst i " + this.state.currentSeason,
                                             userWinnings < 0 ? "red" : "success",
-                                            { target: "#", text: "Se årets resultater" });
+                                            { target: "#/standings", text: "Se årets resultater" });
     var leaderItem = this._makeOverviewItem("trophy", this.state.currentLeaderNick,
                                             "Leder årets sesong", "yellow",
                                             { target: "#/overview", text: "Se sammenlagtoversikt" });
     var tournamentItem = this._makeOverviewItem("home", this.state.nextTournament.where,
                                             "Neste turnering er " + this.state.nextTournament.when,
-                                            "info", { target: "#", text: "Mer informasjon" });
+                                            "info", { target: "#/locations", text: "Mer informasjon" });
 
     return [playerItem, tasksItem, leaderItem, tournamentItem];
   },
 
+  _makeTimelineItems: function() {
+    return this.state.news.map(function(item, i) {
+      var player = PlayerStore.getFromUUID(item.author);
+      var nick = "Ukjent";
+      if (player) {
+        nick = player.nick;
+      }
+      item.authorNick = nick;
+      return item;
+    });
+  },
+
   render: function() {
     var overviewItems = this._makeOverviewItems();
+    var timelineItems = this._makeTimelineItems();
 
     return (
       <div id="page-wrapper">
@@ -178,7 +198,8 @@ var Dashboard = React.createClass({
           <OverviewSection items={overviewItems} />
         </div>
         <div className="row">
-          <TimelineSection />
+          <TimelineSection heading="Pokernytt" items={timelineItems}
+                           link={{target: "#/news", text: "Alle nyheter og bidrag"}}/>
           <div className="col-lg-4">
             <StandingsTable entries={this.state.currentStandings}
                             headings={["Nick", "Gevinst"]}

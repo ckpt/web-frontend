@@ -60,7 +60,7 @@ var Navbar = React.createClass({
         </div>
 
         <ul className="nav navbar-top-links navbar-right">
-          <NotificationsDropdown />
+          { /* <NotificationsDropdown /> */ }
           <ProfileDropdown currentPath={this.getPath()} player={this.state.myPlayer} username={this.props.username}/>
         </ul>
 

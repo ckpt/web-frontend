@@ -40,8 +40,8 @@ var ProfileDropdown = React.createClass({
               <i className="fa fa-user fa-fw"></i> {this.props.player ? this.props.player.nick : "Ukjent"} <i className="fa fa-caret-down"></i>
             </a>
             <ul className="dropdown-menu dropdown-user">
-              <li><a href="#"><i className="fa fa-bookmark fa-fw"></i> Min side</a>
-              </li>
+              { /* <li><a href="#"><i className="fa fa-bookmark fa-fw"></i> Min side</a>
+              </li> */ }
               <li><a href={"#" + this.props.currentPath} onClick={this.pmOpen}><i className="fa fa-user fa-fw"></i> Profil</a>
               </li>
               <li><a href={"#" + this.props.currentPath} onClick={this.smOpen}><i className="fa fa-gear fa-fw"></i> Innstillinger</a>

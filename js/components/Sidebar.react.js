@@ -43,14 +43,14 @@ var Sidebar = React.createClass({
               title: "Oversikt",
               route: "players"
             },
-            {
-              title: "Sladder",
-              route: "gossip"
-            },
-            {
-              title: "Gjeld",
-              route: "debt"
-            }
+            // {
+            //   title: "Sladder",
+            //   route: "gossip"
+            // },
+            // {
+            //  title: "Gjeld",
+            //  route: "debt"
+            // }
           ]
         },
         {
@@ -62,18 +62,18 @@ var Sidebar = React.createClass({
               title: "Kalender",
               route: "calendar"
             },
-            {
-              title: "Vertskap",
-              route: "host"
-            },
-            {
-              title: "Fravær",
-              route: "noshow"
-            },
-            {
-              title: "Tipping",
-              route: "betting"
-            }
+            // {
+            //   title: "Vertskap",
+            //   route: "host"
+            // },
+            // {
+            //   title: "Fravær",
+            //   route: "noshow"
+            // },
+            // {
+            //   title: "Tipping",
+            //   route: "betting"
+            // }
           ]
         },
         {
@@ -93,10 +93,10 @@ var Sidebar = React.createClass({
               title: "Hall of fame",
               route: "awards"
             },
-            {
-              title: "Spiller vs spiller",
-              route: "pvp"
-            },
+            // {
+            //   title: "Spiller vs spiller",
+            //   route: "pvp"
+            // },
             {
               title: "Registrere resultat",
               route: "register",
@@ -116,48 +116,48 @@ var Sidebar = React.createClass({
             {
               title: "Nyheter",
               route: "news",
-              query: {tag: "news"}
+              query: {tag: 0}
             },
             {
               title: "Analyser",
               route: "news",
-              query: {tag: "analysis"}
+              query: {tag: 1}
             },
             {
               title: "Strategiavsløringer",
               route: "news",
-              query: {tag: "strategy"}
+              query: {tag: 2}
             },
             {
               title: "Mattips",
               route: "news",
-              query: {tag: "recepie"}
+              query: {tag: 3}
             }
           ]
         },
-        {
-          title: "Kulturelt",
-          icon: "beer",
-          route: null,
-          subitems: [
-            {
-              title: "Michelinguide",
-              route: "michelin"
-            },
-            {
-              title: "Bilder",
-              route: "pictures"
-            },
-            {
-              title: "Musikk",
-              route: "music"
-            },
-            {
-              title: "Den gode praten",
-              route: "dgp"
-            }
-          ]
-        }
+        // {
+        //   title: "Kulturelt",
+        //   icon: "beer",
+        //   route: null,
+        //   subitems: [
+        //     {
+        //       title: "Michelinguide",
+        //       route: "michelin"
+        //     },
+        //     {
+        //       title: "Bilder",
+        //       route: "pictures"
+        //     },
+        //     {
+        //       title: "Musikk",
+        //       route: "music"
+        //     },
+        //     {
+        //       title: "Den gode praten",
+        //       route: "dgp"
+        //     }
+        //   ]
+        // }
       ]
     };
   },

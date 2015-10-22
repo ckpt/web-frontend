@@ -105,7 +105,12 @@ var LocationsPage = React.createClass({
   },
 
   render: function() {
-    var locationrows = this._makeRows(_.sortBy(this.state.locations, function(l) { return l.profile.name; }));
+    var locationrows = this._makeRows(
+        _.sortBy(
+              _.filter(this.state.locations, function(l) { return l.active; }
+              ),
+          function(l) { return l.profile.name; })
+        );
 
     return (
       <div id="page-wrapper">
