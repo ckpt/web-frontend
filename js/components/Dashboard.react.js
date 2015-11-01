@@ -24,6 +24,8 @@ var moment = require("moment");
 var momentLocale = require("moment/locale/nb.js");
 moment.locale("nb", momentLocale);
 
+var _ = require("underscore");
+
 var Dashboard = React.createClass({
 
   displayName: "Dashboard Page",
@@ -191,6 +193,7 @@ var Dashboard = React.createClass({
   render: function() {
     var overviewItems = this._makeOverviewItems();
     var timelineItems = this._makeTimelineItems();
+    timelineItems = _.sortBy(timelineItems, 'created').reverse().slice(0,4);
 
     return (
       <div id="page-wrapper">

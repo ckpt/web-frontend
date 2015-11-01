@@ -8,6 +8,8 @@ var ListGroup = require("react-bootstrap").ListGroup;
 var ListGroupItem = require("react-bootstrap").ListGroupItem;
 var Button = require("react-bootstrap").Button;
 
+var NewsEditModal = require("./NewsEditModal.react");
+
 var PlayerStore = require("../stores/PlayerStore.react");
 var NewsStore = require("../stores/NewsStore.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
@@ -27,6 +29,7 @@ var NewsPage = React.createClass({
   getInitialState: function() {
     return {
       newsitems: NewsStore.getNewsItems(),
+      emShow: false,
       errors: []
     };
   },
@@ -53,6 +56,15 @@ var NewsPage = React.createClass({
     });
   },
 
+  emOpen: function(e) {
+    this.setState({emShow: true});
+  },
+
+  emClose: function(e) {
+    this.setState({emShow: false});
+  },
+
+
   render: function() {
     var tagTitle = {
       0: "nyheter",
@@ -72,6 +84,8 @@ var NewsPage = React.createClass({
       items = _.where(items, {tag: tag}) || [];
     }
 
+    items = _.sortBy(items, 'created').reverse();
+
     return (
       <div id="page-wrapper">
         <div className="row">
@@ -81,7 +95,7 @@ var NewsPage = React.createClass({
           <h2 style={{paddingTop: "0.5em"}}>{title}</h2>
           </div>
           <div className="pull-right">
-          <Button bsStyle="disabled">Opprett sak</Button>
+          <Button bsStyle="primary" onClick={this.emOpen}>Opprett sak</Button>
           </div>
           </div>
         </div>
@@ -103,6 +117,7 @@ var NewsPage = React.createClass({
           </ListGroup>
           </div>
         </div>
+        <NewsEditModal tag={tag} show={this.state.emShow} onHide={this.emClose} />
       </div>
     );
   }

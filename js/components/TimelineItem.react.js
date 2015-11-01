@@ -27,11 +27,15 @@ var TimelineItem = React.createClass({
 
     var tagToIcon = {
       0: "pencil",
-      1: "graduation-cap"
+      1: "graduation-cap",
+      2: "bomb",
+      3: "cutlery"
     };
     var tagToClass = {
       0: "info",
-      1: "info"
+      1: "success",
+      2: "warning",
+      3: "primary"
     };
     var icon = tagToIcon[this.props.item.tag];
     var color = tagToClass[this.props.item.tag];

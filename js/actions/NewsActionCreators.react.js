@@ -13,6 +13,20 @@ module.exports = {
       type: ActionTypes.LOAD_NEWS_ITEMS
     });
     APIUtils.loadNewsItems();
+  },
+
+  createNewsItem: function(itemData) {
+    CKPTDispatcher.handleViewAction({
+      type: ActionTypes.SAVE_NEWS_ITEM
+    });
+    APIUtils.createNewsItem(itemData);
+  },
+
+  updateNewsItem: function(uuid, itemData) {
+    CKPTDispatcher.handleViewAction({
+      type: ActionTypes.SAVE_NEWS_ITEM
+    });
+    APIUtils.updateNewsItem(uuid, itemData);
   }
 
 };

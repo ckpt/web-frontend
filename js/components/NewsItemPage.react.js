@@ -1,9 +1,11 @@
 "use strict";
 
 var React = require("react");
+var Button = require("react-bootstrap").Button;
 var Router = require("react-router");
 var Link = require("react-router").Link;
 
+var NewsEditModal = require("./NewsEditModal.react");
 var PlayerStore = require("../stores/PlayerStore.react");
 var NewsStore = require("../stores/NewsStore.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
@@ -29,6 +31,7 @@ var NewsItemPage = React.createClass({
         created: moment(),
         author: ""
       },
+      emShow: false,
       errors: []
     };
   },
@@ -56,6 +59,14 @@ var NewsItemPage = React.createClass({
     });
   },
 
+  emOpen: function(e) {
+    this.setState({emShow: true});
+  },
+
+  emClose: function(e) {
+    this.setState({emShow: false});
+  },
+
   render: function() {
     var tagTitle = {
       0: "nyheter",
@@ -63,14 +74,20 @@ var NewsItemPage = React.createClass({
       2: "strategiavsløringer",
       3: "mattips"
     };
-    
+
     var nick = "Ukjent";
     var p = PlayerStore.getFromUUID(this.state.newsitem.author);
     if (p && p.nick) {
       nick = p.nick;
     }
-
     
+    var currentLoggedInPlayer = PlayerStore.getFromUser(this.props.user);
+    var editButton = "";
+
+    if ( (currentLoggedInPlayer && currentLoggedInPlayer.uuid == p.uuid) || this.props.isAdmin) {
+      editButton = <Button bsStyle="primary" onClick={this.emOpen}>Rediger sak</Button>;
+    }
+
     return (
       <div id="page-wrapper">
         <div className="row">
@@ -81,15 +98,25 @@ var NewsItemPage = React.createClass({
             </div>
             <div className="panel-body">
               <h2><strong>{this.state.newsitem.title}</strong></h2>
-              <p className="lead">{this.state.newsitem.leadin}</p>
+              <p className="lead">
+              {this.state.newsitem.leadin.split('\\n').map(function(p, i) {
+                  return (
+                  <span key={"para-lead-" + i}>{p}<br/></span>
+                  );
+                })}
+              </p>
               {this.state.newsitem.body.split('\\n').map(function(p, i) {
                   return (
                   <p key={"para-" + i}>{p}</p>
                   );
                 })}
             </div>
+            <div className="panel-footer pull-right">
+            {editButton}
+            </div>
           </div>
         </div>
+        <NewsEditModal item={this.state.newsitem} show={this.state.emShow} onHide={this.emClose} />
       </div>
     );
   }
