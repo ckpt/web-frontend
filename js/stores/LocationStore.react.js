@@ -34,6 +34,10 @@ var LocationStore = assign({}, EventEmitter.prototype, {
     return _.findWhere(_locations, {uuid: uuid});
   },
 
+  getFromHost: function(uuid) {
+    return _.findWhere(_locations, {host: uuid});
+  },
+
   getErrors: function() {
     return _errors;
   }

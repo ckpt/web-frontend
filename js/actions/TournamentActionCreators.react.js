@@ -22,4 +22,11 @@ module.exports = {
     APIUtils.saveTournamentResults(tournamentID, results);
   },
 
+  setHost: function(tournamentID, locationID) {
+    CKPTDispatcher.handleViewAction({
+      type: ActionTypes.SET_HOST
+    });
+    APIUtils.setTournamentHost(tournamentID, locationID);
+  },
+
 };

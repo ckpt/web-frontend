@@ -62,10 +62,10 @@ var Sidebar = React.createClass({
               title: "Kalender",
               route: "calendar"
             },
-            // {
-            //   title: "Vertskap",
-            //   route: "host"
-            // },
+            {
+             title: "Vertskap",
+             route: "host"
+            },
             // {
             //   title: "Fravær",
             //   route: "noshow"
