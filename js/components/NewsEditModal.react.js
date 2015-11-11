@@ -61,12 +61,8 @@ var NewsEditModal = React.createClass({
     var it = this.props.item || this.state.item;
 
     if (it.uuid) {
-      console.log("Would update news item " + it.uuid + " with data:")
-      console.log(itemData)
       NewsActionCreators.updateNewsItem(it.uuid, itemData);
     } else {
-      console.log("Would create news item with data:")
-      console.log(itemData)
       NewsActionCreators.createNewsItem(itemData);
     }
     this.props.onHide();
