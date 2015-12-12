@@ -2,8 +2,8 @@
 
 var keyMirror = require("keymirror");
 
-// var APIRoot = "https://backend-services-knumor-1.c9.io";
-var APIRoot = "http://api.ckpt.no:8000";
+//var APIRoot = "https://backend-services-knumor-1.c9.io";
+var APIRoot = "http://api.ckpt.no:9000";
 
 module.exports = {
 
