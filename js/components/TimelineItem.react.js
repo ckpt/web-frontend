@@ -2,6 +2,7 @@
 
 var React = require("react");
 var moment = require("moment");
+var Link = require("react-router").Link;
 var momentLocale = require("moment/locale/nb.js");
 moment.locale("nb", momentLocale);
 
@@ -47,7 +48,9 @@ var TimelineItem = React.createClass({
         </div>
         <div className="timeline-panel">
           <div className="timeline-heading">
-            <h4 className="timeline-title">{this.props.item.title}</h4>
+            <h4 className="timeline-title">
+              <Link to={"/news/" + this.props.item.uuid}>{this.props.item.title}</Link>
+            </h4>
             <p>
               {authorLine}
               <small className="text-muted"><i className="fa fa-clock-o"></i> {tsString}</small>
