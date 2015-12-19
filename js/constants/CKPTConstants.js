@@ -67,8 +67,8 @@ module.exports = {
     LOAD_NEWS_ITEMS: null,
     RECIEVE_NEWS_ITEMS: null,
     SAVE_NEWS_ITEM: null,
-    ADD_COMMENT: null,
-    REMOVE_COMMENT: null
+    ADD_NEWS_COMMENT: null,
+    REMOVE_NEWS_COMMENT: null
 
   })
 

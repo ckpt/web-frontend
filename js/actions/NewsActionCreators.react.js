@@ -27,6 +27,16 @@ module.exports = {
       type: ActionTypes.SAVE_NEWS_ITEM
     });
     APIUtils.updateNewsItem(uuid, itemData);
-  }
+  },
+
+  addComment: function(uuid, commentData) {
+    CKPTDispatcher.handleViewAction({
+      type: ActionTypes.ADD_NEWS_COMMENT
+    });
+    APIUtils.addNewsComment(uuid, commentData);
+  },
+
+
+
 
 };

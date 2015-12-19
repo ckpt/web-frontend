@@ -6,6 +6,8 @@ var Router = require("react-router");
 var Link = require("react-router").Link;
 
 var NewsEditModal = require("./NewsEditModal.react");
+var NewsCommentModal = require("./NewsCommentModal.react");
+var NewsComments = require("./NewsComments.react");
 var PlayerStore = require("../stores/PlayerStore.react");
 var NewsStore = require("../stores/NewsStore.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
@@ -29,9 +31,11 @@ var NewsItemPage = React.createClass({
         leadin: "",
         body: "",
         created: moment(),
+        comments: [],
         author: ""
       },
       emShow: false,
+      acShow: false,
       errors: []
     };
   },
@@ -49,9 +53,13 @@ var NewsItemPage = React.createClass({
   },
 
   _onChange: function() {
-    var id = this.getParams().newsId
+    var id = this.getParams().newsId;
+    var newsItem = NewsStore.getByUUID(id);
+    if (newsItem && newsItem.comments) {
+      newsItem.comments.reverse();
+    }
     this.setState({
-      newsitem: NewsStore.getByUUID(id),
+      newsitem: newsItem,
       errors: [
         PlayerStore.getErrors() +
         NewsStore.getErrors()
@@ -67,6 +75,14 @@ var NewsItemPage = React.createClass({
     this.setState({emShow: false});
   },
 
+  acOpen: function(e) {
+    this.setState({acShow: true});
+  },
+
+  acClose: function(e) {
+    this.setState({acShow: false});
+  },
+
   render: function() {
     var tagTitle = {
       0: "nyheter",
@@ -76,17 +92,23 @@ var NewsItemPage = React.createClass({
     };
 
     var nick = "Ukjent";
-    var p = PlayerStore.getFromUUID(this.state.newsitem.author);
+    var p = this.state.newsitem ? PlayerStore.getFromUUID(this.state.newsitem.author) : null;
     if (p && p.nick) {
       nick = p.nick;
     }
-    
+
     var currentLoggedInPlayer = PlayerStore.getFromUser(this.props.user);
     var editButton = "";
+    var addButton = <Button bsSize="xsmall" bsStyle="primary" onClick={this.acOpen}>Ny kommentar</Button>;
 
     if ( (currentLoggedInPlayer && currentLoggedInPlayer.uuid == p.uuid) || this.props.isAdmin) {
-      editButton = <Button bsStyle="primary" onClick={this.emOpen}>Rediger sak</Button>;
+      editButton = <Button bsSize="xsmall" bsStyle="primary" onClick={this.emOpen}>Rediger sak</Button>;
     }
+
+    var created = this.state.newsitem ? moment(this.state.newsitem.created).fromNow() : ";"
+    var title = this.state.newsitem ? this.state.newsitem.title : "";
+    var leadin = this.state.newsitem ? this.state.newsitem.leadin : "";
+    var body = this.state.newsitem ? this.state.newsitem.body : "";
 
     return (
       <div id="page-wrapper">
@@ -94,29 +116,31 @@ var NewsItemPage = React.createClass({
         <p></p>
           <div className="panel panel-info">
             <div className="panel-heading">
-              Skrevet av {nick} -- {moment(this.state.newsitem.created).fromNow()}
+              Skrevet av {nick} -- {created}
+              <span className="pull-right">{editButton}&nbsp;&nbsp;{addButton}</span>
             </div>
             <div className="panel-body">
-              <h2><strong>{this.state.newsitem.title}</strong></h2>
+              <h2><strong>{title}</strong></h2>
               <p className="lead">
-              {this.state.newsitem.leadin.split('\\n').map(function(p, i) {
+              {leadin.split('\\n').map(function(p, i) {
                   return (
                   <span key={"para-lead-" + i}>{p}<br/></span>
                   );
                 })}
               </p>
-              {this.state.newsitem.body.split('\\n').map(function(p, i) {
+              {body.split('\\n').map(function(p, i) {
                   return (
                   <p key={"para-" + i}>{p}</p>
                   );
                 })}
             </div>
-            <div className="panel-footer pull-right">
-            {editButton}
-            </div>
           </div>
         </div>
+        <div className="row">
+          <NewsComments item={this.state.newsitem} />
+        </div>
         <NewsEditModal item={this.state.newsitem} show={this.state.emShow} onHide={this.emClose} />
+        <NewsCommentModal item={this.state.newsitem} show={this.state.acShow} onHide={this.acClose} />
       </div>
     );
   }
