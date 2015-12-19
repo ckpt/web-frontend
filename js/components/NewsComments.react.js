@@ -16,10 +16,6 @@ var NewsComments = React.createClass({
     var item = this.props.item;
     var nick = "Ukjent";
     var author = item ? item.author : null;
-    var p = PlayerStore.getFromUUID(item.author);
-    if (p && p.nick) {
-      nick = p.nick;
-    }
 
     var currentLoggedInPlayer = PlayerStore.getFromUser(this.props.user);
     var comments = item.comments ? item.comments : [];
@@ -30,6 +26,11 @@ var NewsComments = React.createClass({
           var paras = comment.content.split('\\n').map(function(para, j) {
             return <p key={"comment-" + i + "-para-" + j}>{para}</p>;
           });
+
+          var p = PlayerStore.getFromUUID(comment.player);
+          if (p && p.nick) {
+            nick = p.nick;
+          }
 
           return (
             <div key={"comment-" + i} className="panel panel-default">
