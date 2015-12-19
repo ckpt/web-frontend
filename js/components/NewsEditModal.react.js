@@ -97,7 +97,7 @@ var NewsEditModal = React.createClass({
             <Input type="select" ref="tag" label="Type sak">
               {tagTitles.map(function(title, i) {
                 var selected = (i === currentTag ? "selected" : "");
-                return <option value={i} selected={selected}>{title}</option>;
+                return <option key={"tag-no-" + i} value={i} selected={selected}>{title}</option>;
               })}
             </Input>
             <Input type='textarea' rows="5" ref="leadin" label="Ingress" defaultValue={it.leadin.replace(/\\n/g, "\n")} />
