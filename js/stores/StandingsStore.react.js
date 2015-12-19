@@ -68,9 +68,13 @@ var StandingsStore = assign({}, EventEmitter.prototype, {
     };
 
     Object.keys(_standings).forEach(function (k) {
-      _ret[k] = _standings[k].filter(function(item) {
-        return item.uuid === uuid;
-      }).pop() || null;
+      if (!_standings[k]) {
+        _ret[k] = null;
+      } else {
+        _ret[k] = _standings[k].filter(function(item) {
+          return item.uuid === uuid;
+        }).pop() || null;
+      }
     });
 
     if (all) {
@@ -85,7 +89,7 @@ var StandingsStore = assign({}, EventEmitter.prototype, {
   },
 
   getLeader: function() {
-    return _standings.byWinnings[0];
+    return _standings.byWinnings ? _standings.byWinnings[0] : null;
   },
 
   getCurrentForm: function() {

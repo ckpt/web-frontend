@@ -152,6 +152,10 @@ var StandingsPage = React.createClass({
       return ret;
     }
 
+    if (!standings.byWinnings) {
+      return ret;
+    }
+
     standings.byWinnings.forEach(function (entry) {
       var player = PlayerStore.getFromUUID(entry.uuid);
       if (!player) { return [null, null]; }

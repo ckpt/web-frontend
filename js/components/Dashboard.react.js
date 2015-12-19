@@ -100,7 +100,7 @@ var Dashboard = React.createClass({
     if (playerStanding) {
       return playerStanding.winnings;
     } else {
-      return null;
+      return 0;
     }
   },
 
@@ -111,8 +111,8 @@ var Dashboard = React.createClass({
       if (player) {
         return player.nick;
       }
-    return null;
     }
+    return "Ukjent";
   },
 
   _getCurrentStandings: function() {
