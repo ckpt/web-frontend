@@ -24,6 +24,7 @@ var TimelineItem = React.createClass({
       );
     }
     var tsString = moment(this.props.item.created).fromNow();
+    var comments = this.props.item.comments ? this.props.item.comments.length : 0;
     var inverted = (this.props.order % 2 === 0) ? false : true;
 
     var tagToIcon = {
@@ -53,7 +54,8 @@ var TimelineItem = React.createClass({
             </h4>
             <p>
               {authorLine}
-              <small className="text-muted"><i className="fa fa-clock-o"></i> {tsString}</small>
+              <small className="text-muted"><i className="fa fa-clock-o"></i> {tsString}</small>&nbsp;
+              <small className="text-muted"><i className="fa fa-comments-o"></i> {comments}</small>
             </p>
           </div>
           <div className="timeline-body">
