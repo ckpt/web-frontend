@@ -29,4 +29,11 @@ module.exports = {
     APIUtils.setTournamentHost(tournamentID, locationID);
   },
 
+  addNoShow: function(tournamentID, playerID, reason) {
+    CKPTDispatcher.handleViewAction({
+      type: ActionTypes.ADD_NOSHOW
+    });
+    APIUtils.addTournamentNoShow(tournamentID, playerID, reason);
+  },
+
 };

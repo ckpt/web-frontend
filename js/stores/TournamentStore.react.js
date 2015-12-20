@@ -86,6 +86,19 @@ var TournamentStore = assign({}, EventEmitter.prototype, {
     });
   },
 
+  getByAbsentee: function(player) {
+    var candidates = _.filter(_tournaments, function(t) {
+      return _.contains(_.pluck(t.noshows, "player"), player)
+    });
+    if (!candidates.length) {
+      return null;
+    }
+    return _.sortBy(candidates, function(c) {
+      return c.info.scheduled;
+    });
+  },
+
+
   getFromUUID: function(uuid) {
     return _.findWhere(_tournaments, {uuid: uuid});
   },

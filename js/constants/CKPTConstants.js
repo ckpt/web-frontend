@@ -62,6 +62,7 @@ module.exports = {
     RECIEVE_TOURNAMENTS: null,
     SAVE_RESULTS: null,
     SET_HOST: null,
+    ADD_NOSHOW: null,
 
     // News
     LOAD_NEWS_ITEMS: null,

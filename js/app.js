@@ -15,6 +15,7 @@ var CalendarPage = require("./components/CalendarPage.react");
 var NewsPage = require("./components/NewsPage.react");
 var NewsItemPage = require("./components/NewsItemPage.react");
 var HostPage = require("./components/HostPage.react");
+var NoShowPage = require("./components/NoShowPage.react");
 var LoginPage = require("./components/LoginPage.react");
 var LogoutPage = require("./components/LogoutPage.react");
 
@@ -42,7 +43,7 @@ var routes = (
 
       <Route name="calendar" path="calendar" handler={CalendarPage}/>
       <Route name="host" path="host" handler={HostPage}/>
-      <Route name="noshow" path="noshow" handler={Dashboard}/>
+      <Route name="noshow" path="noshow" handler={NoShowPage}/>
       <Route name="betting" path="betting" handler={Dashboard}/>
 
       <Route name="standings" path="standings" handler={StandingsPage}/>

@@ -66,12 +66,12 @@ var Sidebar = React.createClass({
              title: "Vertskap",
              route: "host"
             },
+            {
+             title: "Fravær",
+             route: "noshow"
+            },
             // {
-            //   title: "Fravær",
-            //   route: "noshow"
-            // },
-            // {
-            //   title: "Tipping",
+            // title: "Tipping",
             //   route: "betting"
             // }
           ]
