@@ -121,7 +121,7 @@ var AwardsPage = React.createClass({
 
   render: function() {
     var currentSeason = this.props.currentSeason;
-    var completedSeasons = _.reject(this.state.titles, function(t) { return t.season === currentSeason; });
+    var completedSeasons = _.reject(this.state.titles, function(t) { return t.season >= currentSeason; });
     var awardrows = this._makeRows(_.sortBy(completedSeasons, function(t) { return -t.season; }));
     var carouselitems = this._makeCarousel(_.sortBy(completedSeasons, function(t) { return -t.season; }));
 
