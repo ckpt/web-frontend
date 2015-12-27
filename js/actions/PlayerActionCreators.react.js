@@ -34,6 +34,29 @@ module.exports = {
     });
 
     APIUtils.saveUserSettings(uuid, settings, password);
+  },
+
+  settleDebt: function(uuid, debitor) {
+    CKPTDispatcher.handleViewAction({
+      type: ActionTypes.SETTLE_PLAYER_DEBT,
+      uuid: uuid,
+      debitor: debitor,
+    });
+
+    APIUtils.settleDebt(uuid, debitor);
+  },
+
+  addDebt: function(creditor, debitor, amount, reason) {
+  CKPTDispatcher.handleViewAction({
+    type: ActionTypes.ADD_PLAYER_DEBT,
+    creditor: creditor,
+    debitor: debitor,
+    amount: amount,
+    reason: reason,
+  });
+
+  APIUtils.addDebt(creditor, debitor, amount, reason);
   }
+
 
 };

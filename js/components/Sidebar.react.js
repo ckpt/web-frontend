@@ -47,10 +47,10 @@ var Sidebar = React.createClass({
             //   title: "Sladder",
             //   route: "gossip"
             // },
-            // {
-            //  title: "Gjeld",
-            //  route: "debt"
-            // }
+            {
+              title: "Gjeld",
+              route: "debt"
+            }
           ]
         },
         {

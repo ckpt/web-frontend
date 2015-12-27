@@ -16,6 +16,7 @@ var NewsPage = require("./components/NewsPage.react");
 var NewsItemPage = require("./components/NewsItemPage.react");
 var HostPage = require("./components/HostPage.react");
 var NoShowPage = require("./components/NoShowPage.react");
+var DebtPage = require("./components/DebtPage.react");
 var LoginPage = require("./components/LoginPage.react");
 var LogoutPage = require("./components/LogoutPage.react");
 
@@ -39,7 +40,7 @@ var routes = (
 
       <Route name="players" path="players" handler={PlayersPage}/>
       <Route name="gossip" path="gossip" handler={Dashboard}/>
-      <Route name="debt" path="debt" handler={Dashboard}/>
+      <Route name="debt" path="debt" handler={DebtPage}/>
 
       <Route name="calendar" path="calendar" handler={CalendarPage}/>
       <Route name="host" path="host" handler={HostPage}/>

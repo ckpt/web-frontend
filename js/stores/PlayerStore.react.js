@@ -65,6 +65,22 @@ var PlayerStore = assign({}, EventEmitter.prototype, {
     return [{uuid: null, quote: null, nick: null}];
   },
 
+  getCreditsByUUID: function(uuid) {
+    var credits = [];
+    for (var i=0; i < _players.length; i++) {
+      if (uuid === _players[i].uuid) {
+        continue;
+      }
+      for (var j=0; j < _players[i].debts.length; j++) {
+        if (_players[i].debts[j].creditor === uuid) {
+          credits.push(_players[i].debts[j]);
+        }
+      }
+    }
+
+    return credits;
+  },
+
   getErrors: function() {
     return _errors;
   }
