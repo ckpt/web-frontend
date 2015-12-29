@@ -67,6 +67,7 @@ var DebtPage = React.createClass({
     PlayerActionCreators.settleDebt(debtuuid, debitor);
     this.setState({messages: ["Gjeld innfridd"]});
     PlayerActionCreators.loadPlayers();
+    PlayerActionCreators.loadPlayers();
   },
 
 
@@ -88,6 +89,7 @@ var DebtPage = React.createClass({
     var debitor = this.refs.debitor.getValue();
     PlayerActionCreators.addDebt(player.uuid, debitor, amount, reason);
     this.setState({messages: ["Gjeld registrert"]});
+    PlayerActionCreators.loadPlayers();
     PlayerActionCreators.loadPlayers();
   },
 
