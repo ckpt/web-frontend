@@ -87,4 +87,20 @@ module.exports = {
     });
   },
 
+  addDebt: function(debt, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.ADD_PLAYER_DEBT_COMPLETE,
+      debt: debt,
+      errors: errors
+    });
+  },
+
+  settleDebt: function(errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.SETTLE_PLAYER_DEBT_COMPLETE,
+      errors: errors
+    });
+  },
+
+
 };

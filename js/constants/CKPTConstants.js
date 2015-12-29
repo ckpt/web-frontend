@@ -42,7 +42,9 @@ module.exports = {
     RECIEVE_PLAYER: null,
     SAVE_PLAYER_PROFILE: null,
     SETTLE_PLAYER_DEBT: null,
+    SETTLE_PLAYER_DEBT_COMPLETE: null,
     ADD_PLAYER_DEBT: null,
+    ADD_PLAYER_DEBT_COMPLETE: null,
 
     // Standings
     LOAD_SEASON_STANDINGS: null,

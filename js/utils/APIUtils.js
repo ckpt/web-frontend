@@ -73,12 +73,13 @@ module.exports = {
   },
 
   addDebt: function(creditor, debitor, amount, reason) {
+    var debt = {creditor: creditor, amount: amount, description: reason};
     request.post(_endpoints.players + "/" + debitor + "/debts")
       .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
       .accept("json")
-      .send({creditor: creditor, amount: amount, description: reason})
+      .send(debt)
       .end(function(err, res) {
-        if (err) { throw err; }
+        ServerActionCreators.addDebt(debt, err);
         // TODO: Propagate error action? This should probably result in another action fetching all players again, if the store cannot rollback on its own. Also, spawn a notification via some generic error propagation in the UI.
         // TODO: Propagate HOST_SAVED on success, which can be used by some store.
       });
@@ -90,7 +91,7 @@ module.exports = {
       .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
       .accept("json")
       .end(function(err, res) {
-        if (err) { throw err; }
+        ServerActionCreators.settleDebt(err);
         // TODO: Propagate error action? This should probably result in another action fetching all players again, if the store cannot rollback on its own. Also, spawn a notification via some generic error propagation in the UI.
         // TODO: Propagate action PLAYER_DEBT_DELETED on success, which can be used by notification store.
     });

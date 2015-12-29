@@ -4,6 +4,7 @@ var Input = require("react-bootstrap").Input;
 
 var DebtList = require("./DebtList.react");
 
+var CKPTDispatcher = require("../dispatcher/CKPTDispatcher.js");
 var PlayerStore = require("../stores/PlayerStore.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 var Authentication = require("../utils/Authentication");
@@ -24,6 +25,7 @@ var DebtPage = React.createClass({
       messages: [],
       players: [],
       player: {uuid: null},
+      reloadNeeded: false,
       debts: [],
       credits: [],
     };
@@ -39,6 +41,14 @@ var DebtPage = React.createClass({
   },
 
   _onChange: function() {
+
+    setTimeout(() => {
+      if (!CKPTDispatcher.isDispatching() && this.state.reloadNeeded) {
+        PlayerActionCreators.loadPlayers();
+      }
+    }, 10);
+
+    var reloadNeeded = !PlayerStore.isValid("players");
     var players = PlayerStore.getPlayers() || [];
     var player = PlayerStore.getFromUser(this.props.username) || {uuid: null};
     var debts = [];
@@ -50,6 +60,7 @@ var DebtPage = React.createClass({
 
     this.setState({
       errors: PlayerStore.getErrors(),
+      reloadNeeded: reloadNeeded,
       players: players,
       player: player,
       debts: debts,
@@ -66,8 +77,6 @@ var DebtPage = React.createClass({
     }
     PlayerActionCreators.settleDebt(debtuuid, debitor);
     this.setState({messages: ["Gjeld innfridd"]});
-    PlayerActionCreators.loadPlayers();
-    PlayerActionCreators.loadPlayers();
   },
 
 
@@ -88,9 +97,7 @@ var DebtPage = React.createClass({
     var reason = this.refs.reason.getValue();
     var debitor = this.refs.debitor.getValue();
     PlayerActionCreators.addDebt(player.uuid, debitor, amount, reason);
-    this.setState({messages: ["Gjeld registrert"]});
-    PlayerActionCreators.loadPlayers();
-    PlayerActionCreators.loadPlayers();
+    this.setState({messages: ["Nytt krav registrert"]});
   },
 
   render: function() {

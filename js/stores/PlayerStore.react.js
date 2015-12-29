@@ -13,6 +13,7 @@ var _players = [];
 var _errors = [];
 var _player = { uuid: "", name: "", nick: "", user: { username: "" }, loggedIn: false };
 var _quotes = null;
+var _invalidated = {players: false, quotes: false};
 
 var PlayerStore = assign({}, EventEmitter.prototype, {
 
@@ -83,7 +84,11 @@ var PlayerStore = assign({}, EventEmitter.prototype, {
 
   getErrors: function() {
     return _errors;
-  }
+  },
+
+  isValid: function(key) {
+    return !_invalidated[key];
+  },
 
 });
 
@@ -93,28 +98,45 @@ PlayerStore.dispatchToken = CKPTDispatcher.register(function(payload) {
   switch(action.type) {
 
     case ActionTypes.RECIEVE_PLAYERS:
-      if (action.json) {
+      if (action.errors) {
+        _errors = action.errors;
+      }
+      else if (action.json) {
         var recievedPlayers = JSON.parse(action.json);
         _players = recievedPlayers;
         _errors = [];
-      }
-      if (action.errors) {
-        _errors = action.errors;
+        _invalidated.players = false;
       }
       PlayerStore.emitChange();
       break;
 
     case ActionTypes.SAVE_PLAYER_PROFILE:
-      var updated = false;
-      if (action.uuid) {
-        for (var i = 0; i < _players.length; i++) {
-          if (_players[i].uuid === action.uuid) {
-            _players[i].profile = action.profile;
-          }
-        }
+      break;
+
+    case ActionTypes.ADD_PLAYER_DEBT:
+      break;
+
+    case ActionTypes.ADD_PLAYER_DEBT_COMPLETE:
+      if (action.errors) {
+        _errors = action.errors;
       }
-      if (!updated) {
-        break;
+      else if (action.debt) {
+        _invalidated.players = true;
+        _errors = [];
+      }
+      PlayerStore.emitChange();
+      break;
+
+    case ActionTypes.SETTLE_PLAYER_DEBT:
+      break;
+
+    case ActionTypes.SETTLE_PLAYER_DEBT_COMPLETE:
+      if (action.errors) {
+        _errors = action.errors;
+      }
+      else {
+        _invalidated.players = true;
+        _errors = [];
       }
       PlayerStore.emitChange();
       break;
@@ -124,6 +146,7 @@ PlayerStore.dispatchToken = CKPTDispatcher.register(function(payload) {
         var recievedQuotes = JSON.parse(action.json);
         _quotes = recievedQuotes;
         _errors = [];
+        _invalidated.quotes = false;
       }
       if (action.errors) {
         _errors = action.errors;
