@@ -42,7 +42,7 @@ var DebtPage = React.createClass({
 
   _onChange: function() {
 
-    setTimeout(() => {
+    setTimeout(function() {
       if (!CKPTDispatcher.isDispatching() && this.state.reloadNeeded) {
         PlayerActionCreators.loadPlayers();
       }
