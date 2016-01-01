@@ -80,8 +80,6 @@ module.exports = {
       .send(debt)
       .end(function(err, res) {
         ServerActionCreators.addDebt(debt, err);
-        // TODO: Propagate error action? This should probably result in another action fetching all players again, if the store cannot rollback on its own. Also, spawn a notification via some generic error propagation in the UI.
-        // TODO: Propagate HOST_SAVED on success, which can be used by some store.
       });
   },
 
@@ -92,8 +90,6 @@ module.exports = {
       .accept("json")
       .end(function(err, res) {
         ServerActionCreators.settleDebt(err);
-        // TODO: Propagate error action? This should probably result in another action fetching all players again, if the store cannot rollback on its own. Also, spawn a notification via some generic error propagation in the UI.
-        // TODO: Propagate action PLAYER_DEBT_DELETED on success, which can be used by notification store.
     });
   },
 
