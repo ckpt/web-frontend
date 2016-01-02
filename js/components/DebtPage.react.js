@@ -98,6 +98,14 @@ var DebtPage = React.createClass({
     this.setState({messages: ["Nytt krav registrert"]});
   },
 
+  debtToggle: function() {
+    this.setState({expandDebt: !this.state.expandDebt});
+  },
+
+  creditToggle: function() {
+    this.setState({expandCredit: !this.state.expandCredit});
+  },
+
   render: function() {
     var player = this.state.player;
     var errors = this.state.errors.map(function(item, i) {
@@ -109,6 +117,9 @@ var DebtPage = React.createClass({
     });
 
     var self = this;
+    var debtToggleBtn = <Button className="btn btn-xs btn-primary" onClick={this.debtToggle}>Vis/skjul gamle</Button>;
+    var creditToggleBtn = <Button className="btn btn-xs btn-primary" onClick={this.creditToggle}>Vis/skjul gamle</Button>;
+
     var messages = this.state.messages.map(function(item, i) {
       return (
         <div className="alert alert-info" key={"alert-" + i}>
@@ -126,19 +137,19 @@ var DebtPage = React.createClass({
           <div className="col-lg-6">
             <div className="panel panel-info">
               <div className="panel-heading">
-                <h4>Registrert gjeld</h4>
+                <h4>Registrert gjeld<span className="pull-right">{debtToggleBtn}</span></h4>
               </div>
               <div className="panel-body">
-                <DebtList debts={this.state.debts} player={this.state.player} onSettle={function(){}} />
+                <DebtList debts={this.state.debts} expand={this.state.expandDebt} player={this.state.player} onSettle={function(){}} />
               </div>
             </div>
 
             <div className="panel panel-info">
               <div className="panel-heading">
-                <h4>Utestående krav</h4>
+                <h4>Utestående krav<span className="pull-right">{creditToggleBtn}</span></h4>
               </div>
               <div className="panel-body">
-                <DebtList debts={this.state.credits} listDebitors={true} player={this.state.player} onSettle={self.settleDebt} />
+                <DebtList debts={this.state.credits} expand={this.state.expandCredit} listDebitors={true} player={this.state.player} onSettle={self.settleDebt} />
               </div>
             </div>
 

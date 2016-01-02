@@ -22,6 +22,7 @@ var DebtList = React.createClass({
     var debts = this.props.debts || [];
     var player = this.props.player || null;
     var listDebitors = this.props.listDebitors || false;
+    var expand = this.props.expand || false;
     var self = this;
 
     if (!debts.length || !this.props.onSettle) {
@@ -46,6 +47,10 @@ var DebtList = React.createClass({
           var debitor = PlayerStore.getFromUUID(d.debitor);
           var created = moment(d.created).format("DD.MM.YYYY");
           var settled = d.settled && moment(d.settled) >= moment(d.created);
+
+          if (settled && !expand) {
+            return;
+          }
           var settledString = settled ? moment(d.settled).format("DD.MM.YYYY") : "Nei";
           var nick = "Ukjent";
           var settleBtn = <Button className="btn btn-xs btn-outline btn-success" onClick={self.props.onSettle.bind(null, d.uuid, d.debitor)}>Innfri</Button>
