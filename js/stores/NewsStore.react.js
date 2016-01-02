@@ -11,6 +11,7 @@ var CHANGE_EVENT = "change";
 
 var _newsitems = [];
 var _errors = [];
+var _invalidated = {news: false};
 
 var NewsStore = assign({}, EventEmitter.prototype, {
 
@@ -33,14 +34,19 @@ var NewsStore = assign({}, EventEmitter.prototype, {
   getByUUID: function(uuid) {
     return _.findWhere(_newsitems, {uuid: uuid});
   },
-  
+
   getByTag: function(tag) {
     return _.where(_newsitems, {tag: tag});
   },
 
   getErrors: function() {
     return _errors;
-  }
+  },
+
+  isValid: function(key) {
+    return !_invalidated[key];
+  },
+
 
 });
 
@@ -50,13 +56,35 @@ NewsStore.dispatchToken = CKPTDispatcher.register(function(payload) {
   switch(action.type) {
 
     case ActionTypes.RECIEVE_NEWS_ITEMS:
-      if (action.json) {
+      if (action.errors) {
+        _errors = action.errors;
+      } else if (action.json) {
         var recievedNewsItems = JSON.parse(action.json);
         _newsitems = recievedNewsItems;
         _errors = [];
+        _invalidated.news = false;
       }
+      NewsStore.emitChange();
+      break;
+
+    case ActionTypes.ADD_NEWS_COMMENT_COMPLETE:
       if (action.errors) {
         _errors = action.errors;
+      }
+      else if (action.comment) {
+        _invalidated.news = true;
+        _errors = [];
+      }
+      NewsStore.emitChange();
+      break;
+
+    case ActionTypes.SAVE_NEWS_ITEM_COMPLETE:
+      if (action.errors) {
+        _errors = action.errors;
+      }
+      else if (action.item) {
+        _invalidated.news = true;
+        _errors = [];
       }
       NewsStore.emitChange();
       break;

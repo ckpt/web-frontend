@@ -18,7 +18,7 @@ var NewsComments = React.createClass({
     var author = item ? item.author : null;
 
     var currentLoggedInPlayer = PlayerStore.getFromUser(this.props.user);
-    var comments = item.comments ? item.comments : [];
+    var comments = item && item.comments ? item.comments : [];
 
     return (
       <div>

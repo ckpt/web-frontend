@@ -66,7 +66,6 @@ var NewsEditModal = React.createClass({
       NewsActionCreators.createNewsItem(itemData);
     }
     this.props.onHide();
-    NewsActionCreators.loadNewsItems();
   },
 
   render: function() {

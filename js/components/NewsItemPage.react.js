@@ -5,6 +5,7 @@ var Button = require("react-bootstrap").Button;
 var Router = require("react-router");
 var Link = require("react-router").Link;
 
+var CKPTDispatcher = require("../dispatcher/CKPTDispatcher.js");
 var NewsEditModal = require("./NewsEditModal.react");
 var NewsCommentModal = require("./NewsCommentModal.react");
 var NewsComments = require("./NewsComments.react");
@@ -53,6 +54,13 @@ var NewsItemPage = React.createClass({
   },
 
   _onChange: function() {
+    var reloadNeeded = !NewsStore.isValid("news");
+    setTimeout(function() {
+      if (!CKPTDispatcher.isDispatching() && reloadNeeded) {
+        NewsActionCreators.loadNewsItems();
+      }
+    }, 5);
+
     var id = this.getParams().newsId;
     var newsItem = NewsStore.getByUUID(id);
     if (newsItem && newsItem.comments) {

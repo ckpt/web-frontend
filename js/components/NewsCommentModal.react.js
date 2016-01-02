@@ -46,7 +46,6 @@ var NewsCommentModal = React.createClass({
     var it = this.props.item || this.state.item;
     NewsActionCreators.addComment(it.uuid, commentData);
     this.props.onHide();
-    NewsActionCreators.loadNewsItems();
   },
 
   render: function() {

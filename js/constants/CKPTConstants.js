@@ -75,7 +75,9 @@ module.exports = {
     LOAD_NEWS_ITEMS: null,
     RECIEVE_NEWS_ITEMS: null,
     SAVE_NEWS_ITEM: null,
+    SAVE_NEWS_ITEM_COMPLETE: null,
     ADD_NEWS_COMMENT: null,
+    ADD_NEWS_COMMENT_COMPLETE: null,
     REMOVE_NEWS_COMMENT: null
 
   })

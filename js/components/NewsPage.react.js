@@ -10,6 +10,7 @@ var Button = require("react-bootstrap").Button;
 
 var NewsEditModal = require("./NewsEditModal.react");
 
+var CKPTDispatcher = require("../dispatcher/CKPTDispatcher.js");
 var PlayerStore = require("../stores/PlayerStore.react");
 var NewsStore = require("../stores/NewsStore.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
@@ -47,6 +48,14 @@ var NewsPage = React.createClass({
   },
 
   _onChange: function() {
+
+    var reloadNeeded = !NewsStore.isValid("news");
+    setTimeout(function() {
+      if (!CKPTDispatcher.isDispatching() && reloadNeeded) {
+        NewsActionCreators.loadNewsItems();
+      }
+    }, 5);
+
     this.setState({
       newsitems: NewsStore.getNewsItems(),
       errors: [

@@ -87,6 +87,22 @@ module.exports = {
     });
   },
 
+  saveNewsItem: function(itemData, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.SAVE_NEWS_ITEM_COMPLETE,
+      item: itemData,
+      errors: errors
+    });
+  },
+
+  addNewsComment: function(commentData, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.ADD_NEWS_COMMENT_COMPLETE,
+      comment: commentData,
+      errors: errors
+    });
+  },
+
   addDebt: function(debt, errors) {
     CKPTDispatcher.handleServerAction({
       type: ActionTypes.ADD_PLAYER_DEBT_COMPLETE,
