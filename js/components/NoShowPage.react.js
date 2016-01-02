@@ -5,6 +5,7 @@ var Input = require("react-bootstrap").Input;
 var PlayerStore = require("../stores/PlayerStore.react");
 var TournamentStore = require("../stores/TournamentStore.react");
 
+var CKPTDispatcher = require("../dispatcher/CKPTDispatcher.js");
 var TournamentActionCreators = require("../actions/TournamentActionCreators.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 
@@ -49,6 +50,14 @@ var NoShowPage = React.createClass({
   },
 
   _onChange: function() {
+
+    var reloadNeeded = !TournamentStore.isValid("tournaments");
+    setTimeout(function() {
+      if (!CKPTDispatcher.isDispatching() && reloadNeeded) {
+        TournamentActionCreators.loadTournaments();
+      }
+    }, 5);
+
     var player = PlayerStore.getFromUser(this.props.username) || null;
     var candidates = TournamentStore.getUnplayedTournamentsBySeason(this.props.currentSeason) || [];
     var registered = [];
@@ -64,6 +73,18 @@ var NoShowPage = React.createClass({
     });
   },
 
+  removeNoShow: function(tID, e) {
+    e.preventDefault();
+    // TODO: validate form data, update error state
+    var player = PlayerStore.getFromUser(this.props.username);
+    if (!player || !player.active) {
+      this.setState({errors: ["Ukjent eller inaktiv spiller"]});
+      return;
+    }
+    TournamentActionCreators.removeNoShow(tID, player.uuid);
+    this.setState({messages: ["Fravær fjernet -- velkommen!"]});
+  },
+
   saveNoShow: function(e) {
     e.preventDefault();
     // TODO: validate form data, update error state
@@ -77,7 +98,6 @@ var NoShowPage = React.createClass({
     var reason = this.refs.reason.getValue();
     TournamentActionCreators.addNoShow(tournamentID, player.uuid, reason);
     this.setState({messages: ["Fravær registrert -- husk å registere evt andre turneringer samme kveld"]});
-    TournamentActionCreators.loadTournaments();
   },
 
   changeTournament: function(e) {
@@ -102,6 +122,9 @@ var NoShowPage = React.createClass({
       );
     });
 
+    var self = this;
+    var currentPlayer = PlayerStore.getFromUser(this.props.username);
+
     return (
       <div id="page-wrapper">
         <div className="row">
@@ -114,7 +137,7 @@ var NoShowPage = React.createClass({
                 <h4>Registrert fravær</h4>
               </div>
               <div className="panel-body">
-                <NoShowList tournaments={this.state.candidates}/>
+                <NoShowList tournaments={this.state.candidates} currentPlayer={currentPlayer} onRemove={self.removeNoShow} />
               </div>
             </div>
           </div>

@@ -14,6 +14,7 @@ var CHANGE_EVENT = "change";
 
 var _tournaments = [];
 var _errors = [];
+var _invalidated = {tournaments: false};
 
 var TournamentStore = assign({}, EventEmitter.prototype, {
 
@@ -109,7 +110,12 @@ var TournamentStore = assign({}, EventEmitter.prototype, {
 
   getErrors: function() {
     return _errors;
-  }
+  },
+
+  isValid: function(key) {
+    return !_invalidated[key];
+  },
+
 
 });
 
@@ -119,16 +125,40 @@ TournamentStore.dispatchToken = CKPTDispatcher.register(function(payload) {
   switch(action.type) {
 
     case ActionTypes.RECIEVE_TOURNAMENTS:
-      if (action.json) {
-        var recievedTournaments = JSON.parse(action.json);
-        _tournaments = recievedTournaments;
-        _errors = [];
-      }
       if (action.errors) {
         _errors = action.errors;
       }
+      else if (action.json) {
+        var recievedTournaments = JSON.parse(action.json);
+        _tournaments = recievedTournaments;
+        _errors = [];
+        _invalidated.tournaments = false;
+      }
       TournamentStore.emitChange();
       break;
+
+    case ActionTypes.ADD_NOSHOW_COMPLETE:
+      if (action.errors) {
+        _errors = action.errors;
+      }
+      else if (action.noshow) {
+        _invalidated.tournaments = true;
+        _errors = [];
+      }
+      TournamentStore.emitChange();
+      break;
+
+    case ActionTypes.REMOVE_NOSHOW_COMPLETE:
+      if (action.errors) {
+        _errors = action.errors;
+      }
+      else {
+        _invalidated.tournaments = true;
+        _errors = [];
+      }
+      TournamentStore.emitChange();
+      break;
+
   }
 
   return true;

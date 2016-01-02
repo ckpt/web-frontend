@@ -67,6 +67,9 @@ module.exports = {
     SAVE_RESULTS: null,
     SET_HOST: null,
     ADD_NOSHOW: null,
+    ADD_NOSHOW_COMPLETE: null,
+    REMOVE_NOSHOW: null,
+    REMOVE_NOSHOW_COMPLETE: null,
 
     // News
     LOAD_NEWS_ITEMS: null,

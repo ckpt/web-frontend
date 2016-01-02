@@ -102,5 +102,22 @@ module.exports = {
     });
   },
 
+  addNoShow: function(noshow, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.ADD_NOSHOW_COMPLETE,
+      noshow: noshow,
+      errors: errors
+    });
+  },
+
+  removeNoShow: function(errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.REMOVE_NOSHOW_COMPLETE,
+      errors: errors
+    });
+  },
+
+
+
 
 };

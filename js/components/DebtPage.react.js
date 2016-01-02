@@ -25,7 +25,6 @@ var DebtPage = React.createClass({
       messages: [],
       players: [],
       player: {uuid: null},
-      reloadNeeded: false,
       debts: [],
       credits: [],
     };
@@ -42,13 +41,13 @@ var DebtPage = React.createClass({
 
   _onChange: function() {
 
+    var reloadNeeded = !PlayerStore.isValid("players");
     setTimeout(function() {
-      if (!CKPTDispatcher.isDispatching() && this.state.reloadNeeded) {
+      if (!CKPTDispatcher.isDispatching() && reloadNeeded) {
         PlayerActionCreators.loadPlayers();
       }
-    }, 10);
+    }, 5);
 
-    var reloadNeeded = !PlayerStore.isValid("players");
     var players = PlayerStore.getPlayers() || [];
     var player = PlayerStore.getFromUser(this.props.username) || {uuid: null};
     var debts = [];
@@ -60,7 +59,6 @@ var DebtPage = React.createClass({
 
     this.setState({
       errors: PlayerStore.getErrors(),
-      reloadNeeded: reloadNeeded,
       players: players,
       player: player,
       debts: debts,

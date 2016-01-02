@@ -28,9 +28,12 @@ var DebtList = React.createClass({
       return <p><i className="fa fa-thumbs-up"></i> Ingen gjeld registert!</p>;
     }
 
+    debts = _.sortBy(debts, "created").reverse();
+
     return (
       <div className="table-responsive">
       <table className="table">
+       <tbody>
         <tr>
         <th>Dato</th>
         {listDebitors ? <th>Debitor</th> : <th>Kreditor</th>}
@@ -57,6 +60,7 @@ var DebtList = React.createClass({
           }
           return <tr key={"debt-list-entry-" + i}><td>{created}</td><td>{nick}</td><td>{d.amount}</td><td>{d.description}</td><td>{settledString}&nbsp;&nbsp;{settleBtn}</td></tr>;
         })}
+       </tbody>
       </table>
       </div>
     );

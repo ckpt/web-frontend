@@ -122,17 +122,26 @@ module.exports = {
 
    addTournamentNoShow: function(uuid, player, reason) {
 
+    var noshow = {player: player, reason: reason};
+
     request.post(_endpoints.tournaments + "/" + uuid + "/noshows")
       .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
       .accept("json")
-      .send({player: player, reason: reason})
+      .send(noshow)
       .end(function(err, res) {
-        if (err) { throw err; }
-        // TODO: Propagate error action? This should probably result in another action fetching all players again, if the store cannot rollback on its own. Also, spawn a notification via some generic error propagation in the UI.
-        // TODO: Propagate HOST_SAVED on success, which can be used by some store.
+        ServerActionCreators.addNoShow(noshow, err);
       });
   },
 
+  removeTournamentNoShow: function(uuid, player) {
+
+    request.del(_endpoints.tournaments + "/" + uuid + "/noshows/" + player)
+      .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
+      .accept("json")
+      .end(function(err, res) {
+        ServerActionCreators.removeNoShow(err);
+      });
+  },
 
   createNewsItem: function(itemData) {
 

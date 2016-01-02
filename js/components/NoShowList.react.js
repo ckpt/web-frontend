@@ -1,4 +1,5 @@
 var React = require("react");
+var Button = require("react-bootstrap").Button;
 
 var PlayerStore = require("../stores/PlayerStore.react");
 
@@ -17,6 +18,7 @@ var NoShowList = React.createClass({
   render: function() {
 
     var tournaments = this.props.tournaments;
+    var currentPlayer = this.props.currentPlayer;
     var registered = _.filter(tournaments, function(t) {
       return t.noshows && t.noshows.length;
     });
@@ -24,6 +26,8 @@ var NoShowList = React.createClass({
     if (!registered.length) {
       return <p><i className="fa fa-thumbs-up"></i> Ingen fravær registert!</p>;
     }
+
+    var self = this;
 
     return (
       <div className="row">
@@ -33,10 +37,14 @@ var NoShowList = React.createClass({
           var absentees = ns.map(function(a, j) {
             var player = PlayerStore.getFromUUID(a.player);
             var nick = "Ukjent";
+            var removeBtn = "";
             if (player && player.nick) {
               nick = player.nick;
+              if (player.uuid == currentPlayer.uuid) {
+                removeBtn = <Button className="btn btn-xs btn-outline btn-success" onClick={self.props.onRemove.bind(null, t.uuid)}>Fjern</Button>
+              }
             }
-            return <li key={"tnr-" + i + "-abscentee-" + j}><i className="fa fa-user"></i> {nick}: {a.reason}</li>;
+            return <li key={"tnr-" + i + "-abscentee-" + j}><i className="fa fa-user"></i> {nick}: {a.reason}&nbsp; {removeBtn}</li>;
           });
           return (
             <div key={"tnr-" + i} className="col-lg-6">
