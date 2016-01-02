@@ -159,6 +159,16 @@ TournamentStore.dispatchToken = CKPTDispatcher.register(function(payload) {
       TournamentStore.emitChange();
       break;
 
+    case ActionTypes.SAVE_RESULTS_COMPLETE:
+      if (action.errors) {
+        _errors = action.errors;
+      }
+      else if (action.results) {
+        _invalidated.tournaments = true;
+        _errors = [];
+      }
+      TournamentStore.emitChange();
+      break;
   }
 
   return true;

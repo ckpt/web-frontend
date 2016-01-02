@@ -133,7 +133,14 @@ module.exports = {
     });
   },
 
-
+  saveTournamentResults: function(uuid, results, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.SAVE_RESULTS_COMPLETE,
+      uuid: uuid,
+      results: results,
+      errors: errors
+    });
+  },
 
 
 };

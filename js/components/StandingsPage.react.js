@@ -6,6 +6,7 @@ var PageItem = require("react-bootstrap").PageItem;
 var StandingsTable = require("./StandingsTable.react");
 var ResultsTable = require("./ResultsTable.react");
 
+var CKPTDispatcher = require("../dispatcher/CKPTDispatcher.js");
 var PlayerStore = require("../stores/PlayerStore.react");
 var StandingsStore = require("../stores/StandingsStore.react");
 var StatsStore = require("../stores/StatsStore.react");
@@ -73,6 +74,15 @@ var StandingsPage = React.createClass({
   },
 
   _onChange: function() {
+    var reloadNeeded = !TournamentStore.isValid("tournaments");
+    setTimeout(function() {
+      if (!CKPTDispatcher.isDispatching() && reloadNeeded) {
+        TournamentActionCreators.loadTournaments();
+        StandingsActionCreators.loadSeason(this.state.currentSeason || this.props.currentSeason);
+        StatsActionCreators.loadSeason(this.state.currentSeason || this.props.currentSeason);
+      }
+    }, 5);
+
     this.setState({
       currentStandings: this._getCurrentStandings(),
       currentSeason: StandingsStore.getSeason(),

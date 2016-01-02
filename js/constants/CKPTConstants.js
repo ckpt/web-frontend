@@ -65,6 +65,7 @@ module.exports = {
     LOAD_TOURNAMENTS: null,
     RECIEVE_TOURNAMENTS: null,
     SAVE_RESULTS: null,
+    SAVE_RESULTS_COMPLETE: null,
     SET_HOST: null,
     ADD_NOSHOW: null,
     ADD_NOSHOW_COMPLETE: null,
