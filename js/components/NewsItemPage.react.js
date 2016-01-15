@@ -63,9 +63,9 @@ var NewsItemPage = React.createClass({
 
     var id = this.getParams().newsId;
     var newsItem = NewsStore.getByUUID(id);
-    if (newsItem && newsItem.comments) {
-      newsItem.comments.reverse();
-    }
+    //if (newsItem && newsItem.comments) {
+    //  newsItem.comments.reverse();
+    //}
     this.setState({
       newsitem: newsItem,
       errors: [
