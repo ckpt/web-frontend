@@ -79,6 +79,7 @@ var Dashboard = React.createClass({
       currentPlayer: PlayerStore.getFromUser(this.props.username),
       nextTournament: this._nextTournamentDetails(),
       quotes: PlayerStore.getQuotes(),
+      gossipquotes: PlayerStore.getGossip(),
       news: NewsStore.getNewsItems(),
       errors: [
         TaskStore.getErrors() +
@@ -207,7 +208,8 @@ var Dashboard = React.createClass({
             <StandingsTable entries={this.state.currentStandings}
                             headings={["Nick", "Gevinst"]}
                             title="Tabellen" />
-            <QuotePanel quotes={this.state.quotes} />
+            <QuotePanel title="Pokersitater" quotes={this.state.quotes} />
+            <QuotePanel title="Sladder" quotes={this.state.gossipquotes} />
           </div>
         </div>
       </div>

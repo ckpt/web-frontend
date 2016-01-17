@@ -100,6 +100,21 @@ var PlayerStore = assign({}, EventEmitter.prototype, {
 
   },
 
+  getGossip: function() {
+    var self = this;
+    var gossip = [];
+    _.each(_players, function(p, i) {
+      _.each(p.gossip, function(g, gk) {
+        if (g != "") {
+          var targetPlayer = self.getFromUUID(gk) || {nick: ""};
+          var byline = p.nick + " om " + targetPlayer.nick;
+          gossip.push({quote: g, nick: byline});
+        }
+      });
+    });
+    return gossip;
+  },
+
   getErrors: function() {
     return _errors;
   },

@@ -6,7 +6,8 @@ var QuotePanel = React.createClass({
   displayName: "Quote Panel",
 
   propTypes: {
-    quotes: React.PropTypes.arrayOf(React.PropTypes.object)
+    quotes: React.PropTypes.arrayOf(React.PropTypes.object),
+    title: React.PropTypes.string
   },
 
   getInitialState: function() {
@@ -48,12 +49,12 @@ var QuotePanel = React.createClass({
     return (
       <div className="panel panel-default">
         <div className="panel-heading">
-          <i className="fa fa-quote-right fa-fw"></i> Pokersitater
+          <i className="fa fa-quote-right fa-fw"></i> {this.props.title}
         </div>
         <div className="panel-body">
           <blockquote>
-            <p>{this.state.quote ? this.state.quote.quote : "Laster sitater..."}</p>
-            <h4 className="pull-right text-muted">--{this.state.quote ? this.state.quote.nick : ""}</h4>
+            <p>{this.state.quote ? this.state.quote.quote : "Laster..."}</p>
+            <h4 className="pull-right text-muted">-- {this.state.quote ? this.state.quote.nick : ""}</h4>
           </blockquote>
         </div>
       </div>
