@@ -118,6 +118,23 @@ module.exports = {
     });
   },
 
+  setVotes: function(votes, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.SET_PLAYER_VOTES_COMPLETE,
+      votes: votes,
+      errors: errors
+    });
+  },
+
+  setGossip: function(gossip, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.SET_PLAYER_GOSSIP_COMPLETE,
+      gossip: gossip,
+      errors: errors
+    });
+  },
+
+
   addNoShow: function(noshow, errors) {
     CKPTDispatcher.handleServerAction({
       type: ActionTypes.ADD_NOSHOW_COMPLETE,

@@ -93,6 +93,25 @@ module.exports = {
     });
   },
 
+  setVotes: function(uuid, votes) {
+    request.put(_endpoints.players + "/" + uuid + "/votes")
+      .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
+      .accept("json")
+      .send(votes)
+      .end(function(err, res) {
+        ServerActionCreators.setVotes(votes, err);
+      });
+  },
+
+  setGossip: function(uuid, gossip) {
+    request.put(_endpoints.players + "/" + uuid + "/gossip")
+      .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
+      .accept("json")
+      .send(gossip)
+      .end(function(err, res) {
+        ServerActionCreators.setGossip(gossip, err);
+      });
+  },
 
   saveTournamentResults: function(uuid, results) {
 

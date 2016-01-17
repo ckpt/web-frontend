@@ -56,6 +56,26 @@ module.exports = {
   });
 
   APIUtils.addDebt(creditor, debitor, amount, reason);
+  },
+
+  setVotes: function(uuid, votes) {
+    CKPTDispatcher.handleViewAction({
+      type: ActionTypes.SET_PLAYER_VOTES,
+      uuid: uuid,
+      votes: votes,
+    });
+
+    APIUtils.setVotes(uuid, votes);
+  },
+
+  setGossip: function(uuid, gossip) {
+    CKPTDispatcher.handleViewAction({
+      type: ActionTypes.SET_PLAYER_GOSSIP,
+      uuid: uuid,
+      gossip: gossip,
+    });
+
+    APIUtils.setGossip(uuid, gossip);
   }
 
 

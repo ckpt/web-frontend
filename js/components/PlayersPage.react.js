@@ -64,18 +64,24 @@ var PlayersPage = React.createClass({
   _makeRows: function(items, winnings) {
     var rows = [];
     var currentrow = [];
+    var leader = winnings.length ? winnings[0].uuid : null;
+    var votes = PlayerStore.getVotes();
 
     for (var i = 0; i < items.length; i++) {
       var badges = [];
-      // if (items[i].nick === "Bjøro") {
-      //   badges.push({ desc: "Spillernes taper", icon: "thumbs-down" });
-      // }
       // if (items[i].nick === "Lars Vegas") {
-      //   badges.push({ desc: "Spillernes favoritt", icon: "thumbs-up" });
       //   badges.push({ desc: "Månedens krill", icon: "frown-o" });
       // }
+      if (leader == items[i].uuid) {
+        badges.push({ desc: "Har ledertrøya", icon: "trophy"});
+      }
+      if (votes.winner == items[i].uuid) {
+        badges.push({ desc: "Spillernes favoritt", icon: "thumbs-up" });
+      }
+      if (votes.loser == items[i].uuid) {
+        badges.push({ desc: "Spillernes taper", icon: "thumbs-down" });
+      }
       // if (items[i].nick === "Pæra") {
-      //   badges.push({ desc: "Har ledertrøya", icon: "trophy"});
       //   badges.push({ desc: "Månedens spiller", icon: "rocket"});
       // }
 

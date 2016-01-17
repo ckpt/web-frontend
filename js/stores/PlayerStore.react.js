@@ -82,6 +82,24 @@ var PlayerStore = assign({}, EventEmitter.prototype, {
     return credits;
   },
 
+  getVotes: function() {
+    var votes = _.pluck(_players, "votes");
+    var winnerVotes = _.reject(_.pluck(votes, "winner"), function(num) {
+      return num == "00000000-0000-0000-0000-000000000000";
+    });
+    var loserVotes = _._.reject(_.pluck(votes, "loser"), function(num) {
+      return num == "00000000-0000-0000-0000-000000000000";
+    });
+
+    winnerVotes = _.countBy(winnerVotes, function(num) {return num; });
+    loserVotes = _.countBy(loserVotes, function(num) {return num; });
+
+    var winner = _.invert(winnerVotes)[_.max(winnerVotes)];
+    var loser = _.invert(loserVotes)[_.max(loserVotes)];
+    return {winner: winner, loser: loser};
+
+  },
+
   getErrors: function() {
     return _errors;
   },
@@ -135,6 +153,34 @@ PlayerStore.dispatchToken = CKPTDispatcher.register(function(payload) {
         _errors = action.errors;
       }
       else {
+        _invalidated.players = true;
+        _errors = [];
+      }
+      PlayerStore.emitChange();
+      break;
+
+    case ActionTypes.SET_PLAYER_VOTES:
+      break;
+
+    case ActionTypes.SET_PLAYER_VOTES_COMPLETE:
+      if (action.errors) {
+        _errors = action.errors;
+      }
+      else if (action.votes) {
+        _invalidated.players = true;
+        _errors = [];
+      }
+      PlayerStore.emitChange();
+      break;
+
+    case ActionTypes.SET_PLAYER_GOSSIP:
+      break;
+
+    case ActionTypes.SET_PLAYER_GOSSIP_COMPLETE:
+      if (action.errors) {
+        _errors = action.errors;
+      }
+      else if (action.gossip) {
         _invalidated.players = true;
         _errors = [];
       }

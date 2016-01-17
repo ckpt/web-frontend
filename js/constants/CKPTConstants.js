@@ -45,6 +45,11 @@ module.exports = {
     SETTLE_PLAYER_DEBT_COMPLETE: null,
     ADD_PLAYER_DEBT: null,
     ADD_PLAYER_DEBT_COMPLETE: null,
+    SET_PLAYER_VOTES: null,
+    SET_PLAYER_VOTES_COMPLETE: null,
+    SET_PLAYER_GOSSIP: null,
+    SET_PLAYER_GOSSIP_COMPLETE: null,
+
 
     // Standings
     LOAD_SEASON_STANDINGS: null,
