@@ -64,7 +64,7 @@ var PlayersPage = React.createClass({
   _makeRows: function(items, winnings) {
     var rows = [];
     var currentrow = [];
-    var leader = winnings.length ? winnings[0].uuid : null;
+    var leader = winnings && winnings.length ? winnings[0].uuid : null;
     var votes = PlayerStore.getVotes();
 
     for (var i = 0; i < items.length; i++) {
