@@ -146,6 +146,17 @@ PlayerStore.dispatchToken = CKPTDispatcher.register(function(payload) {
     case ActionTypes.SAVE_PLAYER_PROFILE:
       break;
 
+    case ActionTypes.SAVE_PLAYER_PROFILE_COMPLETE:
+      if (action.errors) {
+        _errors = action.errors;
+      }
+      else {
+        _invalidated.players = true;
+        _errors = [];
+      }
+      PlayerStore.emitChange();
+      break;
+
     case ActionTypes.ADD_PLAYER_DEBT:
       break;
 

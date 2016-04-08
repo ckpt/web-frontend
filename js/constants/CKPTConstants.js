@@ -41,6 +41,7 @@ module.exports = {
     RECIEVE_QUOTES: null,
     RECIEVE_PLAYER: null,
     SAVE_PLAYER_PROFILE: null,
+    SAVE_PLAYER_PROFILE_COMPLETE: null,
     SETTLE_PLAYER_DEBT: null,
     SETTLE_PLAYER_DEBT_COMPLETE: null,
     ADD_PLAYER_DEBT: null,

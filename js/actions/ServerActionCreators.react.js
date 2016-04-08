@@ -159,5 +159,13 @@ module.exports = {
     });
   },
 
+  savePlayerProfile: function(profile, errors) {
+    CKPTDispatcher.handleServerAction({
+      type: ActionTypes.SAVE_PLAYER_PROFILE_COMPLETE,
+      profile: profile,
+      errors: errors
+    });
+  },
+
 
 };

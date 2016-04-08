@@ -51,8 +51,7 @@ module.exports = {
       .accept("json")
       .send(profile)
       .end(function(err, res) {
-        if (err) { throw err; }
-        // TODO: Propagate error action? This should probably result in another action fetching all players again, if the store cannot rollback on its own. Also, spawn a notification via some generic error propagation in the UI.
+        ServerActionCreators.savePlayerProfile(profile, err);
       });
   },
 

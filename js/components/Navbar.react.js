@@ -7,8 +7,10 @@ var Sidebar = require("./Sidebar.react.js");
 var NotificationsDropdown = require("./NotificationsDropdown.react.js");
 var ProfileDropdown = require("./ProfileDropdown.react.js");
 
+var CKPTDispatcher = require("../dispatcher/CKPTDispatcher.js");
 var Authentication = require("../utils/Authentication");
 var PlayerStore = require("../stores/PlayerStore.react");
+var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 
 var Navbar = React.createClass({
 
@@ -30,6 +32,13 @@ var Navbar = React.createClass({
   },
 
   _onChange: function() {
+    var reloadNeeded = !PlayerStore.isValid("players");
+    setTimeout(function() {
+      if (!CKPTDispatcher.isDispatching() && reloadNeeded) {
+        PlayerActionCreators.loadPlayers();
+      }
+    }, 5);
+
     this.setState({
       myPlayer: this._getPlayerFromUser()
     });
