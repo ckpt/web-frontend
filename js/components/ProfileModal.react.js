@@ -52,6 +52,7 @@ var ProfileModal = React.createClass({
     var name = this.refs.name.getValue().trim();
     var email = this.refs.email.getValue().trim();
     var description = this.refs.description.getValue().trim();
+    var allergies = this.refs.allergies.getValue().trim();
     var birthday = moment(this.refs.birthday.getValue().trim(), "DD.MM.YYYY");
     var picture = this.state.profilePic.split(",")[1];
 
@@ -59,6 +60,7 @@ var ProfileModal = React.createClass({
       name: name,
       email: email,
       description: description,
+      allergies: allergies,
       birthday: birthday,
       picture: picture
     };
@@ -80,6 +82,7 @@ var ProfileModal = React.createClass({
     var img = this.state.profilePic ? <img height="120px" src={this.state.profilePic} /> : "";
     var email = this.props.player ? this.props.player.profile.email : null;
     var description = this.props.player ? this.props.player.profile.description : null;
+    var allergies = this.props.player ? this.props.player.profile.allergies : null;
     var name = this.props.player ? this.props.player.profile.name : null;
     var birthday = this.props.player ? moment(this.props.player.profile.birthday).format("DD.MM.YYYY") : null;
     return (
@@ -95,6 +98,7 @@ var ProfileModal = React.createClass({
             <Input style={{clear: "both"}} type='text' ref="name" label='Navn' placeholder='Fullt navn' defaultValue={name} />
             <Input type='email' label='Epostadresse' ref="email" placeholder='Legg inn epost' defaultValue={email} />
             <Input type='text' label='Beskrivelse' ref="description" placeholder='Si noe kort om deg selv..' defaultValue={description} />
+            <Input type='text' label='Allergier' ref="allergies" placeholder='Noe du ikke bør spise?..' defaultValue={allergies} />
             <Input type='text' label='Fødselsdag' ref="birthday" placeholder='DD.MM.ÅÅÅÅ' defaultValue={birthday} />
           </form>
         </Modal.Body>
