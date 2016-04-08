@@ -72,14 +72,16 @@ var PlayersPage = React.createClass({
       // if (items[i].nick === "Lars Vegas") {
       //   badges.push({ desc: "Månedens krill", icon: "frown-o" });
       // }
-      if (leader == items[i].uuid) {
-        badges.push({ desc: "Har ledertrøya", icon: "trophy"});
-      }
-      if (votes.winner == items[i].uuid) {
-        badges.push({ desc: "Spillernes favoritt", icon: "thumbs-up" });
-      }
-      if (votes.loser == items[i].uuid) {
-        badges.push({ desc: "Spillernes taper", icon: "thumbs-down" });
+      if (this.props.currentSeason != 'all') {
+        if (leader == items[i].uuid) {
+          badges.push({ desc: "Har ledertrøya", icon: "trophy"});
+        }
+        if (votes.winner == items[i].uuid) {
+          badges.push({ desc: "Spillernes favoritt", icon: "thumbs-up" });
+        }
+        if (votes.loser == items[i].uuid) {
+          badges.push({ desc: "Spillernes taper", icon: "thumbs-down" });
+        }
       }
       // if (items[i].nick === "Pæra") {
       //   badges.push({ desc: "Månedens spiller", icon: "rocket"});
