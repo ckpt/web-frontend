@@ -28,7 +28,7 @@ var QuotePanel = React.createClass({
     }
   },
 
-  componentWillRecieveProps: function(nextProps) {
+  componentWillReceiveProps: function(nextProps) {
     this.setState({
       quote: _.sample(nextProps.quotes)
     });
