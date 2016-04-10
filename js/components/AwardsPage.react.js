@@ -7,21 +7,18 @@ var StatsActionCreators = require("../actions/StatsActionCreators.react");
 var PlayerStore = require("../stores/PlayerStore.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 
-var Authentication = require("../utils/Authentication");
-
 var SeasonAwardsPanel = require("./SeasonAwardsPanel.react.js");
 
 var Carousel = require("react-bootstrap").Carousel
 var CarouselItem = require("react-bootstrap").CarouselItem
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 var _ = require("underscore");
 
 var AwardsPage = React.createClass({
 
   displayName: "Awards Page",
-  mixins: [ Authentication ],
 
   getInitialState: function() {
     return {

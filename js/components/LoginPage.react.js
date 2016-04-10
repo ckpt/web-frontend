@@ -1,7 +1,7 @@
 "use strict";
 
 var React = require("react");
-var State = require("react-router").State;
+
 var Navigation = require("react-router").Navigation;
 var SessionActionCreators = require("../actions/SessionActionCreators.react");
 var SessionStore = require("../stores/SessionStore.react");
@@ -10,7 +10,6 @@ var SessionStore = require("../stores/SessionStore.react");
 var LoginPage = React.createClass({
 
   displayName: "Login page",
-  mixins: [State, Navigation],
 
   getInitialState: function() {
     return { errors: [] };
@@ -25,23 +24,31 @@ var LoginPage = React.createClass({
   },
 
   _onChange: function() {
-    this.setState({ errors: SessionStore.getErrors() });
-    if (SessionStore.isLoggedIn()) {
-      var nextPath = this.getQuery().nextPath;
+    if (SessionStore.isLoggedIn() && this.props && this.props.history) {
+      var r = this.props.history.replace;
       console.log("We are logged in with nextPath: " + nextPath);
+      var nextPath = (this.props.location && this.props.location.state && this.props.location.state.nextPathname) ? this.props.location.state.nextPathname : null;
       if (nextPath) {
-        this.replaceWith(nextPath);
+        setTimeout(function() {
+          r(nextPath);
+        }, 10);
       } else {
-        this.replaceWith("dashboard");
+        setTimeout(function() {
+          r("/");
+        }, 10);
       }
+    }
+    var errors = SessionStore.getErrors();
+    if(errors.length > 0) {
+      this.setState({ errors: errors });
     }
   },
 
   _onSubmit: function(e) {
     e.preventDefault();
     this.setState({ errors: [] });
-    var username = this.refs.username.getDOMNode().value;
-    var password = this.refs.password.getDOMNode().value;
+    var username = this.refs.username.value;
+    var password = this.refs.password.value;
     SessionActionCreators.login(username, password);
   },
 

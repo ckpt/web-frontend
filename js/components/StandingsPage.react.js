@@ -15,18 +15,16 @@ var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 var StandingsActionCreators = require("../actions/StandingsActionCreators.react");
 var StatsActionCreators = require("../actions/StatsActionCreators.react");
 var TournamentActionCreators = require("../actions/TournamentActionCreators.react");
-var Authentication = require("../utils/Authentication");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 
 var _ = require("underscore");
 
 var StandingsPage = React.createClass({
 
   displayName: "Standings Page",
-  mixins: [ Authentication ],
 
   getInitialState: function() {
     var ret = {

@@ -6,8 +6,8 @@ var Input = require("react-bootstrap").Input;
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 
 var SettingsModal = React.createClass({
 

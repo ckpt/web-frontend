@@ -2,7 +2,8 @@
 
 var React = require("react");
 var Button = require("react-bootstrap").Button;
-var Router = require("react-router");
+var ReactRouter = require("react-router");
+var Router = ReactRouter.Router;
 var Link = require("react-router").Link;
 
 var CKPTDispatcher = require("../dispatcher/CKPTDispatcher.js");
@@ -13,17 +14,16 @@ var PlayerStore = require("../stores/PlayerStore.react");
 var NewsStore = require("../stores/NewsStore.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 var NewsActionCreators = require("../actions/NewsActionCreators.react");
-var Authentication = require("../utils/Authentication");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
+
 var _ = require("underscore");
 
 var NewsItemPage = React.createClass({
 
   displayName: "News Page",
-  mixins: [ Authentication, Router.State ],
 
   getInitialState: function() {
     return {
@@ -61,7 +61,7 @@ var NewsItemPage = React.createClass({
       }
     }, 5);
 
-    var id = this.getParams().newsId;
+    var id = this.props.params.newsId;
     var newsItem = NewsStore.getByUUID(id);
     //if (newsItem && newsItem.comments) {
     //  newsItem.comments.reverse();

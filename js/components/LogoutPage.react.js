@@ -1,17 +1,18 @@
 "use strict";
 
 var React = require("react");
-var Navigation = require("react-router").Navigation;
+var ReactRouter = require("react-router");
+var History = ReactRouter.History;
 var SessionActionCreators = require("../actions/SessionActionCreators.react");
 
 var LogoutPage = React.createClass({
 
   displayName: "Logout page",
-  mixins: [Navigation],
+  mixins: [History],
 
   componentDidMount: function() {
     SessionActionCreators.logout();
-    this.transitionTo("/");
+    this.history.push("/");
   },
 
   render: function() {

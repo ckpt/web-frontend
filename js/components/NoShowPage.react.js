@@ -10,17 +10,15 @@ var TournamentActionCreators = require("../actions/TournamentActionCreators.reac
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 
 var NoShowList = require("./NoShowList.react");
-var Authentication = require("../utils/Authentication");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 
 var _ = require("underscore");
 var NoShowPage = React.createClass({
 
   displayName: "Absentee Registration Page",
-  mixins: [ Authentication ],
 
   getInitialState: function() {
     return {

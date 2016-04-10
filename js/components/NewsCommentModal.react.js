@@ -6,8 +6,8 @@ var Input = require("react-bootstrap").Input;
 var NewsActionCreators = require("../actions/NewsActionCreators.react");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 
 var NewsCommentModal = React.createClass({
 
@@ -61,7 +61,7 @@ var NewsCommentModal = React.createClass({
     var modaltitle = "Opprett ny kommentar";
 
     return (
-      <Modal {...this.props} bsSize='medium' aria-labelledby='contained-modal-newsitem-comment'>
+      <Modal {...this.props} bsSize='large' aria-labelledby='contained-modal-newsitem-comment'>
         <Modal.Header closeButton>
           <Modal.Title id='contained-modal-newsitem-comment'>{modaltitle}</Modal.Title>
         </Modal.Header>

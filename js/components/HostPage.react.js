@@ -10,18 +10,16 @@ var TournamentActionCreators = require("../actions/TournamentActionCreators.reac
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 var LocationActionCreators = require("../actions/LocationActionCreators.react");
 
-var Authentication = require("../utils/Authentication");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 
 var _ = require("underscore");
 var HostPage = React.createClass({
 
   displayName: "Host Registration Page",
-  mixins: [ Authentication ],
-  
+
   getInitialState: function() {
     return {
       errors: [],

@@ -2,12 +2,9 @@
 
 var React = require("react");
 
-var Authentication = require("../utils/Authentication");
-
 var RulesPage = React.createClass({
 
   displayName: "Rules Page",
-  mixins: [ Authentication ],
 
   getDefaultProps: function() {
     return {

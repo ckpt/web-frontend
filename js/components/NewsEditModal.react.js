@@ -6,8 +6,8 @@ var Input = require("react-bootstrap").Input;
 var NewsActionCreators = require("../actions/NewsActionCreators.react");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 
 var NewsEditModal = React.createClass({
 
@@ -85,7 +85,7 @@ var NewsEditModal = React.createClass({
     currentTag = parseInt(currentTag);
 
     return (
-      <Modal {...this.props} bsSize='medium' aria-labelledby='contained-modal-newsitem'>
+      <Modal {...this.props} bsSize='large' aria-labelledby='contained-modal-newsitem'>
         <Modal.Header closeButton>
           <Modal.Title id='contained-modal-newsitem'>{modaltitle}</Modal.Title>
         </Modal.Header>

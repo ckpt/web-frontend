@@ -8,18 +8,17 @@ var LocationStore = require("../stores/LocationStore.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 var TournamentActionCreators = require("../actions/TournamentActionCreators.react");
 var LocationActionCreators = require("../actions/LocationActionCreators.react");
-var Authentication = require("../utils/Authentication");
 
 var TournamentInfoPanel = require("./TournamentInfoPanel.react.js");
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
+
 var _ = require("underscore");
 
 var CalendarPage = React.createClass({
 
   displayName: "Tournament calendar Page",
-  mixins: [ Authentication ],
 
   getInitialState: function() {
     return {

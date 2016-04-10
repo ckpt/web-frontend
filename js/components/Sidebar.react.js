@@ -2,9 +2,8 @@
 
 /* eslint-env jquery */
 var React = require("react");
+var ReactDOM = require("react-dom");
 var SidebarItem = require("./SidebarItem.react.js");
-//var Authentication = require("../utils/Authentication");
-//var PlayerStore = require("../stores/PlayerStore.react");
 
 var Sidebar = React.createClass({
 
@@ -163,7 +162,7 @@ var Sidebar = React.createClass({
   },
 
   componentDidMount: function() {
-    $(React.findDOMNode(this.refs.sideMenu)).metisMenu();
+    $(ReactDOM.findDOMNode(this.refs.sideMenu)).metisMenu();
   },
 
   render: function() {

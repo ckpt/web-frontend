@@ -1,8 +1,6 @@
 "use strict";
 
 var React = require("react");
-var Router = require("react-router");
-var RouteHandler = Router.RouteHandler;
 
 var Navbar = require("./Navbar.react");
 var SessionStore = require("../stores/SessionStore.react");
@@ -42,12 +40,12 @@ var CKPTApp = React.createClass({
   render: function() {
     var authLayout = (
       <div id="wrapper">
-        <Navbar isAdmin={this.state.isAdmin} username={this.state.user} currentSeason={this.state.currentSeason}/>
-        <RouteHandler isAdmin={this.state.isAdmin} username={this.state.user} currentSeason={this.state.currentSeason} />
+        <Navbar {...this.props} isAdmin={this.state.isAdmin} username={this.state.user} currentSeason={this.state.currentSeason}/>
+        {React.cloneElement(this.props.children, {isAdmin: this.state.isAdmin, username: this.state.user, currentSeason: this.state.currentSeason})}
       </div>
     );
 
-    var unauthLayout = <RouteHandler/>;
+    var unauthLayout = this.props.children;
 
     if (this.state.loggedIn) {
       return authLayout;

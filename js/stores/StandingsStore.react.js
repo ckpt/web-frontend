@@ -6,8 +6,8 @@ var EventEmitter = require("events").EventEmitter;
 var assign = require("object-assign");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 
 var _ = require("underscore");
 var ActionTypes = CKPTConstants.ActionTypes;

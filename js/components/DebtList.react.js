@@ -5,8 +5,9 @@ var Button = require("react-bootstrap").Button;
 var PlayerStore = require("../stores/PlayerStore.react");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
+
 var _ = require("underscore");
 
 var DebtList = React.createClass({

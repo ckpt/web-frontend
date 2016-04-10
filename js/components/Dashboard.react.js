@@ -18,18 +18,16 @@ var StandingsActionCreators = require("../actions/StandingsActionCreators.react"
 var LocationActionCreators = require("../actions/LocationActionCreators.react");
 var TournamentActionCreators = require("../actions/TournamentActionCreators.react");
 var NewsActionCreators = require("../actions/NewsActionCreators.react");
-var Authentication = require("../utils/Authentication");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 
 var _ = require("underscore");
 
 var Dashboard = React.createClass({
 
   displayName: "Dashboard Page",
-  mixins: [ Authentication ],
 
   getInitialState: function() {
     return {

@@ -21,50 +21,60 @@ var GossipPage = require("./components/GossipPage.react");
 var LoginPage = require("./components/LoginPage.react");
 var LogoutPage = require("./components/LogoutPage.react");
 
+var SessionStore = require("./stores/SessionStore.react");
+
 var React = require("react");
+var ReactDOM = require("react-dom");
 window.React = React; // export for http://fb.me/react-devtools
 
-var Router = require("react-router");
-var Route = Router.Route;
-var DefaultRoute = Router.DefaultRoute;
+var ReactRouter = require('react-router');
+var Router = ReactRouter.Router;
+var Route = ReactRouter.Route;
+var IndexRoute = ReactRouter.IndexRoute;
+var createHashHistory = require('history/lib/createHashHistory');
+var myHist = createHashHistory();
 
 var routes = (
-    <Route name="home" path="/" handler={CKPTApp}>
-      <DefaultRoute handler={Dashboard}/>
-      <Route name="login" path="login" handler={LoginPage}/>
-      <Route name="logout" path="logout" handler={LogoutPage}/>
+    <Route path="/" component={CKPTApp}>
+      <IndexRoute component={Dashboard} onEnter={requireAuth}/>
+      <Route path="login" component={LoginPage}/>
+      <Route path="logout" component={LogoutPage}/>
 
-      <Route name="dashboard" path="dashboard" handler={Dashboard}/>
+      <Route path="dashboard" component={Dashboard} onEnter={requireAuth}/>
 
-      <Route name="rules" path="rules" handler={RulesPage}/>
-      <Route name="locations" path="locations" handler={LocationsPage}/>
+      <Route path="rules" component={RulesPage} onEnter={requireAuth}/>
+      <Route path="locations" component={LocationsPage} onEnter={requireAuth}/>
 
-      <Route name="players" path="players" handler={PlayersPage}/>
-      <Route name="gossip" path="gossip" handler={GossipPage}/>
-      <Route name="debt" path="debt" handler={DebtPage}/>
+      <Route path="players" component={PlayersPage} onEnter={requireAuth}/>
+      <Route path="gossip" component={GossipPage} onEnter={requireAuth}/>
+      <Route path="debt" component={DebtPage} onEnter={requireAuth}/>
 
-      <Route name="calendar" path="calendar" handler={CalendarPage}/>
-      <Route name="host" path="host" handler={HostPage}/>
-      <Route name="noshow" path="noshow" handler={NoShowPage}/>
-      <Route name="betting" path="betting" handler={Dashboard}/>
+      <Route path="calendar" component={CalendarPage} onEnter={requireAuth}/>
+      <Route path="host" component={HostPage} onEnter={requireAuth}/>
+      <Route path="noshow" component={NoShowPage} onEnter={requireAuth}/>
+      <Route path="betting" component={Dashboard} onEnter={requireAuth}/>
 
-      <Route name="standings" path="standings" handler={StandingsPage}/>
-      <Route name="overview" path="overview" handler={StandingsSummaryPage}/>
-      <Route name="awards" path="awards" handler={AwardsPage}/>
-      <Route name="pvp" path="pvp" handler={Dashboard}/>
-      <Route name="register" path="register" handler={ResultRegistrationPage}/>
+      <Route path="standings" component={StandingsPage} onEnter={requireAuth}/>
+      <Route path="overview" component={StandingsSummaryPage} onEnter={requireAuth}/>
+      <Route path="awards" component={AwardsPage} onEnter={requireAuth}/>
+      <Route path="pvp" component={Dashboard} onEnter={requireAuth}/>
+      <Route path="register" component={ResultRegistrationPage} onEnter={requireAuth}/>
 
-      <Route name="news" path="news" handler={NewsPage}/>
-      <Route name="newsDetail" path="news/:newsId" handler={NewsItemPage}/>
+      <Route path="news" component={NewsPage} onEnter={requireAuth}/>
+      <Route path="news/:newsId" component={NewsItemPage} onEnter={requireAuth}/>
 
-      <Route name="michelin" path="michelin" handler={Dashboard}/>
-      <Route name="pictures" path="pictures" handler={Dashboard}/>
-      <Route name="music" path="music" handler={Dashboard}/>
-      <Route name="dgp" path="dgp" handler={Dashboard}/>
+      <Route path="michelin" component={Dashboard} onEnter={requireAuth}/>
+      <Route path="pictures" component={Dashboard} onEnter={requireAuth}/>
+      <Route path="music" component={Dashboard} onEnter={requireAuth}/>
+      <Route path="dgp" component={Dashboard} onEnter={requireAuth}/>
 
     </Route>
 );
 
-Router.run(routes, Router.HashLocation, function (Root) {
-  React.render(<Root/>, document.getElementById("app"));
-});
+function requireAuth(nextState, replaceState) {
+  if (!SessionStore.isLoggedIn()) {
+     replaceState({ nextPathname: nextState.location.pathname }, '/login')
+  }
+}
+
+ReactDOM.render(<Router history={myHist}>{routes}</Router>, document.getElementById("app"));

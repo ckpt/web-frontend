@@ -7,17 +7,15 @@ var Input = require("react-bootstrap").Input;
 var CKPTDispatcher = require("../dispatcher/CKPTDispatcher.js");
 var PlayerStore = require("../stores/PlayerStore.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
-var Authentication = require("../utils/Authentication");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 
 var _ = require("underscore");
 var GossipPage = React.createClass({
 
   displayName: "Gossip Page",
-  mixins: [ Authentication ],
 
   getInitialState: function() {
     return {

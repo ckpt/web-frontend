@@ -10,8 +10,8 @@ var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 var Authentication = require("../utils/Authentication");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 
 var _ = require("underscore");
 var DebtPage = React.createClass({

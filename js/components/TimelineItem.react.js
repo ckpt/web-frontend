@@ -3,8 +3,8 @@
 var React = require("react");
 var moment = require("moment");
 var Link = require("react-router").Link;
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 
 var TimelineItem = React.createClass({
 

@@ -6,8 +6,8 @@ var Input = require("react-bootstrap").Input;
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 
 var ProfileModal = React.createClass({
 
@@ -86,7 +86,7 @@ var ProfileModal = React.createClass({
     var name = this.props.player ? this.props.player.profile.name : null;
     var birthday = this.props.player ? moment(this.props.player.profile.birthday).format("DD.MM.YYYY") : null;
     return (
-      <Modal {...this.props} bsSize='medium' aria-labelledby='contained-modal-title-lg'>
+      <Modal {...this.props} bsSize='large' aria-labelledby='contained-modal-title-lg'>
         <Modal.Header closeButton>
           <Modal.Title id='contained-modal-title-lg'>Spillerprofil for <strong>{nick}</strong></Modal.Title>
         </Modal.Header>

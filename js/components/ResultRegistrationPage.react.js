@@ -8,18 +8,14 @@ var TournamentStore = require("../stores/TournamentStore.react");
 var TournamentActionCreators = require("../actions/TournamentActionCreators.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 
-var Authentication = require("../utils/Authentication");
-var Navigation = require("react-router").Navigation;
-
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
 
 var _ = require("underscore");
 var ResultRegistrationPage = React.createClass({
 
   displayName: "Result Registration Page",
-  mixins: [ Authentication,  Navigation],
 
   getInitialState: function() {
     return {
@@ -68,7 +64,7 @@ var ResultRegistrationPage = React.createClass({
     var tournamentID = this.refs.selectedTournament.getValue();
     TournamentActionCreators.saveResults(tournamentID, this.state.results);
     this.setState({messages: ["Resultat registrert"]});
-    this.transitionTo("/standings");
+    this.props.history.replace("/standings");
   },
 
   changeTournament: function(e) {
@@ -106,7 +102,7 @@ var ResultRegistrationPage = React.createClass({
       if (!item.active) {
         return;
       }
-      
+
       return (
         <option key={"place-" + key + "-player-" + j} value={item.uuid}>{item.nick}</option>
       );

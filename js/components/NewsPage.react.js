@@ -1,7 +1,8 @@
 "use strict";
 
 var React = require("react");
-var Router = require("react-router");
+var ReactRouter = require("react-router");
+var Router = ReactRouter.Router;
 var Link = require("react-router").Link;
 
 var ListGroup = require("react-bootstrap").ListGroup;
@@ -15,17 +16,16 @@ var PlayerStore = require("../stores/PlayerStore.react");
 var NewsStore = require("../stores/NewsStore.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
 var NewsActionCreators = require("../actions/NewsActionCreators.react");
-var Authentication = require("../utils/Authentication");
 
 var moment = require("moment");
-var momentLocale = require("moment/locale/nb.js");
-moment.locale("nb", momentLocale);
+require("moment/locale/nb.js");
+moment.locale("nb");
+
 var _ = require("underscore");
 
 var NewsPage = React.createClass({
 
   displayName: "News Page",
-  mixins: [ Authentication, Router.State ],
 
   getInitialState: function() {
     return {
@@ -81,12 +81,12 @@ var NewsPage = React.createClass({
       2: "strategiavsløringer",
       3: "mattips"
     };
-    
-    var q = this.getQuery();
+
+    var q = this.props.location.query;
     var tag = q ? q.tag : null;
     var items = this.state.newsitems || [];
     var title = "Alle bidrag og nyheter";
-    
+
     if (tag) {
       tag = parseInt(tag);
       title = "Alle " + tagTitle[tag];
