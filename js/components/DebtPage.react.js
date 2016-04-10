@@ -7,7 +7,6 @@ var DebtList = require("./DebtList.react");
 var CKPTDispatcher = require("../dispatcher/CKPTDispatcher.js");
 var PlayerStore = require("../stores/PlayerStore.react");
 var PlayerActionCreators = require("../actions/PlayerActionCreators.react");
-var Authentication = require("../utils/Authentication");
 
 var moment = require("moment");
 require("moment/locale/nb.js");
@@ -17,7 +16,6 @@ var _ = require("underscore");
 var DebtPage = React.createClass({
 
   displayName: "Debt Page",
-  mixins: [ Authentication ],
 
   getInitialState: function() {
     return {
