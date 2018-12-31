@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run build
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build and push Docker image
+          command: |
+            docker build -t ckpt/web-frontend .
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+            docker push ckpt/web-frontend
