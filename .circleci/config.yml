@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: npm run build
+      - run: npm run webpack
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
