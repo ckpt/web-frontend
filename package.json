@@ -11,7 +11,7 @@
     "datatables": "~1.10.18",
     "flot": "~0.8.0-alpha",
     "flux": "^2.1.1",
-    "font-awesome": "~4.2.0",
+    "font-awesome": "~4.7.0",
     "history": "^1.17.0",
     "holderjs": "~2.9.6",
     "keymirror": "^0.1.1",
@@ -19,6 +19,7 @@
     "moment": "^2.12.0",
     "morris-js-module": "~1.2.1",
     "object-assign": "^3.0.0",
+    "raphael": "~2.2.7",
     "react-bootstrap": "^0.28.5",
     "react-dom": "^0.14.8",
     "react-router": "^1.0.3",
@@ -27,25 +28,23 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "browserify": "^16.2.3",
-    "envify": "^4.1.0",
+    "@babel/core": "^7.2.2",
+    "babel-loader": "^8.0.4",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "copy-webpack-plugin":"~4.6.0",
     "jest-cli": "^23.6.0",
     "reactify": "^1.1.1",
     "uglify-js": "^3.4.9",
-    "watchify": "^3.11.0"
+    "uglifyjs-webpack-plugin": "~2.1.1",
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.1.2"
   },
   "scripts": {
-    "start": "watchify -o js/bundle.js -v -d js/app.js",
-    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > js/bundle.min.js",
+    "webpack": "webpack",
     "test": "jest"
   },
   "author": "Morten Knutsen",
-  "browserify": {
-    "transform": [
-      "reactify",
-      "envify"
-    ]
-  },
   "jest": {
     "rootDir": "./js"
   }
