@@ -24,6 +24,7 @@ var ResultRegistrationPage = React.createClass({
       players: [],
       tournaments: [],
       results: [],
+      bountyhunters: {},
     };
   },
 
@@ -61,8 +62,12 @@ var ResultRegistrationPage = React.createClass({
       this.setState({errors: ["Færre enn 5 spillere registrert. Ugyldig runde."]});
       return;
     }
+    if (this.state.results.length != _.flatten(Object.values(this.state.bountyhunters)).length +1) {
+      this.setState({errors: ["Ikke alle bounty hunters registrert. Ugyldig runde."]});
+      return;
+    }
     var tournamentID = this.refs.selectedTournament.getValue();
-    TournamentActionCreators.saveResults(tournamentID, this.state.results);
+    TournamentActionCreators.saveResults(tournamentID, this.state.results, this.state.bountyhunters);
     this.setState({messages: ["Resultat registrert"]});
     this.props.history.replace("/standings");
   },
@@ -89,6 +94,25 @@ var ResultRegistrationPage = React.createClass({
     this.setState({results:newres});
   },
 
+  bountySelect: function(e) {
+    this.setState({bountyhunters: {}});
+    var bh = {};
+    for (var i=0; i<this.state.players.length; i++) {
+      var playerID = this.refs["rank-" + i].getValue();
+      var bhID = this.refs["bh-" + i].getValue();
+      if (playerID && bhID) {
+        if(bh[bhID]) {
+          bh[bhID].push(playerID)
+        } else {
+          bh[bhID] = [playerID]
+        }
+      }
+    }
+    console.log("After selection bounty hunters are:");
+    console.log(bh);
+    this.setState({bountyhunters:bh});
+  },
+
   _createPlayerlist: function(key) {
     var that = this;
     var playerlist = this.state.players.map(function(item, j) {
@@ -105,6 +129,28 @@ var ResultRegistrationPage = React.createClass({
 
       return (
         <option key={"place-" + key + "-player-" + j} value={item.uuid}>{item.nick}</option>
+      );
+    });
+
+    return playerlist;
+  },
+
+  _createBHlist: function(key) {
+    var that = this;
+    var playerlist = this.state.players.map(function(item, j) {
+      // filter out players already entered
+      if (!_.contains(that.state.results, item.uuid) ||
+        that.state.results[key] == item.uuid) {
+        return;
+      }
+      // filter out inactive/retired players
+      // TODO: make checkbox option to show these
+      if (!item.active) {
+        return;
+      }
+
+      return (
+        <option key={"bh-place-" + key + "-player-" + j} value={item.uuid}>{item.nick}</option>
       );
     });
 
@@ -131,11 +177,19 @@ var ResultRegistrationPage = React.createClass({
     var that = this;
     var playerinput = this.state.players.map(function(item, i) {
       var list = that._createPlayerlist(i);
+      var bhlist = that._createBHlist(i);
+      var bhdisabled = (i == 0)
       return (
-        <Input onChange={that.playerSelect} label={i+1 + ". plass"} placeholder="Velg spiller" ref={"rank-" + i} type="select" key={"place-" + i}>
-        <option key={"place-" + i + "-player-default"} value={null}></option>
-        {list}
-        </Input>
+        <div>
+          <Input onChange={that.playerSelect} label={i+1 + ". plass"} placeholder="Velg spiller" ref={"rank-" + i} type="select" key={"place-" + i}>
+          <option key={"place-" + i + "-player-default"} value={null}></option>
+          {list}
+          </Input>
+          <Input onChange={that.bountySelect} label="Slått ut av" placeholder="Velg spiller" ref={"bh-" + i} type="select" key={"bh-place-" + i} disabled={bhdisabled}>
+          <option key={"bh-place-" + i + "-player-default"} value={null}></option>
+          {bhlist}
+          </Input>
+        </div>
       );
     });
 

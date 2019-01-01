@@ -61,6 +61,16 @@ var StatsStore = assign({}, EventEmitter.prototype, {
     return sorted;
   },
 
+  getNumBHMonths: function() {
+    var bhByPlayer = _.pairs(_.countBy(_stats.monthStats, function(month) {
+      return month.bountyhunter;
+    }));
+    var sorted = _.sortBy(bhByPlayer, function(p) {
+      return -p[1];
+    });
+    return sorted;
+  },
+
   getNumWorstMonths: function() {
     var bestByPlayer = _.pairs(_.countBy(_stats.monthStats, function(month) {
       return month.worst;

@@ -15,11 +15,11 @@ module.exports = {
     APIUtils.loadTournaments();
   },
 
-  saveResults: function(tournamentID, results) {
+  saveResults: function(tournamentID, results, bountyhunters) {
     CKPTDispatcher.handleViewAction({
       type: ActionTypes.SAVE_RESULTS
     });
-    APIUtils.saveTournamentResults(tournamentID, results);
+    APIUtils.saveTournamentResults(tournamentID, results, bountyhunters);
   },
 
   setHost: function(tournamentID, locationID) {

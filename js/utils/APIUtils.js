@@ -112,7 +112,15 @@ module.exports = {
       });
   },
 
-  saveTournamentResults: function(uuid, results) {
+  saveTournamentResults: function(uuid, results, bountyhunters) {
+
+    request.put(_endpoints.tournaments + "/" + uuid + "/bountyhunters")
+    .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
+    .accept("json")
+    .send(bountyhunters)
+    .end(function(err, res) {
+      ServerActionCreators.saveTournamentResults(uuid, null, err)
+    });
 
     request.put(_endpoints.tournaments + "/" + uuid + "/result")
       .set("Authorization", "CKPT " + sessionStorage.getItem("accessToken"))
