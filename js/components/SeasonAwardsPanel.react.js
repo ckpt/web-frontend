@@ -14,6 +14,16 @@ var SeasonAwardsPanel = React.createClass({
 
   render: function() {
 
+    var bhtitle = "";
+    var bhwinner = "";
+    if (this.props.season >= 2019) {
+      bhtitle = (
+        <dt>Årets Bounty Hunter <i className="fa fa-ba-circle fa-fw"></i></dt>
+      );
+      bhwinner = (
+        <dd>{this.props.awards.bountyWinner.nick} ({this.props.awards.bountyWinner.knockouts})</dd>
+      );
+    }
     return (
       <div className="col-lg-6">
         <div className="panel panel-default">
@@ -31,6 +41,8 @@ var SeasonAwardsPanel = React.createClass({
                 <dd>{this.props.awards.avgPlaceWinner.nick} ({this.props.awards.avgPlaceWinner.avgPlace.toFixed(2)})</dd>
                 <dt>Lavpoeng <i className="fa fa-graduation-cap fa-fw"></i></dt>
                 <dd>{this.props.awards.pointsWinner.nick} ({this.props.awards.pointsWinner.points})</dd>
+                {bhtitle}
+                {bhwinner}
                 <dt>Gultrøyegrossisten <i className="fa fa-bullseye fa-fw"></i></dt>
                 <dd>{this.props.awards.mostYellowDays.nick} ({this.props.awards.mostYellowDays.days} dager)</dd>
                 <dt>Årets spiller <i className="fa fa-plus-circle fa-fw"></i></dt>

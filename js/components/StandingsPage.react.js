@@ -32,6 +32,7 @@ var StandingsPage = React.createClass({
       byAvgPlace: [],
       byPoints: [],
       byHeadsUp: [],
+      byKnockouts: [],
       byWinRatio: [],
       byWinRatioTotal: [],
       byDaysSinceHeadsUp: [],
@@ -39,6 +40,7 @@ var StandingsPage = React.createClass({
       byDaysInYellow: [],
       byPlayerOfTheMonth: [],
       byLoserOfTheMonth: [],
+      byBHOfTheMonth: [],
       byAbsence: []
     };
 
@@ -139,6 +141,7 @@ var StandingsPage = React.createClass({
       byWinnings: [],
       byAvgPlace: [],
       byPoints: [],
+      byKnockouts: [],
       byHeadsUp: [],
       byWinRatio: [],
       byWinRatioTotal: [],
@@ -147,12 +150,14 @@ var StandingsPage = React.createClass({
       byDaysInYellow: [],
       byPlayerOfTheMonth: [],
       byLoserOfTheMonth: [],
+      byBHOfTheMonth: [],
       byAbsence: []
     };
     var standings = StandingsStore.getStandings(true);
     var yellowPeriods = StatsStore.getLongestYellowPeriods();
     var bestByPlayer = StatsStore.getNumBestMonths();
     var worstByPlayer = StatsStore.getNumWorstMonths();
+    var bhByPlayer = StatsStore.getNumBHMonths();
     var currentForm = StandingsStore.getCurrentForm();
     var lastHeadsUp = StandingsStore.getLastHeadsUp();
 
@@ -184,6 +189,12 @@ var StandingsPage = React.createClass({
       if (!player) { return [null, null]; }
       var nick = player.nick;
       ret.byPoints.push([nick, entry.points]);
+    });
+    standings.byKnockouts.forEach(function (entry) {
+      var player = PlayerStore.getFromUUID(entry.uuid);
+      if (!player) { return [null, null]; }
+      var nick = player.nick;
+      ret.byKnockouts.push([nick, entry.knockouts]);
     });
     standings.byHeadsUp.forEach(function (entry) {
       var player = PlayerStore.getFromUUID(entry.uuid);
@@ -222,6 +233,12 @@ var StandingsPage = React.createClass({
       if (!player) { return [null, null]; }
       var nick = player.nick;
       ret.byLoserOfTheMonth.push([nick, entry[1]]);
+    });
+    bhByPlayer.forEach(function (entry) {
+      var player = PlayerStore.getFromUUID(entry[0]);
+      if (!player) { return [null, null]; }
+      var nick = player.nick;
+      ret.byBHOfTheMonth.push([nick, entry[1]]);
     });
     standings.byNumPlayed.forEach(function (entry) {
       var player = PlayerStore.getFromUUID(entry.uuid);
@@ -265,6 +282,20 @@ var StandingsPage = React.createClass({
       <div className="col-lg-12">
         <ResultsTable entries={this.state.currentResults} title="Spilte turneringer" />
       </div>
+    </div> : "";
+
+    var bountyhunter = (this.state.currentSeason == "all" || this.state.currentSeason >= 2019) ?
+    <div className="col-lg-4 col-md-6 col-sm-12">
+      <StandingsTable entries={this.state.currentStandings.byKnockouts}
+                      headings={["Nick", "Antall knockouts"]}
+                      title="Bounty Hunter" />
+    </div> : "";
+
+    var bhMonth = (this.state.currentSeason == "all" || this.state.currentSeason >= 2019) ?
+    <div className="col-lg-4 col-md-6 col-sm-12">
+      <StandingsTable entries={this.state.currentStandings.byBHOfTheMonth}
+                      headings={["Nick", "Antall ganger"]}
+                      title="Månedens Bounty Hunter" />
     </div> : "";
 
     var disablePrev = this.state.currentSeason == firstSeason || this.state.currentSeason == "all";
@@ -312,6 +343,7 @@ var StandingsPage = React.createClass({
                                 headings={["Nick", "Poeng"]}
                                 title="Lavpoeng" />
               </div>
+              {bountyhunter}
               <div className="col-lg-4 col-md-6 col-sm-12">
                 <StandingsTable entries={this.state.currentStandings.byWinRatio}
                                 headings={["Nick", "Andel seiere"]}
@@ -354,6 +386,7 @@ var StandingsPage = React.createClass({
                                 headings={["Nick", "Antall ganger"]}
                                 title="Månedens krill" />
               </div>
+              {bhMonth}
               <div className="col-lg-4 col-md-6 col-sm-12">
                 <StandingsTable entries={this.state.currentStandings.byDaysSinceHeadsUp}
                                 headings={["Nick", "Sist heads up"]}

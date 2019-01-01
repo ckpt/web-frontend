@@ -21,7 +21,8 @@ var _standings = {
   byHeadsUp: [],
   byWinRatio: [],
   byWinRatioTotal: [],
-  byNumPlayed: []
+  byNumPlayed: [],
+  byKnockouts: []
 };
 
 var _errors = [];
@@ -64,7 +65,8 @@ var StandingsStore = assign({}, EventEmitter.prototype, {
       byWinnings: null,
       byAvgPlace: null,
       byPoints: null,
-      byHeadsUp: null
+      byHeadsUp: null,
+      byKnockouts: null
     };
 
     Object.keys(_standings).forEach(function (k) {
