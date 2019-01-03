@@ -2,7 +2,7 @@
 
 var React = require("react");
 var moment = require("moment");
-var Link = require("react-router").Link;
+var Link = require("react-router-dom").Link;
 require("moment/locale/nb.js");
 moment.locale("nb");
 

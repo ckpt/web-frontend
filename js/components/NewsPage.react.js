@@ -1,9 +1,6 @@
 "use strict";
 
 var React = require("react");
-var ReactRouter = require("react-router");
-var Router = ReactRouter.Router;
-var Link = require("react-router").Link;
 
 var ListGroup = require("react-bootstrap").ListGroup;
 var ListGroupItem = require("react-bootstrap").ListGroupItem;
@@ -20,6 +17,8 @@ var NewsActionCreators = require("../actions/NewsActionCreators.react");
 var moment = require("moment");
 require("moment/locale/nb.js");
 moment.locale("nb");
+
+var queryString = require("query-string");
 
 var _ = require("underscore");
 
@@ -82,7 +81,7 @@ var NewsPage = React.createClass({
       3: "mattips"
     };
 
-    var q = this.props.location.query;
+    var q = queryString.parse(location.search);
     var tag = q ? q.tag : null;
     var items = this.state.newsitems || [];
     var title = "Alle bidrag og nyheter";

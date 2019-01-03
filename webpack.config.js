@@ -23,10 +23,10 @@ module.exports = {
         path: path.resolve(__dirname, 'js'),
         filename: "bundle.min.js"
     },
-    optimization: {
+    /* optimization: {
         minimizer: [new UglifyJsPlugin()],
     },
-    plugins: [
+ */    plugins: [
         new CopyWebpackPlugin(
             Assets.JS.map(asset => {
                 return {

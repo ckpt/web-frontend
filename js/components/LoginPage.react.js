@@ -2,7 +2,6 @@
 
 var React = require("react");
 
-var Navigation = require("react-router").Navigation;
 var SessionActionCreators = require("../actions/SessionActionCreators.react");
 var SessionStore = require("../stores/SessionStore.react");
 //var ErrorNotice = require("../../components/common/ErrorNotice.react.jsx");

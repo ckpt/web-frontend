@@ -2,9 +2,6 @@
 
 var React = require("react");
 var Button = require("react-bootstrap").Button;
-var ReactRouter = require("react-router");
-var Router = ReactRouter.Router;
-var Link = require("react-router").Link;
 
 var CKPTDispatcher = require("../dispatcher/CKPTDispatcher.js");
 var NewsEditModal = require("./NewsEditModal.react");

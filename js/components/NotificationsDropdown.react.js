@@ -1,7 +1,6 @@
 "use strict";
 
 var React = require("react");
-var Link = require("react-router").Link;
 var _ = require("underscore");
 
 var NotificationsDropdown = React.createClass({

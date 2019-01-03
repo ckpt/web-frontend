@@ -1,7 +1,7 @@
 "use strict";
 
 var React = require("react");
-var Link = require("react-router").Link;
+var Link = require("react-router-dom").Link;
 
 var ProfileModal = require("./ProfileModal.react");
 var SettingsModal = require("./SettingsModal.react");
