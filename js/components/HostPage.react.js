@@ -66,7 +66,7 @@ var HostPage = React.createClass({
       return;
     }
     var location = LocationStore.getFromHost(player.uuid);
-    if (!location || !location.active) {
+    if (!location) {
       this.setState({errors: ["Ingen eller inaktiv lokasjon for gjeldende spiller"]});
       return;
     }
