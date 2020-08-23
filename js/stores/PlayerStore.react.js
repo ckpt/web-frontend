@@ -87,7 +87,7 @@ var PlayerStore = assign({}, EventEmitter.prototype, {
     var winnerVotes = _.reject(_.pluck(votes, "winner"), function(num) {
       return num == "00000000-0000-0000-0000-000000000000";
     });
-    var loserVotes = _._.reject(_.pluck(votes, "loser"), function(num) {
+    var loserVotes = _.reject(_.pluck(votes, "loser"), function(num) {
       return num == "00000000-0000-0000-0000-000000000000";
     });
 
