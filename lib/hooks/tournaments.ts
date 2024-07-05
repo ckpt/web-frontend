@@ -1,6 +1,6 @@
 import { fetcher } from "../api";
 import useSWR, { preload } from "swr";
-import type { Tournament } from "../models/tournaments";
+import type { Tournament, TournamentNoShow } from "../models/tournaments";
 
 export const useTournaments = (year: number = new Date().getFullYear(), all: boolean = false) => {
     const { data: allData, error: allError, isLoading: allLoading } = useSWR<Tournament[]>(all ? `/tournaments` : null, fetcher, {revalidateOnFocus: false, dedupingInterval: 300000});

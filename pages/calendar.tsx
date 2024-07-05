@@ -40,7 +40,7 @@ const Calendar = () => {
                         return (
                             <div key={"tnr-" + tournament.info.scheduled} className={tClasses + lClasses}>
                                 {!tournament.played &&
-                                    <Link href="/noshow">
+                                    <Link href={{pathname: "/noshow", hash: tournament.uuid}}>
                                         <FontAwesomeIcon
                                             className="p-1 absolute left-2 bottom-2 rounded bg-orange-100 text-zinc-600 hover:bg-orange-300"
                                             fixedWidth={true}

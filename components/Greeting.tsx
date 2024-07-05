@@ -61,7 +61,7 @@ const Greeting = () => {
     const winningsColorClass = myWinnings && myWinnings?.winnings < 0 ? "text-pink-300" : "text-green-300";
 
     const nextTournament = tournaments?.filter(
-        (t) => t.played === false && t.info.scheduled > DateTime.now().toISO()).sort((a, b) => {
+        (t) => t.played === false && t.info.scheduled > DateTime.now().toISO()!).sort((a, b) => {
             if (a.info.scheduled < b.info.scheduled) return -1;
             if (a.info.scheduled === b.info.scheduled) return 0;
             return 1;

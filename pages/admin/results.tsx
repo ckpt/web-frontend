@@ -71,7 +71,7 @@ const ResultsRegistration = () => {
     if (!isAdmin) return <MainLayout><div className="text-zinc-200 text-center p-4">You should not be here...</div></MainLayout>;
     if (!tId) return <MainLayout><div className="text-zinc-200 text-center p-4">No tournament given...</div></MainLayout>;
 
-    const tournament = tournaments.find((t) => t.uuid == tId);
+    const tournament = tournaments!.find((t) => t.uuid == tId);
     if (!tournament || tournament.played) return <MainLayout><div className="text-zinc-200 text-center p-4">Illegal tournament...</div></MainLayout>;
     if (submitted) return <MainLayout><div className="text-zinc-200 text-center p-4">Registering results...</div></MainLayout>;
     const bountyNeeded = results.length > 1 && results[results.length - 1].player! && !results[results.length - 1].bounty;
@@ -92,10 +92,13 @@ const ResultsRegistration = () => {
                     <button onClick={(e) => {
                         e.preventDefault();
                         let {resData, bhData} = prepareResults(results);
-                        bhTrigger(bhData).then(() => setTimeout(async () => await resultTrigger(resData), 1000));
-                        setSubmitted(true);
-                        mutate(`/seasons/${currentYear}/tournaments`);
-                        router.back();
+                        (async() => {
+                            await bhTrigger(bhData);
+                            await resultTrigger({"result": resData});
+                            setSubmitted(true);
+                            await mutate(`/seasons/${currentYear}/tournaments`);
+                            router.back();
+                        })();
                         }}>
                         <FontAwesomeIcon icon={faCheckCircle} fixedWidth={true} size="xl" className="text-green-300 mt-1 ml-6 hover:text-green-400" />
                     </button>
@@ -108,7 +111,7 @@ const ResultsRegistration = () => {
                         <>
                             <h2 className="font-bold text-cyan-300 mb-2">{results.length + 1}. plass</h2>
                             <div className="flex justify-center flex-col">
-                                {players.filter((player) => (
+                                {players!.filter((player) => (
                                     player.active &&
                                     !isPlayerNoShow(tournament, player.uuid) &&
                                     results.findIndex((r) => r.player?.uuid == player.uuid) == -1
@@ -131,7 +134,7 @@ const ResultsRegistration = () => {
                         <>
                             <h2 className="font-bold text-cyan-300 mb-2">Slått ut av?</h2>
                             <div className="flex justify-center flex-col">
-                                {players.filter((player) => (
+                                {players!.filter((player) => (
                                     player.active &&
                                     !isPlayerNoShow(tournament, player.uuid) &&
                                     results.slice(0,-1).findIndex((r) => r.player?.uuid == player.uuid) != -1
