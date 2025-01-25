@@ -56,7 +56,7 @@ const Greeting = () => {
 
     const myWinnings = standings?.byWinnings ? standings?.byWinnings.find(
         (standing) => standing.uuid === currentPlayer?.uuid
-    ) : 0;
+    ) : undefined;
 
     const winningsColorClass = myWinnings && myWinnings?.winnings < 0 ? "text-pink-300" : "text-green-300";
 
