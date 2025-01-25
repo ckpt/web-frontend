@@ -32,7 +32,7 @@ const RandomQuotes = () => {
         }, 10 * 1000);
 
         return () => {
-            clearInterval(timer.current);
+            clearInterval(timer.current as NodeJS.Timeout);
         };
     }, [players]);
 
