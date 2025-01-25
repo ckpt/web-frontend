@@ -50,13 +50,13 @@ const Greeting = () => {
         (player) => player.user.username === user
     );
 
-    const currentLeader = players?.find(
+    const currentLeader = standings?.byWinnings ? players?.find(
         (player) => player.uuid === standings?.byWinnings[0].uuid
-    );
+    ) : undefined;
 
-    const myWinnings = standings?.byWinnings.find(
+    const myWinnings = standings?.byWinnings ? standings?.byWinnings.find(
         (standing) => standing.uuid === currentPlayer?.uuid
-    );
+    ) : 0;
 
     const winningsColorClass = myWinnings && myWinnings?.winnings < 0 ? "text-pink-300" : "text-green-300";
 
@@ -75,7 +75,7 @@ const Greeting = () => {
             <ul className="space-y-1">
                 <li>
                     <FontAwesomeIcon icon={faTrophy} fixedWidth={true} className="pr-2" />
-                    <span className="text-orange-300">{currentLeader?.nick}</span> leder årets sesong
+                    <span className="text-orange-300">{currentLeader?.nick ?? "Ingen"}</span> leder årets sesong
                 </li>
                 <li>
                     <FontAwesomeIcon

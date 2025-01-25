@@ -25,7 +25,7 @@ const FrontButtons = () => {
         <div className='lg:flex'>
             <Button color='pink' href='/results'>Resultater</Button>
             <Button color='green' href='/calendar'>Kalender</Button>
-            <Button color='cyan' href='/news'>Nyheter</Button>
+            <Button color='cyan' href='/'>Nyheter</Button>
             <Button color='orange' href='/players'>Spillerne</Button>
         </div>
     );

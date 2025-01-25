@@ -20,7 +20,6 @@ const Navbar = () => {
     const menuItems = [
         {
             name: "Praktisk",
-            url: "/practical",
             icon: (
                 <FontAwesomeIcon
                     icon={faLightbulb}
@@ -32,7 +31,6 @@ const Navbar = () => {
         },
         {
             name: "Hall of Fame",
-            url: "/awards",
             icon: (
                 <FontAwesomeIcon icon={faMedal} fixedWidth={true} className="pr-1" />
             ),
@@ -52,7 +50,6 @@ const Navbar = () => {
         },
         {
             name: "Sladder",
-            url: "/rumours",
             icon: (
                 <FontAwesomeIcon
                     icon={faCommentDots}
@@ -64,7 +61,6 @@ const Navbar = () => {
         },
         {
             name: "Gjeld",
-            url: "/debt",
             icon: (
                 <FontAwesomeIcon
                     icon={faMoneyBills}
@@ -76,7 +72,6 @@ const Navbar = () => {
         },
         {
             name: 'Admin',
-            url: "/admin",
             icon: (
                 <FontAwesomeIcon icon={faUserGear} fixedWidth={true} className="pr-1" />
             ),
@@ -84,7 +79,6 @@ const Navbar = () => {
         },
         {
             name: 'Min side',
-            url: "/profile",
             icon: (
                 <FontAwesomeIcon icon={faUser} fixedWidth={true} className="pr-1" />
             ),
@@ -141,7 +135,7 @@ const Navbar = () => {
                                 <li key={i}>
                                     <Link
                                         className="align-bottom lg:p-4 py-2 block hover:text-green-300"
-                                        href={element.url}
+                                        href={element.url || "/"}
                                     >
                                         {element.icon}
                                         {element.name}
